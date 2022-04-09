@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-with open("Register.sol", "r") as file:
+with open("./registration/Register.sol", "r") as file:
     register_file = file.read()
 
 compiled_sol = compile_standard(
@@ -80,17 +80,17 @@ contract_address = "0xfb5B5d71D53F6eD6310Bd7579faf6087312C5d2C"
 if contract_address == "":
     txnReceipt = deployContract(Register)
     print(txnReceipt.contractAddress)
-    register = w3.eth.contract(address=txnReceipt.contractAddress, abi=abi)
+    register_contract = w3.eth.contract(address=txnReceipt.contractAddress, abi=abi)
     print("Contract Deployed!")
 else:
-    register = w3.eth.contract(address=contract_address, abi=abi)
+    register_contract = w3.eth.contract(address=contract_address, abi=abi)
     print("Contract Deployed!")
 
 
-def storeInfo(register, uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, adhaar, dob, gender, email, mobileNo):
+def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, adhaar, dob, gender, email, mobileNo):
     global nonce
     try:
-        store_transaction = register.functions.storeInfo(
+        store_transaction = register_contract.functions.storeInfo(
             uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, adhaar, dob, gender, email, mobileNo
         ).buildTransaction(
             {
@@ -113,42 +113,42 @@ def storeInfo(register, uniqueID, vehicleNo, modelName, vehicleColor, fName, lNa
         return {"success": False, "data": err}
 
 
-def getOwnerInfoFromAdhaar(register, adhaar):
+def getOwnerInfoFromAdhaar(register_contract, adhaar):
     global nonce
     try:
-        data = register.functions.getOwnerInfoFromAdhaar(adhaar).call()
+        data = register_contract.functions.getOwnerInfoFromAdhaar(adhaar).call()
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
-def getVehicleInfoFromUniqueID(register, uniqueID):
+def getVehicleInfoFromUniqueID(register_contract, uniqueID):
     global nonce
     try:
-        data = register.functions.getVehicleInfoFromUniqueID(uniqueID).call()
+        data = register_contract.functions.getVehicleInfoFromUniqueID(uniqueID).call()
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
-def getVehiclesFromAdhaar(register, adhaar):
+def getVehiclesFromAdhaar(register_contract, adhaar):
     global nonce
     try:
-        data = register.functions.getVehiclesFromAdhaar(adhaar).call()
+        data = register_contract.functions.getVehiclesFromAdhaar(adhaar).call()
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
-def getOwnersFromUniqueID(register, uniqueID):
+def getOwnersFromUniqueID(register_contract, uniqueID):
     global nonce
     try:
-        data = register.functions.getOwnersFromUniqueID(uniqueID).call()
+        data = register_contract.functions.getOwnersFromUniqueID(uniqueID).call()
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
-def updateOwnerInfo(register, fName, lName, adhaar, dob, gender, email, mobileNo):
+def updateOwnerInfo(register_contract, fName, lName, adhaar, dob, gender, email, mobileNo):
     global nonce
     try:
-        store_transaction = register.functions.updateOwnerInfo(
+        store_transaction = register_contract.functions.updateOwnerInfo(
             fName, lName, adhaar, dob, gender, email, mobileNo
         ).buildTransaction(
             {
@@ -170,10 +170,10 @@ def updateOwnerInfo(register, fName, lName, adhaar, dob, gender, email, mobileNo
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
-def updateVehicleInfo(register, uniqueID, vehicleNo, modelName, vehicleColor):
+def updateVehicleInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor):
     global nonce
     try:
-        store_transaction = register.functions.updateVehicleInfo(
+        store_transaction = register_contract.functions.updateVehicleInfo(
             uniqueID, vehicleNo, modelName, vehicleColor
         ).buildTransaction(
             {
@@ -194,39 +194,3 @@ def updateVehicleInfo(register, uniqueID, vehicleNo, modelName, vehicleColor):
 
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
-
-while True:
-    ip = int(input())
-    if ip == 0:
-        print(
-            storeInfo(
-                register,
-                '1', '1', 'Santro', 'Blue', 'Sparsh', 'Gupta', '862525352732', '01-10-2010', 'Male', 'sparshtgupta@gmail.com', '7426463647',
-            )
-        )
-    elif ip == 1:
-        print(getOwnerInfoFromAdhaar(register, '862525352732'))
-    elif ip == 2:
-        print(getVehicleInfoFromUniqueID(register, '1'))
-    elif ip == 3:
-        print(getVehiclesFromAdhaar(register, '862525352732'))
-    elif ip == 4:
-        print(getOwnersFromUniqueID(register, '1'))
-    elif ip == 5:
-        print(
-            updateOwnerInfo(
-                register,
-                'Spaaarrsshh', 'Guupta', '862525352732', '01-10-2011', 'Female', 'sparseefhtgupta@gmail.com', '74264636888',
-            )
-        )
-    elif ip == 6:
-        print(
-            updateVehicleInfo(
-                register,
-                '1', '2', 'Santro2', 'Blue2'
-            )
-        )
-    elif ip == 7:
-        break
-    else:
-        continue

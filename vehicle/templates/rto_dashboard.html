@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Ledger</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </head>  
+  
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Car Ledger</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </div>
+          <div class="navbar-nav">
+            <a class="nav-link" aria-current="page" href="/register">Register</a>
+            <a class="nav-link" aria-current="page" href="/login">Login</a> 
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="row" style="margin-top: 250px;">
+      <div class="col-sm-6" align="center" style="margin: auto; width: 40rem;">
+        <div class="card" style="margin: auto">
+          <div class="card-body">
+            <h5 class="card-title">Create New Record</h5>
+            <p class="card-text">Create New Record, Add new user for existing vehicle, Add new vehicle for existing user</p>
+            <a href="/rto/register" class="btn btn-primary">Next</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6" align="center" style="margin: auto; width: 40rem;">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Update Existing Info</h5>
+            <p class="card-text">Everything else</p>
+            <a href="#" class="btn btn-primary">Next</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
