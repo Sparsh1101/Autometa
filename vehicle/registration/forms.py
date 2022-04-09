@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from bootstrap_datepicker_plus import DatePickerInput
 from django import forms
 from .models import *
+from .helper_functions import *
 from django.conf import settings
 
 # Create your forms here.
@@ -26,8 +27,7 @@ class UserInfoForm(forms.ModelForm):
         label="Date of Birth",
     )
     mobile_no = forms.CharField(
-        required=False,
-        help_text="Enter 10 digit mobile number.",
+        required=True,
         max_length=10,
         label="Mobile Number",
     )
@@ -36,8 +36,7 @@ class UserInfoForm(forms.ModelForm):
     aadhar = forms.CharField(
         max_length=14,
         label="Aadhar Number",
-        help_text="Aadhar Number is used for password reset.",
-        required=False,
+        required=True,
         widget=forms.TextInput(attrs={"onkeyup": "addSpace(this)"}),
     )
 
@@ -50,7 +49,6 @@ class UserInfoForm(forms.ModelForm):
         dob = cleaned_data.get("dob")
         email = cleaned_data.get("email")
         fname = cleaned_data.get("fname")
-        mname = cleaned_data.get("mname")
         lname = cleaned_data.get("lname")
         mobile_no = cleaned_data.get("mobile_no")
         aadhar = cleaned_data.get("aadhar")
@@ -62,8 +60,6 @@ class UserInfoForm(forms.ModelForm):
             raise forms.ValidationError({"email": "Invalid Email."})
         if (fname == None) or (not valid_name(fname)):
             raise forms.ValidationError({"fname": "Invalid First Name."})
-        if (mname != "") and (not valid_name(mname)):
-            raise forms.ValidationError({"mname": "Invalid Middle Name."})
         if (lname == None) or (not valid_name(lname)):
             raise forms.ValidationError({"lname": "Invalid Last Name."})
         if (mobile_no != "") and (not valid_mobile_no(mobile_no)):
