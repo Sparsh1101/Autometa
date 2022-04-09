@@ -34,15 +34,16 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'registration',
-    'bootstrap_datepicker_plus',
-    'bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms',
+    "crispy_forms",
+    "bootstrap_datepicker_plus",
+    "six",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,5 @@ USE_L10N = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+CRISPY_TEMPLATE_PACK = "bootstrap4"

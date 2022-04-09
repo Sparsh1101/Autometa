@@ -25,20 +25,23 @@ def register(request):
     else:
         form = UserInfoForm(request.POST)
         user_creation_form = UserCreationForm(request.POST)
-        Ruser = user_creation_form.save(commit=False)
-        Ruser.save()
+        if form.is_valid() and user_creation_form.is_valid():
+            Ruser = user_creation_form.save(commit=False)
+            Ruser.save()
 
-        Suser = form.save(commit=False)
-        Suser.user = Ruser
-        Suser.fname = request.POST["fname"]
-        Suser.lname = request.POST["lname"]
-        Suser.email = request.POST["email"]
-        Suser.aadhar = request.POST["aadhar"]
-        Suser.dob = request.POST["dob"]
-        Suser.mobile_no = request.POST["mobile_no"]
-        Suser.gender = request.POST["gender"]
-        Suser.save()
-        return redirect("registration:loggedIn")
+            Suser = form.save(commit=False)
+            Suser.user = Ruser
+            Suser.fname = request.POST["fname"]
+            Suser.lname = request.POST["lname"]
+            Suser.email = request.POST["email"]
+            Suser.aadhar = request.POST["aadhar"]
+            Suser.dob = request.POST["dob"]
+            Suser.mobile_no = request.POST["mobile_no"]
+            Suser.gender = request.POST["gender"]
+            Suser.save()
+            return redirect("loggedIn")
+        else:
+            return redirect("register")
 
 def loggedIn(request):
     return render(request, 'loggedIn.html')

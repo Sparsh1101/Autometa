@@ -1,10 +1,8 @@
-{% load static %}
-{% load crispy_forms_tags %}
-
 <!DOCTYPE html>
 <html lang="en-US">
 
 <head>
+  {%load static%}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Car Ledger</title>
@@ -13,21 +11,21 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
+
   <style>
     .reg-log {
-      height: 70vh;
       display: flex;
       justify-content: center;
       align-items: center;
     }
   </style>
-</head>
 
+</head>
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Car Ledger</a>
+      <a class="navbar-brand" href="/">Car Ledger</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -45,18 +43,20 @@
   </nav>
 
   <div class="container reg-log">
+    {%load crispy_forms_tags%}
+    {%block content%}
     <form action="" method="POST">
-      {{form.media}}
+      {{ form.media }}
 
       {% csrf_token %}
       <h2 class="mb-4">User Information</h2>
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-6">
-            {{form.fname|as_crispy_field}}
+            {{ form.fname|as_crispy_field }}
           </div>
           <div class="col-md-6">
-            {{form.lname|as_crispy_field}}
+            {{ form.lname|as_crispy_field }}
           </div>
           <small class="form-text text-muted mb-3 mt-0">Numbers and special characters are not allowed except
             apostrophe.</small>
@@ -78,7 +78,7 @@
             {{ form.dob|as_crispy_field }}
           </div>
           <div class="col-md-6">
-            {{form.mobile_no|as_crispy_field}}
+            {{ form.mobile_no|as_crispy_field }}
           </div>
         </div>
       </div>
@@ -90,12 +90,13 @@
         </div>
       </div>
       <div class="col-md-12">
-        {{user_creation_form|crispy}}
+        {{ user_creation_form|crispy }}
       </div>
       <div class="d-flex justify-content-around">
         <input type="submit" class="btn btn-primary btnmedium" value="Submit">
       </div>
     </form>
+    {%endblock content%}
   </div>
 
 </body>
