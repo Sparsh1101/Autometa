@@ -4,9 +4,6 @@ from .models import *
 import string
 import random
 import re
-from shared.encryption import EncryptionHelper
-
-encryptionHelper = EncryptionHelper()
 
 # username and password auto generators
 def username_generator(fname, lname):
@@ -64,46 +61,11 @@ def random_password_generator():
     return "".join(random.choices(string.ascii_lowercase + string.digits, k=8))
 
 
-# Module and physique form functions
-def getFormType(moduleType, teacher):
-    module = Form.objects.get(name=moduleType)
-    formType = FormDetails.objects.filter(
-        form=module, open=True, teacher=teacher
-    ).first()
-    if formType.pre:
-        return "PreTest"
-    else:
-        return "PostTest"
 
-
-# User functions
-def custom_user_filter(user):
-    if is_supercoordinator(user):
-        supercoord = SuperCoordinator.objects.get(user=user)
-        return (supercoord, "Super Coordinators")
-    elif is_coordinator(user):
-        coord = CoordinatorInCharge.objects.get(user=user)
-        return (coord, "Coordinators")
-    elif is_teacher(user):
-        teacher = TeacherInCharge.objects.get(user=user)
-        return (teacher, "Teachers")
-    elif is_parent(user):
-        parent = ParentsInfo.objects.get(user=user)
-        return (parent, "Parents")
-    elif is_student(user):
-        student = StudentsInfo.objects.get(user=user)
-        return (student, "Students")
-    return None
 
 
 def is_student(user):
     return user.groups.filter(name="Students").exists()
-
-
-def is_adult_student(user):
-    student = StudentsInfo.objects.filter(user=user).first()
-    return True if encryptionHelper.decrypt(student.adult) == "True" else False
-
 
 def is_parent(user):
     return user.groups.filter(name="Parents").exists()

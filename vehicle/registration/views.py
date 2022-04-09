@@ -5,7 +5,6 @@ from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import *
 from .forms import *
-from shared.encryption import EncryptionHelper
 
 # Create your views here.
 def index(request):
@@ -31,13 +30,13 @@ def register(request):
 
         Suser = form.save(commit=False)
         Suser.user = Ruser
-        Suser.fname = encryptionHelper.encrypt(request.POST["fname"])
-        Suser.lname = encryptionHelper.encrypt(request.POST["lname"])
-        Suser.email = encryptionHelper.encrypt(request.POST["email"])
-        Suser.aadhar = encryptionHelper.encrypt(request.POST["aadhar"])
-        Suser.dob = encryptionHelper.encrypt(Suser_dob)
-        Suser.mobile_no = encryptionHelper.encrypt(request.POST["mobile_no"])
-        Suser.gender = encryptionHelper.encrypt(request.POST["gender"])
+        Suser.fname = request.POST["fname"]
+        Suser.lname = request.POST["lname"]
+        Suser.email = request.POST["email"]
+        Suser.aadhar = request.POST["aadhar"]
+        Suser.dob = request.POST["dob"]
+        Suser.mobile_no = request.POST["mobile_no"]
+        Suser.gender = request.POST["gender"]
         Suser.save()
         return redirect("registration:loggedIn")
 

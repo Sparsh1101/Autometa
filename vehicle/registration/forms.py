@@ -7,8 +7,6 @@ from .helper_functions import *
 from django.conf import settings
 
 # Create your forms here.
-
-
 class UserInfoForm(forms.ModelForm):
     email = forms.EmailField(
         required=True,
