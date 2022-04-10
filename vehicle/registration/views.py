@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import *
 from .forms import *
 from .deploy import *
+from .helper_functions import *
 
 # Create your views here.
 def index(request):
@@ -77,3 +78,26 @@ def rto_owner(request):
         vehicle_form = VehicleInfoForm()
     
     return render(request, 'register.html', {'form': form, "user_creation_form": user_creation_form, "vehicle_form": vehicle_form,})
+def rtologin(request):
+    # if request.method == "GET":
+    #     form = CustomAuthenticationForm()
+    #     return render(request, "registration/login.html", {"form": form})
+    # else:
+        # form = CustomAuthenticationForm(request.POST)
+        # username = request.POST["username"]
+        # password = request.POST["password"]
+        # grp = request.POST["groups"]
+        # if User.objects.filter(username=username).exists():
+        #     user = User.objects.get(username=username)
+        #     if user.check_password(password):
+        #         our_user = custom_user_filter(user)
+        #         if our_user == None:
+        #             return render(
+        #                 request,
+        #                 "registration/login.html",
+        #                 {"form": form, "my_messages": {"error": "Access Denied."}},
+                    # )
+    return render(request, 'login-rto.html')
+
+def customerlogin(request):
+    return render(request, 'login-customer.html')
