@@ -148,6 +148,14 @@ contract VehicleContract {
         uniqueIDToVehicleInfo[_uniqueID].vehicleColor = _vehicleColor;
     }
 
+    function isOwner(string memory _adhaar) public view returns (bool) {
+        return adhaarToOwnerInfo[_adhaar].exists;
+    }
+
+    function isVehicle(string memory _uniqueID) public view returns (bool) {
+        return uniqueIDToVehicleInfo[_uniqueID].exists;
+    }
+
     // '862525352732'
     // '1'
     // '1', '1', 'Santro', 'Blue', 'Sparsh', 'Gupta', '862525352732', ''01-10-2010', 'Male', 'sparshtgupta@gmail.com', '7426463647'

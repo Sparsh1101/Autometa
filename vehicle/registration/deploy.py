@@ -146,6 +146,22 @@ def getOwnersFromUniqueID(register_contract, uniqueID):
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
+def isOwner(register_contract, adhaar):
+    global nonce
+    try:
+        data = register_contract.functions.isOwner(adhaar).call()
+        return {"success": True, "data": data}
+    except exceptions.SolidityError as err:
+        return {"success": False, "data": err}
+
+def isVehicle(register_contract, uniqueID):
+    global nonce
+    try:
+        data = register_contract.functions.isVehicle(uniqueID).call()
+        return {"success": True, "data": data}
+    except exceptions.SolidityError as err:
+        return {"success": False, "data": err}
+
 def updateOwnerInfo(register_contract, fName, lName, adhaar, dob, gender, email, mobileNo):
     global nonce
     try:
