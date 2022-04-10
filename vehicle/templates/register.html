@@ -49,49 +49,85 @@
       {{ form.media }}
 
       {% csrf_token %}
+      <h2 class="mb-4">Vehicle Information</h2>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="uniqueID">Unique ID</label>
+            <input id="uniqueID" class="form-control" name="uniqueID" type="text">
+          </div>
+          <div class="col-md-6">
+            <label for="vehicleNo">Vehicle Number</label>
+            <input id="vehicleNo" class="form-control" name="vehicleNo" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="modelName">Model Name</label>
+            <input id="modelName" class="form-control" name="modelName" type="text">
+          </div>
+          <div class="col-md-6">
+            <label for="vehicleColor">Vehicle Color</label>
+            <input id="vehicleColor" class="form-control" name="vehicleColor" type="text">
+          </div>
+        </div>
+      </div>
+      <br>
+
       <h2 class="mb-4">User Information</h2>
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-6">
-            {{ form.fname|as_crispy_field }}
+            <label for="fname">First Name</label>
+            <input id="fname" class="form-control" name="fname" type="text">
           </div>
           <div class="col-md-6">
-            {{ form.lname|as_crispy_field }}
-          </div>
-          <small class="form-text text-muted mb-3 mt-0">Numbers and special characters are not allowed except
-            apostrophe.</small>
-        </div>
-      </div>
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-6">
-            {{ form.email|as_crispy_field }}
-          </div>
-          <div class="col-md-6">
-            {{ form.aadhar|as_crispy_field }}
+            <label for="lname">Last Name</label>
+            <input id="lname" class="form-control" name="lname" type="text">
           </div>
         </div>
       </div>
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-6">
-            {{ form.dob|as_crispy_field }}
+            <label for="email">Email</label>
+            <input id="email" class="form-control" name="email" type="email">
           </div>
           <div class="col-md-6">
-            {{ form.mobile_no|as_crispy_field }}
+            <label for="aadhar">Aadhar Number</label>
+            <input id="aadhar" class="form-control" name="aadhar" type="text">
           </div>
         </div>
       </div>
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-6">
-            {{ form.gender|as_crispy_field }}
+            <label for="dob">Date Of Birth</label>
+            <input id="dob" class="form-control" name="dob" type="date">
+          </div>
+          <div class="col-md-6">
+            <label for="mobile_no">Mobile Number</label>
+            <input id="mobile_no" class="form-control" name="mobile_no" type="text">
           </div>
         </div>
       </div>
       <div class="col-md-12">
-        {{ vehicle_form|crispy }}
+        <div class="row">
+          <div class="col-md-6">
+            <label for="gender">Gender</label>
+            <select class="form-select" id="gender" aria-label="Gender" name="gender">
+              <option selected>Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
       </div>
+      <br>
+
       <div class="col-md-12">
         {{ user_creation_form|crispy }}
       </div>

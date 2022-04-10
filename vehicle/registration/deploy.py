@@ -39,10 +39,10 @@ abi = json.loads(
 contract_id, contract_interface = compiled_sol.popitem()
 
 
-# Web3 to connect to ganache
-w3 = Web3(Web3.HTTPProvider("HTTP://127.0.0.1:7545"))
-chain_id = 1337
-my_address = "0x945A761933FC807c92431c62dD8b5BFB0B048455"
+# Web3 to connect to infura
+w3 = Web3(Web3.HTTPProvider(os.getenv("HTTP_PROVIDER")))
+chain_id = 4
+my_address = os.getenv("MY_ADDRESS")
 private_key = os.getenv("PRIVATE_KEY")
 
 
@@ -75,7 +75,7 @@ def deployContract(Register):
     return txnReceipt
 
 
-contract_address = "0xfb5B5d71D53F6eD6310Bd7579faf6087312C5d2C"
+contract_address = os.getenv("CONTRACT_ADDRESS")
 
 if contract_address == "":
     txnReceipt = deployContract(Register)
@@ -107,6 +107,7 @@ def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, f
         )
         send_store_txn = w3.eth.send_raw_transaction(signed_store_txn.rawTransaction)
         tx_store_receipt = w3.eth.wait_for_transaction_receipt(send_store_txn)
+        print("Data Entered Successfully!")
         return {"success": True, "data": "Data Entered Successfully!"}
 
     except exceptions.SolidityError as err:
