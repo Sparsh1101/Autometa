@@ -17,6 +17,7 @@ urlpatterns = [
     path("rto/update-owner-info-2", views.rto_update_owner_info_2, name="rto_update_owner_info_2"),
 
     path("rto/owner", views.rto_owner, name="rto_owner"),
+    path("rto/vehicle", views.rto_vehicle, name="rto_vehicle"),
     
     path("loggedIn", views.loggedIn, name="loggedIn"),
     path("rtologin", views.rtologin, name="login-rto"),
