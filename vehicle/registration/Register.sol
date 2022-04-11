@@ -9,7 +9,7 @@ contract VehicleContract {
         bool exists;
         string fName;
         string lName;
-        string adhaar;
+        string aadhar;
         string dob;
         string gender;
         string email;
@@ -26,7 +26,7 @@ contract VehicleContract {
         string[] owners;
     }
 
-    mapping(string => OwnerInfo) adhaarToOwnerInfo;
+    mapping(string => OwnerInfo) aadharToOwnerInfo;
     mapping(string => VehicleInfo) uniqueIDToVehicleInfo;
     // mapping(string => VehicleInfo) uniqueIDToVehicleInfo;
 
@@ -37,56 +37,56 @@ contract VehicleContract {
         string memory _vehicleColor,
         string memory _fName,
         string memory _lName,
-        string memory _adhaar,
+        string memory _aadhar,
         string memory _dob,
         string memory _gender,
         string memory _email,
         string memory _mobileNo
     ) public {
         if (uniqueIDToVehicleInfo[_uniqueID].exists == true) {
-            if (adhaarToOwnerInfo[_adhaar].exists == true) {
-                uniqueIDToVehicleInfo[_uniqueID].owners.push(_adhaar);
-                adhaarToOwnerInfo[_adhaar].vehicles.push(_uniqueID);
+            if (aadharToOwnerInfo[_aadhar].exists == true) {
+                uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
+                aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
             } else {
                 string[] memory temp;
-                adhaarToOwnerInfo[_adhaar] = OwnerInfo(true, _fName, _lName, _adhaar, _dob, _gender, _email, _mobileNo, temp);
-                adhaarToOwnerInfo[_adhaar].vehicles.push(_uniqueID);
-                uniqueIDToVehicleInfo[_uniqueID].owners.push(_adhaar);
+                aadharToOwnerInfo[_aadhar] = OwnerInfo(true, _fName, _lName, _aadhar, _dob, _gender, _email, _mobileNo, temp);
+                aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
+                uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
             }
         } else {
-            if (adhaarToOwnerInfo[_adhaar].exists == true) {
+            if (aadharToOwnerInfo[_aadhar].exists == true) {
                 string[] memory temp;
                 uniqueIDToVehicleInfo[_uniqueID] = VehicleInfo(true, _uniqueID, _vehicleNo, _modelName, _vehicleColor, temp);
-                uniqueIDToVehicleInfo[_uniqueID].owners.push(_adhaar);
-                adhaarToOwnerInfo[_adhaar].vehicles.push(_uniqueID);
+                uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
+                aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
             } else {
                 string[] memory temp1;
                 string[] memory temp2;
-                adhaarToOwnerInfo[_adhaar] = OwnerInfo(true, _fName, _lName, _adhaar, _dob, _gender, _email, _mobileNo, temp1);
-                adhaarToOwnerInfo[_adhaar].vehicles.push(_uniqueID);
+                aadharToOwnerInfo[_aadhar] = OwnerInfo(true, _fName, _lName, _aadhar, _dob, _gender, _email, _mobileNo, temp1);
+                aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
                 uniqueIDToVehicleInfo[_uniqueID] = VehicleInfo(true, _uniqueID, _vehicleNo, _modelName, _vehicleColor, temp2);
-                uniqueIDToVehicleInfo[_uniqueID].owners.push(_adhaar);
+                uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
             }
         }
     }
 
-    function getOwnerInfoFromAdhaar(string memory _adhaar) public view returns (
+    function getOwnerInfoFromAadhar(string memory _aadhar) public view returns (
         string memory fName,
         string memory lName,
-        string memory adhaar,
+        string memory aadhar,
         string memory dob,
         string memory gender,
         string memory email,
         string memory mobileNo
         ) {
         return (
-            adhaarToOwnerInfo[_adhaar].fName,
-            adhaarToOwnerInfo[_adhaar].lName,
-            _adhaar,
-            adhaarToOwnerInfo[_adhaar].dob,
-            adhaarToOwnerInfo[_adhaar].gender,
-            adhaarToOwnerInfo[_adhaar].email,
-            adhaarToOwnerInfo[_adhaar].mobileNo
+            aadharToOwnerInfo[_aadhar].fName,
+            aadharToOwnerInfo[_aadhar].lName,
+            _aadhar,
+            aadharToOwnerInfo[_aadhar].dob,
+            aadharToOwnerInfo[_aadhar].gender,
+            aadharToOwnerInfo[_aadhar].email,
+            aadharToOwnerInfo[_aadhar].mobileNo
         );
     }
 
@@ -104,8 +104,8 @@ contract VehicleContract {
         );
     }
 
-    function getVehiclesFromAdhaar(string memory _adhaar) public view returns (string[] memory) {
-        return adhaarToOwnerInfo[_adhaar].vehicles;
+    function getVehiclesFromAadhar(string memory _aadhar) public view returns (string[] memory) {
+        return aadharToOwnerInfo[_aadhar].vehicles;
     }
 
     function getOwnersFromUniqueID(string memory _uniqueID) public view returns (string[] memory) {
@@ -115,22 +115,22 @@ contract VehicleContract {
     function updateOwnerInfo(
         string memory _fName,
         string memory _lName,
-        string memory _adhaar,
+        string memory _aadhar,
         string memory _dob,
         string memory _gender,
         string memory _email,
         string memory _mobileNo
         ) public {
         require(
-            adhaarToOwnerInfo[_adhaar].exists == true,
+            aadharToOwnerInfo[_aadhar].exists == true,
             "Owner doesn't exist!"
         );
-        adhaarToOwnerInfo[_adhaar].fName = _fName;
-        adhaarToOwnerInfo[_adhaar].lName = _lName;
-        adhaarToOwnerInfo[_adhaar].dob = _dob;
-        adhaarToOwnerInfo[_adhaar].gender = _gender;
-        adhaarToOwnerInfo[_adhaar].email = _email;
-        adhaarToOwnerInfo[_adhaar].mobileNo = _mobileNo;
+        aadharToOwnerInfo[_aadhar].fName = _fName;
+        aadharToOwnerInfo[_aadhar].lName = _lName;
+        aadharToOwnerInfo[_aadhar].dob = _dob;
+        aadharToOwnerInfo[_aadhar].gender = _gender;
+        aadharToOwnerInfo[_aadhar].email = _email;
+        aadharToOwnerInfo[_aadhar].mobileNo = _mobileNo;
     }
 
     function updateVehicleInfo(
@@ -148,8 +148,8 @@ contract VehicleContract {
         uniqueIDToVehicleInfo[_uniqueID].vehicleColor = _vehicleColor;
     }
 
-    function isOwner(string memory _adhaar) public view returns (bool) {
-        return adhaarToOwnerInfo[_adhaar].exists;
+    function isOwner(string memory _aadhar) public view returns (bool) {
+        return aadharToOwnerInfo[_aadhar].exists;
     }
 
     function isVehicle(string memory _uniqueID) public view returns (bool) {

@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='userinfo',
-            name='fname',
+            name='fName',
             field=models.CharField(max_length=100),
         ),
         migrations.AlterField(
@@ -37,12 +37,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='userinfo',
-            name='lname',
+            name='lName',
             field=models.CharField(max_length=100),
         ),
         migrations.AlterField(
             model_name='userinfo',
-            name='mobile_no',
+            name='mobileNo',
             field=models.CharField(max_length=10),
         ),
     ]

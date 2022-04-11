@@ -87,11 +87,11 @@ else:
     print("Contract Deployed!")
 
 
-def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, adhaar, dob, gender, email, mobileNo):
+def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, gender, email, mobileNo):
     global nonce
     try:
         store_transaction = register_contract.functions.storeInfo(
-            uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, adhaar, dob, gender, email, mobileNo
+            uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, gender, email, mobileNo
         ).buildTransaction(
             {
                 "chainId": chain_id,
@@ -114,10 +114,10 @@ def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, f
         return {"success": False, "data": err}
 
 
-def getOwnerInfoFromAdhaar(register_contract, adhaar):
+def getOwnerInfoFromAadhar(register_contract, aadhar):
     global nonce
     try:
-        data = register_contract.functions.getOwnerInfoFromAdhaar(adhaar).call()
+        data = register_contract.functions.getOwnerInfoFromAadhar(aadhar).call()
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
@@ -130,10 +130,10 @@ def getVehicleInfoFromUniqueID(register_contract, uniqueID):
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
-def getVehiclesFromAdhaar(register_contract, adhaar):
+def getVehiclesFromAadhar(register_contract, aadhar):
     global nonce
     try:
-        data = register_contract.functions.getVehiclesFromAdhaar(adhaar).call()
+        data = register_contract.functions.getVehiclesFromAadhar(aadhar).call()
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
@@ -146,10 +146,10 @@ def getOwnersFromUniqueID(register_contract, uniqueID):
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
-def isOwner(register_contract, adhaar):
+def isOwner(register_contract, aadhar):
     global nonce
     try:
-        data = register_contract.functions.isOwner(adhaar).call()
+        data = register_contract.functions.isOwner(aadhar).call()
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
@@ -162,11 +162,11 @@ def isVehicle(register_contract, uniqueID):
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
-def updateOwnerInfo(register_contract, fName, lName, adhaar, dob, gender, email, mobileNo):
+def updateOwnerInfo(register_contract, fName, lName, aadhar, dob, gender, email, mobileNo):
     global nonce
     try:
         store_transaction = register_contract.functions.updateOwnerInfo(
-            fName, lName, adhaar, dob, gender, email, mobileNo
+            fName, lName, aadhar, dob, gender, email, mobileNo
         ).buildTransaction(
             {
                 "chainId": chain_id,
