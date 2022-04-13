@@ -4,3 +4,8 @@ from bootstrap_datepicker_plus import DatePickerInput
 from django import forms
 from .models import *
 from django.conf import settings
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=63)
+    password = forms.CharField(max_length=63, widget=forms.PasswordInput)

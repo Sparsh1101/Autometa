@@ -1,13 +1,15 @@
 from operator import mod
 from re import L
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import *
 from .forms import *
 from .deploy import *
+from . import forms
 
 # Create your views here.
 def index(request):
@@ -417,27 +419,31 @@ def rto_update_owner_info_2(request):
         print("Updated Owner Info")
         return redirect("/rto")
 
+def rtologin(request):
+    form = forms.LoginForm()
+    if request.method == 'POST':
+        form = forms.LoginForm(request.POST)
+        if form.is_valid():
+            pass
+    return render(request, 'authentication/login.html', context={'form': form})
 
 def rtologin(request):
-    # if request.method == "GET":
-    #     form = CustomAuthenticationForm()
-    #     return render(request, "registration/login.html", {"form": form})
-    # else:
-    # form = CustomAuthenticationForm(request.POST)
-    # username = request.POST["username"]
-    # password = request.POST["password"]
-    # grp = request.POST["groups"]
-    # if User.objects.filter(username=username).exists():
-    #     user = User.objects.get(username=username)
-    #     if user.check_password(password):
-    #         our_user = custom_user_filter(user)
-    #         if our_user == None:
-    #             return render(
-    #                 request,
-    #                 "registration/login.html",
-    #                 {"form": form, "my_messages": {"error": "Access Denied."}},
-    # )
-    return render(request, "login-rto.html")
+        form = forms.LoginForm()
+        message = ''
+        if request.method == 'POST':
+            form = forms.LoginForm(request.POST)
+            if form.is_valid():
+                user = authenticate(
+                    username=form.cleaned_data['username'],
+                    password=form.cleaned_data['password'],
+                )
+                if user is not None:
+                    if user.is_staff==True:
+                        return redirect("/rto")
+                    else:
+                        message = 'User Access Denied!'
+        return render(
+            request, 'login-rto.html', context={'form': form, 'message': message})
 
 
 def customerlogin(request):
