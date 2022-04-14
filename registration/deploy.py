@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+install_solc('0.6.0')
 
 with open("./registration/Register.sol", "r") as file:
     register_file = file.read()
