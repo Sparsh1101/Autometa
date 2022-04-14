@@ -48,7 +48,7 @@
             <div class="card" style="width: 30rem;">
                 <form method="post">
                     {% csrf_token %}
-                    <h2 class="text-center" style="margin:0 0 22px 0;">RTO LOGIN</h2>
+                    <h2 class="text-center" style="margin:0 0 22px 0;">{{ id|upper }} LOGIN</h2>
                     <div style="margin-bottom:14px;" class="row">
                         <label>Username</label>
                         {{ form.username }}

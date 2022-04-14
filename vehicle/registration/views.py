@@ -1,5 +1,6 @@
 from operator import mod
 from re import L
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
@@ -10,14 +11,25 @@ from .models import *
 from .forms import *
 from .deploy import *
 
+
 def is_rto(user):
-    return user.username == "sparsh"
+    return user.groups.filter(name="rto").exists()
+
+
+def is_police(user):
+    return user.groups.filter(name="police").exists()
+
+
+def is_customer(user):
+    return user.groups.filter(name="customer").exists()
+
 
 def index(request):
     return render(request, "index.html")
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def rto_check_register(request):
     if request.method == "GET":
         return render(request, "rto-check-register.html")
@@ -42,8 +54,9 @@ def rto_check_register(request):
         request.session["uniqueID"] = uniqueID
         return redirect("registration:rto_register")
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def rto_register(request):
     isOwnerBool = request.session["isOwnerBool"]
     isVehicleBool = request.session["isVehicleBool"]
@@ -100,6 +113,8 @@ def rto_register(request):
             if user_creation_form.is_valid():
                 Ruser = user_creation_form.save(commit=False)
                 Ruser.save()
+                group = Group.objects.get(name="customer")
+                group.user_set.add(Ruser)
             else:
                 return render(
                     request,
@@ -178,13 +193,15 @@ def rto_register(request):
 
         return redirect("registration:rto_dashboard")
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def rto_dashboard(request):
     return render(request, "rto-dashboard.html")
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def vehicle_owners(request, id):
     owners = getOwnersFromUniqueID(register_contract, id)["data"]
     previousOwners = owners[:-1]
@@ -201,8 +218,9 @@ def vehicle_owners(request, id):
         },
     )
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def owner_vehicles(request, id):
     vehicles = getVehiclesFromAadhar(register_contract, id)["data"]
     previouslyOwnedVehicles = []
@@ -226,8 +244,9 @@ def owner_vehicles(request, id):
         },
     )
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def owner(request, id=""):
     ownerInfoVars = ["fName", "lName", "aadhar", "dob", "gender", "email", "mobileNo"]
     ownerInfoDict = {}
@@ -261,8 +280,9 @@ def owner(request, id=""):
                 request, "show-owner-info.html", {"ownerInfoDict": ownerInfoDict}
             )
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def vehicle(request, id=""):
     vehicleInfoVars = ["uniqueID", "vehicleNo", "modelName", "vehicleColor"]
     vehicleInfoDict = {}
@@ -298,13 +318,15 @@ def vehicle(request, id=""):
                 {"vehicleInfoDict": vehicleInfoDict},
             )
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def rto_choose_update(request):
     return render(request, "rto-choose-update.html")
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def rto_update_vehicle_info_1(request):
     if request.method == "GET":
         return render(request, "get-uniqueID-input-form.html")
@@ -323,8 +345,9 @@ def rto_update_vehicle_info_1(request):
             request.session["vehicleInfoDict"] = vehicleInfoDict
             return redirect("registration:rto_update_vehicle_info_2")
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def rto_update_vehicle_info_2(request):
     vehicleInfoDict = request.session["vehicleInfoDict"]
     if request.method == "GET":
@@ -355,8 +378,9 @@ def rto_update_vehicle_info_2(request):
         print("Updated Vehicle Info")
         return redirect("registration:rto_dashboard")
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def rto_update_owner_info_1(request):
     if request.method == "GET":
         return render(request, "get-aadhar-input-form.html")
@@ -385,8 +409,9 @@ def rto_update_owner_info_1(request):
             request.session["ownerInfoDict"] = ownerInfoDict
             return redirect("registration:rto_update_owner_info_2")
 
-@login_required(login_url="registration:rto_login")
-@user_passes_test(is_rto, login_url="registration:rto_login")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_rto, login_url="registration:login")
 def rto_update_owner_info_2(request):
     ownerInfoDict = request.session["ownerInfoDict"]
     if request.method == "GET":
@@ -425,40 +450,61 @@ def rto_update_owner_info_2(request):
         return redirect("registration:rto_dashboard")
 
 
-def rtologin(request):
-        form = LoginForm()
-        message = ''
-        if request.method == 'POST':
-            form =LoginForm(request.POST)
-            if form.is_valid():
-                user = authenticate(
-                    request,
-                    username=form.cleaned_data['username'],
-                    password=form.cleaned_data['password'],
-                )
-                if user is not None:
-                    if is_rto(user):
-                        auth_login(request, user)
-                        return redirect("registration:rto_dashboard")
-                    else:
-                        message = "User Access Denied!"
+def login(request, id):
+    form = LoginForm()
+    message = ""
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                request,
+                username=form.cleaned_data["username"],
+                password=form.cleaned_data["password"],
+            )
+            if user is not None:
+                auth_login(request, user)
+                if is_rto(user) and id == "rto":
+                    return redirect("registration:rto_dashboard")
+                elif is_police(user) and id == "police":
+                    return HttpResponse("<h1>Police Dashboard</h1>")
+                elif is_customer(user) and id == "customer":
+                    return HttpResponse("<h1>Customer Dashboard</h1>")
                 else:
-                    message = "Username or Password is incorrect!"
+                    message = "Access Denied!"
                     return render(
                         request,
-                        "rto_login.html",
-                        context={"form": form, "message": message},
+                        "login.html",
+                        context={
+                            "form": form,
+                            "message": message,
+                            "id": id,
+                        },
                     )
             else:
-                return redirect("registration:rto_login")
-        return render(
-            request, 'rto-login.html', context={'form': form, 'message': message})
+                message = "Username or Password is incorrect!"
+                return render(
+                    request,
+                    "login.html",
+                    context={
+                        "form": form,
+                        "message": message,
+                        "id": id,
+                    },
+                )
+        else:
+            return redirect("registration:login")
+    return render(
+        request,
+        "login.html",
+        context={
+            "form": form,
+            "message": message,
+            "id": id,
+        },
+    )
 
 
-def customerlogin(request):
-    return render(request, "customer-login.html")
-
-@login_required(login_url="main:login")
+@login_required(login_url="registration:index")
 def logoutU(request):
     logout(request)
     return redirect("registration:index")

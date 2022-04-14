@@ -23,8 +23,7 @@ urlpatterns = [
     path("vehicle", views.vehicle, name="vehicle_noId"),
     path("vehicle/<str:id>", views.vehicle, name="vehicle"),
     path("vehicle/owners/<str:id>", views.vehicle_owners, name="vehicle_owners"),
-    path("rtologin", views.rtologin, name="rto_login"),
-    path("customerlogin", views.customerlogin, name="login-customer"),
+    path("login/<str:id>", views.login, name="login"),
     path("logout", views.logoutU, name="logout"),
     
     
