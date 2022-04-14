@@ -1,1 +1,1 @@
-web: gunicorn cocomo.wsgi --log-file -
+web: gunicorn vehicle.wsgi --log-file -
