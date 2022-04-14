@@ -1,1 +1,1 @@
-web: honcho start -f ProcfileHoncho
+web: python manage.py runserver 0.0.0.0:$PORT --noreload
