@@ -1,9 +1,10 @@
 from django.urls import path
 from . import views
 
+app_name = "registration"
+
 urlpatterns = [
     path("", views.index, name="index"),
-    path("login", views.login, name="login"),
 
     path("rto", views.rto_dashboard, name="rto_dashboard"),
 
@@ -16,14 +17,15 @@ urlpatterns = [
     path("rto/update-vehicle-info-2", views.rto_update_vehicle_info_2, name="rto_update_vehicle_info_2"),
     path("rto/update-owner-info-2", views.rto_update_owner_info_2, name="rto_update_owner_info_2"),
 
-    path("rto/owner", views.rto_owner, name="rto_owner_noId"),
-    path("rto/owner/<str:id>", views.rto_owner, name="rto_owner"),
-    path("rto/owner/vehicles/<str:id>", views.rto_owner_vehicles, name="rto_owner_vehicles"),
-    path("rto/vehicle", views.rto_vehicle, name="rto_vehicle_noId"),
-    path("rto/vehicle/<str:id>", views.rto_vehicle, name="rto_vehicle"),
-    path("rto/vehicle/owners/<str:id>", views.rto_vehicle_owners, name="rto_vehicle_owners"),
-    path("loggedIn", views.loggedIn, name="loggedIn"),
-    path("rtologin", views.rtologin, name="login-rto"),
+    path("owner", views.owner, name="owner_noId"),
+    path("rto/owner/<str:id>", views.owner, name="owner"),
+    path("owner/vehicles/<str:id>", views.owner_vehicles, name="owner_vehicles"),
+    path("vehicle", views.vehicle, name="vehicle_noId"),
+    path("vehicle/<str:id>", views.vehicle, name="vehicle"),
+    path("vehicle/owners/<str:id>", views.vehicle_owners, name="vehicle_owners"),
+    path("rtologin", views.rtologin, name="rto_login"),
     path("customerlogin", views.customerlogin, name="login-customer"),
+    path("logout", views.logoutU, name="logout"),
+    
     
 ]

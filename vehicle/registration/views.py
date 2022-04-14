@@ -9,13 +9,15 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import *
 from .forms import *
 from .deploy import *
-from . import forms
 
-# Create your views here.
+def is_rto(user):
+    return user.username == "sparsh"
+
 def index(request):
     return render(request, "index.html")
 
-
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
 def rto_check_register(request):
     if request.method == "GET":
         return render(request, "rto-check-register.html")
@@ -38,9 +40,10 @@ def rto_check_register(request):
         request.session["isVehicleBool"] = isVehicleBool
         request.session["aadhar"] = aadhar
         request.session["uniqueID"] = uniqueID
-        return redirect("/rto/register")
+        return redirect("registration:rto_register")
 
-
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
 def rto_register(request):
     isOwnerBool = request.session["isOwnerBool"]
     isVehicleBool = request.session["isVehicleBool"]
@@ -173,29 +176,23 @@ def rto_register(request):
         del request.session["ownerInfoDict"]
         del request.session["vehicleInfoDict"]
 
-        return redirect("/rto")
+        return redirect("registration:rto_dashboard")
 
-
-def loggedIn(request):
-    return render(request, "loggedIn.html")
-
-
-def login(request):
-    return render(request, "login.html")
-
-
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
 def rto_dashboard(request):
     return render(request, "rto-dashboard.html")
 
-
-def rto_vehicle_owners(request, id):
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
+def vehicle_owners(request, id):
     owners = getOwnersFromUniqueID(register_contract, id)["data"]
     previousOwners = owners[:-1]
     currentOwner = owners[-1]
     prevLength = len(previousOwners)
     return render(
         request,
-        "rto-show-vehicle-owners.html",
+        "show-vehicle-owners.html",
         {
             "currentOwner": currentOwner,
             "previousOwners": previousOwners,
@@ -204,8 +201,9 @@ def rto_vehicle_owners(request, id):
         },
     )
 
-
-def rto_owner_vehicles(request, id):
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
+def owner_vehicles(request, id):
     vehicles = getVehiclesFromAadhar(register_contract, id)["data"]
     previouslyOwnedVehicles = []
     currentlyOwnedVehicles = []
@@ -218,7 +216,7 @@ def rto_owner_vehicles(request, id):
     currLength = len(currentlyOwnedVehicles)
     return render(
         request,
-        "rto-show-owner-vehicles.html",
+        "show-owner-vehicles.html",
         {
             "currentlyOwnedVehicles": currentlyOwnedVehicles,
             "previouslyOwnedVehicles": previouslyOwnedVehicles,
@@ -228,25 +226,26 @@ def rto_owner_vehicles(request, id):
         },
     )
 
-
-def rto_owner(request, id=""):
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
+def owner(request, id=""):
     ownerInfoVars = ["fName", "lName", "aadhar", "dob", "gender", "email", "mobileNo"]
     ownerInfoDict = {}
     if id == "":
         if request.method == "GET":
-            return render(request, "rto-get-aadhar-input-form.html")
+            return render(request, "get-aadhar-input-form.html")
         else:
             aadhar = request.POST["aadhar"]
             ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)
             ownerInfo = ownerInfo["data"]
             if ownerInfo[0] == "":
-                return redirect("/rto/owner")
+                return redirect("registration:owner_noId")
             else:
                 for i in range(len(ownerInfo)):
                     ownerInfoDict[ownerInfoVars[i]] = ownerInfo[i]
                 return render(
                     request,
-                    "rto-show-owner-info.html",
+                    "show-owner-info.html",
                     {"ownerInfoDict": ownerInfoDict},
                 )
     else:
@@ -254,33 +253,34 @@ def rto_owner(request, id=""):
         ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)
         ownerInfo = ownerInfo["data"]
         if ownerInfo[0] == "":
-            return redirect("/rto/owner")
+            return redirect("registration:owner_noId")
         else:
             for i in range(len(ownerInfo)):
                 ownerInfoDict[ownerInfoVars[i]] = ownerInfo[i]
             return render(
-                request, "rto-show-owner-info.html", {"ownerInfoDict": ownerInfoDict}
+                request, "show-owner-info.html", {"ownerInfoDict": ownerInfoDict}
             )
 
-
-def rto_vehicle(request, id=""):
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
+def vehicle(request, id=""):
     vehicleInfoVars = ["uniqueID", "vehicleNo", "modelName", "vehicleColor"]
     vehicleInfoDict = {}
     if id == "":
         if request.method == "GET":
-            return render(request, "rto-get-uniqueID-input-form.html")
+            return render(request, "get-uniqueID-input-form.html")
         else:
             uniqueID = request.POST["uniqueID"]
             vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
             vehicleInfo = vehicleInfo["data"]
             if vehicleInfo[1] == "":
-                return redirect("/rto/vehicle")
+                return redirect("registration:vehicle_noId")
             else:
                 for i in range(len(vehicleInfo)):
                     vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
                 return render(
                     request,
-                    "rto-show-vehicle-info.html",
+                    "show-vehicle-info.html",
                     {"vehicleInfoDict": vehicleInfoDict},
                 )
     else:
@@ -288,24 +288,26 @@ def rto_vehicle(request, id=""):
         vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
         vehicleInfo = vehicleInfo["data"]
         if vehicleInfo[1] == "":
-            return redirect("/rto/vehicle")
+            return redirect("registration:vehicle_noId")
         else:
             for i in range(len(vehicleInfo)):
                 vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
             return render(
                 request,
-                "rto-show-vehicle-info.html",
+                "show-vehicle-info.html",
                 {"vehicleInfoDict": vehicleInfoDict},
             )
 
-
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
 def rto_choose_update(request):
     return render(request, "rto-choose-update.html")
 
-
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
 def rto_update_vehicle_info_1(request):
     if request.method == "GET":
-        return render(request, "rto-get-uniqueID-input-form.html")
+        return render(request, "get-uniqueID-input-form.html")
     else:
         uniqueID = request.POST["uniqueID"]
         vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
@@ -316,12 +318,13 @@ def rto_update_vehicle_info_1(request):
             vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
         if vehicleInfo[1] == "":
             print("Vehicle doesn't exist")
-            return render(request, "rto-get-uniqueID-input-form.html")
+            return render(request, "get-uniqueID-input-form.html")
         else:
             request.session["vehicleInfoDict"] = vehicleInfoDict
-            return redirect("/rto/update-vehicle-info-2")
+            return redirect("registration:rto_update_vehicle_info_2")
 
-
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
 def rto_update_vehicle_info_2(request):
     vehicleInfoDict = request.session["vehicleInfoDict"]
     if request.method == "GET":
@@ -350,12 +353,13 @@ def rto_update_vehicle_info_2(request):
         )
         del request.session["vehicleInfoDict"]
         print("Updated Vehicle Info")
-        return redirect("/rto")
+        return redirect("registration:rto_dashboard")
 
-
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
 def rto_update_owner_info_1(request):
     if request.method == "GET":
-        return render(request, "rto-get-aadhar-input-form.html")
+        return render(request, "get-aadhar-input-form.html")
     else:
         aadhar = request.POST["aadhar"]
         ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)
@@ -376,12 +380,13 @@ def rto_update_owner_info_1(request):
             ownerInfoDict[ownerInfoVars[i]] = ownerInfo[i]
         if ownerInfo[0] == "":
             print("User doesn't exist")
-            return render(request, "rto-get-aadhar-input-form.html")
+            return render(request, "get-aadhar-input-form.html")
         else:
             request.session["ownerInfoDict"] = ownerInfoDict
-            return redirect("/rto/update-owner-info-2")
+            return redirect("registration:rto_update_owner_info_2")
 
-
+@login_required(login_url="registration:rto_login")
+@user_passes_test(is_rto, login_url="registration:rto_login")
 def rto_update_owner_info_2(request):
     ownerInfoDict = request.session["ownerInfoDict"]
     if request.method == "GET":
@@ -417,34 +422,43 @@ def rto_update_owner_info_2(request):
         )
         del request.session["ownerInfoDict"]
         print("Updated Owner Info")
-        return redirect("/rto")
+        return redirect("registration:rto_dashboard")
+
 
 def rtologin(request):
-    form = forms.LoginForm()
-    if request.method == 'POST':
-        form = forms.LoginForm(request.POST)
-        if form.is_valid():
-            pass
-    return render(request, 'authentication/login.html', context={'form': form})
-
-def rtologin(request):
-        form = forms.LoginForm()
+        form = LoginForm()
         message = ''
         if request.method == 'POST':
-            form = forms.LoginForm(request.POST)
+            form =LoginForm(request.POST)
             if form.is_valid():
                 user = authenticate(
+                    request,
                     username=form.cleaned_data['username'],
                     password=form.cleaned_data['password'],
                 )
                 if user is not None:
-                    if user.is_staff==True:
-                        return redirect("/rto")
+                    if is_rto(user):
+                        auth_login(request, user)
+                        return redirect("registration:rto_dashboard")
                     else:
-                        message = 'User Access Denied!'
+                        message = "User Access Denied!"
+                else:
+                    message = "Username or Password is incorrect!"
+                    return render(
+                        request,
+                        "rto_login.html",
+                        context={"form": form, "message": message},
+                    )
+            else:
+                return redirect("registration:rto_login")
         return render(
-            request, 'login-rto.html', context={'form': form, 'message': message})
+            request, 'rto-login.html', context={'form': form, 'message': message})
 
 
 def customerlogin(request):
-    return render(request, "login-customer.html")
+    return render(request, "customer-login.html")
+
+@login_required(login_url="main:login")
+def logoutU(request):
+    logout(request)
+    return redirect("registration:index")

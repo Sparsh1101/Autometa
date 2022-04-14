@@ -2,6 +2,7 @@
 <html lang="en-US">
     <head>
         {% load static %}
+        {% load crispy_forms_tags %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Car Ledger</title>
@@ -34,39 +35,35 @@
                 <div class="collapse navbar-collapse justify-content-between"
                      id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" aria-current="page" href="/rto">Home</a>
-                    </div>
-                    <div class="navbar-nav">
-                        <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+                        <a class="nav-link" aria-current="page" href="/">Home</a>
                     </div>
                 </div>
+            </div>
+        </nav>
+        <div id="message">
+            {% if message %}<div class="mb-3 alert alert-danger" role="alert">{{ message }}</div>{% endif %}
+        </div>
+        <div class="d-flex align-items-center justify-content-center"
+             style="margin-top: 150px;">
+            <div class="card" style="width: 30rem;">
+                <form method="post">
+                    {% csrf_token %}
+                    <h2 class="text-center" style="margin:0 0 22px 0;">RTO LOGIN</h2>
+                    <div style="margin-bottom:14px;" class="row">
+                        <label>Username</label>
+                        {{ form.username }}
+                    </div>
+                    <div style="margin-bottom:14px;" class="row">
+                        <label>Password</label>
+                        {{ form.password }}
+                    </div>
+                    <div class="mt-4 d-flex">
+                        <div style="padding-right:6px;">
+                            <input type="submit" value="Login" class="btn btn-primary btnmedium">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </nav>
-    <div>
-        <form action="" method="POST">
-            {{ form.media }}
-            {% csrf_token %}
-            <div class="d-flex justify-content-evenly">
-                <div class="col-md-5">
-                    <h2 class="mb-4">Vehicle Information</h2>
-                    <div class="col-md-12">
-                        <label for="uniqueID">Unique ID</label>
-                        <input id="uniqueID" class="form-control" name="uniqueID" type="text">
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <h2 class="mb-4">User Information</h2>
-                    <div class="col-md-12">
-                        <label for="aadhar">Aadhar Number</label>
-                        <input id="aadhar" class="form-control" name="aadhar" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex justify-content-evenly mt-5">
-                <input type="submit" class="btn btn-primary btnmedium" value="Submit">
-            </div>
-        </form>
-    </div>
-</body>
+    </body>
 </html>

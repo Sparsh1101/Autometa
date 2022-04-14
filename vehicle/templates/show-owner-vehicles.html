@@ -35,29 +35,45 @@
                 </div>
             </div>
         </nav>
-        <div class="row" style="margin-top: 250px;">
-            <div class="col-sm-6" align="center" style="margin: auto; width: 40rem;">
-                <div class="card" style="margin: auto">
-                    <div class="card-body">
-                        <h5 class="card-title">Update Vehicle Info</h5>
-                        <p class="card-text">
-                            By entering Unique ID
-                        </p>
-                        <a href="/rto/update-vehicle-info-1" class="btn btn-primary">Next</a>
+        {% if currLength > 0 %}
+            <h2 class="mt-4">
+                <center>Currently Owned Vehicles</center>
+            </h2>
+            <div class="d-flex align-items-center container mt-4 justify-content-evenly">
+                {% for uniqueID in currentlyOwnedVehicles %}
+                    <div class="col-sm-3" align="center">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Unique ID</h5>
+                                <p class="card-text">
+                                    {{ uniqueID }}
+                                </p>
+                                <a href="{% url 'rto_vehicle' uniqueID %}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
-            <div class="col-sm-6" align="center" style="margin: auto; width: 40rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Update Owner Info</h5>
-                        <p class="card-text">
-                            By entering Aadhar Number
-                        </p>
-                        <a href="/rto/update-owner-info-1" class="btn btn-primary">Next</a>
+        {% endif %}
+        {% if prevLength > 0 %}
+            <h2 class="mt-4">
+                <center>Previously Owned Vehicles</center>
+            </h2>
+            <div class="d-flex align-items-center container mt-4 justify-content-evenly">
+                {% for uniqueID in previouslyOwnedVehicles %}
+                    <div class="col-sm-3" align="center">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Unique ID</h5>
+                                <p class="card-text">
+                                    {{ uniqueID }}
+                                </p>
+                                <a href="{% url 'rto_vehicle' uniqueID %}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
-        </div>
+        {% endif %}
     </body>
 </html>

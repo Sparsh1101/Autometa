@@ -41,32 +41,21 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </nav>
-    <div>
-        <form action="" method="POST">
-            {{ form.media }}
-            {% csrf_token %}
-            <div class="d-flex justify-content-evenly">
-                <div class="col-md-5">
-                    <h2 class="mb-4">Vehicle Information</h2>
-                    <div class="col-md-12">
-                        <label for="uniqueID">Unique ID</label>
-                        <input id="uniqueID" class="form-control" name="uniqueID" type="text">
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <h2 class="mb-4">User Information</h2>
-                    <div class="col-md-12">
-                        <label for="aadhar">Aadhar Number</label>
+        </nav>
+        <div class="container reg-log">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <h2 class="mb-4">User Information</h2>
+                <div class="col-md-12">
+                    <div class="row">
+                        <label for="aadhar">Aadhar</label>
                         <input id="aadhar" class="form-control" name="aadhar" type="text">
                     </div>
                 </div>
-            </div>
-            <div class="d-flex justify-content-evenly mt-5">
-                <input type="submit" class="btn btn-primary btnmedium" value="Submit">
-            </div>
-        </form>
-    </div>
-</body>
+                <div class="d-flex justify-content-evenly">
+                    <input type="submit" class="btn btn-primary btnmedium" value="Submit">
+                </div>
+            </form>
+        </div>
+    </body>
 </html>
