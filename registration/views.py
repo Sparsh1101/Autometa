@@ -63,7 +63,8 @@ def rto_register(request):
     aadhar = request.session["aadhar"]
     uniqueID = request.session["uniqueID"]
     vehicleInfoVars = ["uniqueID", "vehicleNo", "modelName", "vehicleColor"]
-    ownerInfoVars = ["fName", "lName", "aadhar", "dob", "gender", "email", "mobileNo"]
+    ownerInfoVars = ["fName", "lName", "aadhar",
+                     "dob", "gender", "email", "mobileNo"]
 
     if request.method == "GET":
         ownerInfoDict = {}
@@ -81,7 +82,8 @@ def rto_register(request):
             ownerInfoDict[ownerInfoVars[i]] = ownerInfo[i]
 
         if isVehicleBool:
-            vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
+            vehicleInfo = getVehicleInfoFromUniqueID(
+                register_contract, uniqueID)
             vehicleInfo = vehicleInfo["data"]
         else:
             vehicleInfo = [uniqueID, "", "", ""]
@@ -130,7 +132,8 @@ def rto_register(request):
 
         for i in range(len(ownerInfoDict)):
             if ownerInfoVars[i] != "aadhar":
-                newOwnerInfoDict[ownerInfoVars[i]] = request.POST[ownerInfoVars[i]]
+                newOwnerInfoDict[ownerInfoVars[i]
+                                 ] = request.POST[ownerInfoVars[i]]
             else:
                 newOwnerInfoDict[ownerInfoVars[i]] = aadhar
 
@@ -141,6 +144,8 @@ def rto_register(request):
                 ]
             else:
                 newVehicleInfoDict[vehicleInfoVars[i]] = uniqueID
+
+        # Post req validation till gender
 
         storeInfo(
             register_contract,
@@ -248,7 +253,8 @@ def owner_vehicles(request, id):
 @login_required(login_url="registration:login")
 @user_passes_test(is_rto, login_url="registration:login")
 def owner(request, id=""):
-    ownerInfoVars = ["fName", "lName", "aadhar", "dob", "gender", "email", "mobileNo"]
+    ownerInfoVars = ["fName", "lName", "aadhar",
+                     "dob", "gender", "email", "mobileNo"]
     ownerInfoDict = {}
     if id == "":
         if request.method == "GET":
@@ -277,7 +283,8 @@ def owner(request, id=""):
             for i in range(len(ownerInfo)):
                 ownerInfoDict[ownerInfoVars[i]] = ownerInfo[i]
             return render(
-                request, "show-owner-info.html", {"ownerInfoDict": ownerInfoDict}
+                request, "show-owner-info.html", {
+                    "ownerInfoDict": ownerInfoDict}
             )
 
 
@@ -291,7 +298,8 @@ def vehicle(request, id=""):
             return render(request, "get-uniqueID-input-form.html")
         else:
             uniqueID = request.POST["uniqueID"]
-            vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
+            vehicleInfo = getVehicleInfoFromUniqueID(
+                register_contract, uniqueID)
             vehicleInfo = vehicleInfo["data"]
             if vehicleInfo[1] == "":
                 return redirect("registration:vehicle_noId")
@@ -334,7 +342,8 @@ def rto_update_vehicle_info_1(request):
         uniqueID = request.POST["uniqueID"]
         vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
         vehicleInfo = vehicleInfo["data"]
-        vehicleInfoVars = ["uniqueID", "vehicleNo", "modelName", "vehicleColor"]
+        vehicleInfoVars = ["uniqueID", "vehicleNo",
+                           "modelName", "vehicleColor"]
         vehicleInfoDict = {}
         for i in range(len(vehicleInfo)):
             vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
@@ -358,7 +367,8 @@ def rto_update_vehicle_info_2(request):
         )
     else:
         uniqueID = vehicleInfoDict["uniqueID"]
-        vehicleInfoVars = ["uniqueID", "vehicleNo", "modelName", "vehicleColor"]
+        vehicleInfoVars = ["uniqueID", "vehicleNo",
+                           "modelName", "vehicleColor"]
         newVehicleInfoDict = {}
         for i in range(len(vehicleInfoDict)):
             if vehicleInfoVars[i] != "uniqueID":
@@ -416,7 +426,8 @@ def rto_update_owner_info_2(request):
     ownerInfoDict = request.session["ownerInfoDict"]
     if request.method == "GET":
         return render(
-            request, "rto-update-owner-info-form.html", {"ownerInfoDict": ownerInfoDict}
+            request, "rto-update-owner-info-form.html", {
+                "ownerInfoDict": ownerInfoDict}
         )
     else:
         aadhar = ownerInfoDict["aadhar"]
@@ -432,7 +443,8 @@ def rto_update_owner_info_2(request):
         newOwnerInfoDict = {}
         for i in range(len(ownerInfoDict)):
             if ownerInfoVars[i] != "aadhar":
-                newOwnerInfoDict[ownerInfoVars[i]] = request.POST[ownerInfoVars[i]]
+                newOwnerInfoDict[ownerInfoVars[i]
+                                 ] = request.POST[ownerInfoVars[i]]
             else:
                 newOwnerInfoDict[ownerInfoVars[i]] = aadhar
         updateOwnerInfo(
