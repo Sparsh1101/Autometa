@@ -40,28 +40,48 @@
                 </div>
             </div>
         </nav>
-        <div class="row d-flex align-items-center con">
-            <div class="col-sm-6 offset-sm-3" align="center">
+        <div class="d-flex align-items-center con justify-content-evenly">
+            <div class="col-sm-5" align="center">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Vehicle Info</h5>
                         <p class="card-text">
                             <b>Unique ID: </b>{{ vehicleInfoDict.uniqueID }}
-                    </p>
-                    <p class="card-text">
-                        <b>Vehicle Number: </b>{{ vehicleInfoDict.vehicleNo }}
-                </p>
-                <p class="card-text">
-                    <b>Model Name: </b>{{ vehicleInfoDict.modelName }}
-            </p>
-            <p class="card-text">
-                <b>Vehicle Color: </b>{{ vehicleInfoDict.vehicleColor }}
-        </p>
-        <a href="{% url 'registration:vehicle_owners' vehicleInfoDict.uniqueID %}"
-           class="btn btn-primary">Show Owners</a>
-    </div>
-</div>
-</div>
-</div>
-</body>
+                        </p>
+                        <p class="card-text">
+                            <b>Vehicle Number: </b>{{ vehicleInfoDict.vehicleNo }}
+                        </p>
+                        <p class="card-text">
+                            <b>Model Name: </b>{{ vehicleInfoDict.modelName }}
+                        </p>
+                        <p class="card-text">
+                            <b>Vehicle Color: </b>{{ vehicleInfoDict.vehicleColor }}
+                        </p>
+                        <a href="{% url 'registration:vehicle_owners' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Show Owners</a>
+                    </div>
+                </div>
+            </div>
+            {% if firNo != "" %}
+                <div class="col-sm-5" align="center">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Fir Info</h5>
+                            <p class="card-text">
+                                <b>FIR Number: </b>{{ vehicleInfoDict.firNo }}
+                            </p>
+                            <p class="card-text">
+                                <b>District: </b>{{ vehicleInfoDict.district }}
+                            </p>
+                            <p class="card-text">
+                                <b>Year: </b>{{ vehicleInfoDict.year }}
+                            </p>
+                            <p class="card-text">
+                                <b>Reason: </b>{{ vehicleInfoDict.reason }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </body>
 </html>
