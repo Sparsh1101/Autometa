@@ -26,6 +26,14 @@ contract VehicleContract {
         string[] owners;
     }
 
+    // struct FIRInfo {
+    //     bool exists;
+    //     string uniqueID;
+    //     string aadhar;
+    //     string FIRNo;
+        
+    // }
+
     mapping(string => OwnerInfo) aadharToOwnerInfo;
     mapping(string => VehicleInfo) uniqueIDToVehicleInfo;
     // mapping(string => VehicleInfo) uniqueIDToVehicleInfo;
