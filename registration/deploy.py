@@ -173,10 +173,10 @@ def getOwnersFromUniqueID(register_contract, uniqueID):
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
-def getOwnerInfofromUserId(register_contract, userID):
+def getAadharfromUserId(register_contract, userID):
     global nonce
     try:
-        data = register_contract.functions.getOwnerInfofromUserId(userID).call()
+        data = register_contract.functions.getAadharfromUserId(userID).call()
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}

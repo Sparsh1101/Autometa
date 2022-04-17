@@ -41,7 +41,7 @@ contract VehicleContract {
 
     mapping(string => OwnerInfo) aadharToOwnerInfo;
     mapping(string => VehicleInfo) uniqueIDToVehicleInfo;
-    mapping(string => OwnerInfo) userIDToOwnerInfo;
+    mapping(string => string) userIDToAadhar;
 
 
     function storeInfo(
@@ -60,7 +60,6 @@ contract VehicleContract {
             if (aadharToOwnerInfo[_aadhar].exists1 == true) {
                 uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
                 aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
-                aadharToOwnerInfo[_userID].vehicles.push(_uniqueID);
             } else {
                 string[] memory temp;
                 aadharToOwnerInfo[_aadhar] = OwnerInfo(
@@ -73,18 +72,8 @@ contract VehicleContract {
                     temp,
                     _ownerInfo2
                 );
-                aadharToOwnerInfo[_userID] = OwnerInfo(
-                    true,
-                    _fName,
-                    _lName,
-                    _aadhar,
-                    _dob,
-                    _userID,
-                    temp,
-                    _ownerInfo2
-                );
+                userIDToAadhar[_userID] = _aadhar;
                 aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
-                aadharToOwnerInfo[_userID].vehicles.push(_uniqueID);
                 uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
             }
         } else {
@@ -101,7 +90,6 @@ contract VehicleContract {
                 );
                 uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
                 aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
-                aadharToOwnerInfo[_userID].vehicles.push(_uniqueID);
             } else {
                 string[] memory temp1;
                 string[] memory temp2;
@@ -115,18 +103,8 @@ contract VehicleContract {
                     temp1,
                     _ownerInfo2
                 );
-                aadharToOwnerInfo[_userID] = OwnerInfo(
-                    true,
-                    _fName,
-                    _lName,
-                    _aadhar,
-                    _dob,
-                    _userID,
-                    temp1,
-                    _ownerInfo2
-                );
+                userIDToAadhar[_userID] = _aadhar;
                 aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
-                aadharToOwnerInfo[_userID].vehicles.push(_uniqueID);
                 uniqueIDToVehicleInfo[_uniqueID] = VehicleInfo(
                     true,
                     _uniqueID,
@@ -232,12 +210,12 @@ contract VehicleContract {
         return uniqueIDToVehicleInfo[_uniqueID].exists2;
     }
 
-    function getOwnerInfofromUserId(string memory _userID)
+    function getAadharfromUserId(string memory _userID)
         public
         view
-        returns (OwnerInfo memory)
+        returns (string memory)
     {
-        return (userIDToOwnerInfo[_userID]);
+        return (userIDToAadhar[_userID]);
     }
 
 }
