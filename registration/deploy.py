@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
+install_solc('0.6.0')
 with open("./registration/Register.sol", "r") as file:
     register_file = file.read()
 
@@ -87,11 +87,11 @@ else:
     print("Contract Deployed!")
 
 
-def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, gender, ownerInfo2):
+def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, userID, ownerInfo2):
     global nonce
     try:
         store_transaction = register_contract.functions.storeInfo(
-            uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, gender, ownerInfo2
+            uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, userID, ownerInfo2
         ).buildTransaction(
             {
                 "chainId": chain_id,
@@ -169,6 +169,14 @@ def getOwnersFromUniqueID(register_contract, uniqueID):
     global nonce
     try:
         data = register_contract.functions.getOwnersFromUniqueID(uniqueID).call()
+        return {"success": True, "data": data}
+    except exceptions.SolidityError as err:
+        return {"success": False, "data": err}
+
+def getOwnerInfofromUserId(register_contract, userID):
+    global nonce
+    try:
+        data = register_contract.functions.getOwnerInfofromUserId(userID).call()
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}

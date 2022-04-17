@@ -6,12 +6,12 @@ pragma solidity ^0.6.0;
 contract VehicleContract {
 
     struct OwnerInfo {
-        bool exists;
+        bool exists1;
         string fName;
         string lName;
         string aadhar;
         string dob;
-        string gender;
+        string userID;
         string[] vehicles;
         OwnerInfo2 ownerInfo2;
     }
@@ -19,11 +19,11 @@ contract VehicleContract {
     struct OwnerInfo2 {
         string mobileNo;
         string email;
-        string userId;
+        string gender;
     }
 
     struct VehicleInfo {
-        bool exists;
+        bool exists2;
         string uniqueID;
         string vehicleNo;
         string modelName;
@@ -41,6 +41,8 @@ contract VehicleContract {
 
     mapping(string => OwnerInfo) aadharToOwnerInfo;
     mapping(string => VehicleInfo) uniqueIDToVehicleInfo;
+    mapping(string => OwnerInfo) userIDToOwnerInfo;
+
 
     function storeInfo(
         string memory _uniqueID,
@@ -51,13 +53,14 @@ contract VehicleContract {
         string memory _lName,
         string memory _aadhar,
         string memory _dob,
-        string memory _gender,
+        string memory _userID,
         OwnerInfo2 memory _ownerInfo2
     ) public {
-        if (uniqueIDToVehicleInfo[_uniqueID].exists == true) {
-            if (aadharToOwnerInfo[_aadhar].exists == true) {
+        if (uniqueIDToVehicleInfo[_uniqueID].exists2 == true) {
+            if (aadharToOwnerInfo[_aadhar].exists1 == true) {
                 uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
                 aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
+                aadharToOwnerInfo[_userID].vehicles.push(_uniqueID);
             } else {
                 string[] memory temp;
                 aadharToOwnerInfo[_aadhar] = OwnerInfo(
@@ -66,15 +69,26 @@ contract VehicleContract {
                     _lName,
                     _aadhar,
                     _dob,
-                    _gender,
+                    _userID,
+                    temp,
+                    _ownerInfo2
+                );
+                aadharToOwnerInfo[_userID] = OwnerInfo(
+                    true,
+                    _fName,
+                    _lName,
+                    _aadhar,
+                    _dob,
+                    _userID,
                     temp,
                     _ownerInfo2
                 );
                 aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
+                aadharToOwnerInfo[_userID].vehicles.push(_uniqueID);
                 uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
             }
         } else {
-            if (aadharToOwnerInfo[_aadhar].exists == true) {
+            if (aadharToOwnerInfo[_aadhar].exists1 == true) {
                 string[] memory temp;
                 uniqueIDToVehicleInfo[_uniqueID] = VehicleInfo(
                     true,
@@ -87,6 +101,7 @@ contract VehicleContract {
                 );
                 uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
                 aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
+                aadharToOwnerInfo[_userID].vehicles.push(_uniqueID);
             } else {
                 string[] memory temp1;
                 string[] memory temp2;
@@ -96,11 +111,22 @@ contract VehicleContract {
                     _lName,
                     _aadhar,
                     _dob,
-                    _gender,
+                    _userID,
+                    temp1,
+                    _ownerInfo2
+                );
+                aadharToOwnerInfo[_userID] = OwnerInfo(
+                    true,
+                    _fName,
+                    _lName,
+                    _aadhar,
+                    _dob,
+                    _userID,
                     temp1,
                     _ownerInfo2
                 );
                 aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
+                aadharToOwnerInfo[_userID].vehicles.push(_uniqueID);
                 uniqueIDToVehicleInfo[_uniqueID] = VehicleInfo(
                     true,
                     _uniqueID,
@@ -172,13 +198,13 @@ contract VehicleContract {
         string memory _mobileNo
     ) public {
         require(
-            aadharToOwnerInfo[_aadhar].exists == true,
+            aadharToOwnerInfo[_aadhar].exists1 == true,
             "Owner doesn't exist!"
         );
         aadharToOwnerInfo[_aadhar].fName = _fName;
         aadharToOwnerInfo[_aadhar].lName = _lName;
         aadharToOwnerInfo[_aadhar].dob = _dob;
-        aadharToOwnerInfo[_aadhar].gender = _gender;
+        aadharToOwnerInfo[_aadhar].ownerInfo2.gender = _gender;
         aadharToOwnerInfo[_aadhar].ownerInfo2.email = _email;
         aadharToOwnerInfo[_aadhar].ownerInfo2.mobileNo = _mobileNo;
     }
@@ -190,7 +216,7 @@ contract VehicleContract {
         string memory _vehicleColor
     ) public {
         require(
-            uniqueIDToVehicleInfo[_uniqueID].exists == true,
+            uniqueIDToVehicleInfo[_uniqueID].exists2 == true,
             "Vehicle doesn't exist!"
         );
         uniqueIDToVehicleInfo[_uniqueID].vehicleNo = _vehicleNo;
@@ -199,10 +225,19 @@ contract VehicleContract {
     }
 
     function isOwner(string memory _aadhar) public view returns (bool) {
-        return aadharToOwnerInfo[_aadhar].exists;
+        return aadharToOwnerInfo[_aadhar].exists1;
     }
 
     function isVehicle(string memory _uniqueID) public view returns (bool) {
-        return uniqueIDToVehicleInfo[_uniqueID].exists;
+        return uniqueIDToVehicleInfo[_uniqueID].exists2;
     }
+
+    function getOwnerInfofromUserId(string memory _userID)
+        public
+        view
+        returns (OwnerInfo memory)
+    {
+        return (userIDToOwnerInfo[_userID]);
+    }
+
 }
