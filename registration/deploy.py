@@ -75,7 +75,7 @@ def deployContract(Register):
     return txnReceipt
 
 
-contract_address = os.getenv("CONTRACT_ADDRESS")
+contract_address = os.getenv('CONTRACT_ADDRESS')
 
 if contract_address == "":
     txnReceipt = deployContract(Register)
@@ -137,6 +137,14 @@ def storeFirInfo(register_contract, uniqueID, firNo, district, year, reason):
         print("FIR Data Entered Successfully!")
         return {"success": True, "data": "FIR Data Entered Successfully!"}
 
+    except exceptions.SolidityError as err:
+        return {"success": False, "data": err}
+
+def getFirInfoFromFirNo(register_contract, firNo):
+    global nonce
+    try:
+        data = register_contract.functions.getFirInfoFromFirNo(firNo).call()
+        return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 

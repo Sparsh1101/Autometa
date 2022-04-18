@@ -368,17 +368,13 @@ def vehicle(request, id=""):
             else:
                 for i in range(len(vehicleInfo) - 2):
                     vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
-                (firNo, district, year, reason) = vehicleInfo[-1]
+                FIRs = vehicleInfo[-1]
                 return render(
                     request,
                     "show-vehicle-info.html",
                     {
                         "vehicleInfoDict": vehicleInfoDict,
-                        "firNo": firNo,
-                        "district": district,
-                        "year": year,
-                        "reason": reason,
-                        "isCustomer": isCustomer,
+                        "FIRs": FIRs,
                     },
                 )
     else:
@@ -390,17 +386,13 @@ def vehicle(request, id=""):
         else:
             for i in range(len(vehicleInfo) - 2):
                 vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
-            (firNo, district, year, reason) = vehicleInfo[-1]
+            FIRs = vehicleInfo[-1]
             return render(
                 request,
                 "show-vehicle-info.html",
                 {
                     "vehicleInfoDict": vehicleInfoDict,
-                    "firNo": firNo,
-                    "district": district,
-                    "year": year,
-                    "reason": reason,
-                    "isCustomer": isCustomer,
+                    "FIRs": FIRs,
                 },
             )
 
