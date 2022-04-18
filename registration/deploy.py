@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 install_solc('0.6.0')
-
 with open("./registration/Register.sol", "r") as file:
     register_file = file.read()
 
@@ -19,7 +18,7 @@ compiled_sol = compile_standard(
             "outputSelection": {
                 "*": {
                     "*": ["abi", "metadata", "evm.bytecode", "evm.bytecode.sourceMap"]
-                }
+                },
             }
         },
     },
@@ -88,11 +87,11 @@ else:
     print("Contract Deployed!")
 
 
-def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, gender, email, mobileNo):
+def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, userID, ownerInfo2):
     global nonce
     try:
         store_transaction = register_contract.functions.storeInfo(
-            uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, gender, email, mobileNo
+            uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, userID, ownerInfo2
         ).buildTransaction(
             {
                 "chainId": chain_id,
@@ -110,6 +109,33 @@ def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, f
         tx_store_receipt = w3.eth.wait_for_transaction_receipt(send_store_txn)
         print("Data Entered Successfully!")
         return {"success": True, "data": "Data Entered Successfully!"}
+
+    except exceptions.SolidityError as err:
+        return {"success": False, "data": err}
+
+
+def storeFirInfo(register_contract, uniqueID, firNo, district, year, reason):
+    global nonce
+    try:
+        store_transaction = register_contract.functions.storeFirInfo(
+            uniqueID, firNo, district, year, reason
+        ).buildTransaction(
+            {
+                "chainId": chain_id,
+                "gasPrice": w3.eth.gas_price,
+                "from": my_address,
+                "nonce": nonce,
+            }
+        )
+
+        nonce += 1
+        signed_store_txn = w3.eth.account.sign_transaction(
+            store_transaction, private_key=private_key
+        )
+        send_store_txn = w3.eth.send_raw_transaction(signed_store_txn.rawTransaction)
+        tx_store_receipt = w3.eth.wait_for_transaction_receipt(send_store_txn)
+        print("FIR Data Entered Successfully!")
+        return {"success": True, "data": "FIR Data Entered Successfully!"}
 
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
@@ -143,6 +169,14 @@ def getOwnersFromUniqueID(register_contract, uniqueID):
     global nonce
     try:
         data = register_contract.functions.getOwnersFromUniqueID(uniqueID).call()
+        return {"success": True, "data": data}
+    except exceptions.SolidityError as err:
+        return {"success": False, "data": err}
+
+def getAadharfromUserId(register_contract, userID):
+    global nonce
+    try:
+        data = register_contract.functions.getAadharfromUserId(userID).call()
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
