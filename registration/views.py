@@ -225,6 +225,10 @@ def rto_register(request):
 def rto_dashboard(request):
     return render(request, "rto-dashboard.html")
 
+@login_required(login_url="registration:login")
+@user_passes_test(is_police, login_url="registration:login")
+def police_dashboard(request):
+    return render(request, "police-dashboard.html")
 
 @login_required(login_url="registration:login")
 @user_passes_test(is_customer, login_url="registration:login")
@@ -556,7 +560,7 @@ def login(request, id):
                 if is_rto(user) and id == "rto":
                     return redirect("registration:rto_dashboard")
                 elif is_police(user) and id == "police":
-                    return HttpResponse("<h1>Police Dashboard</h1>")
+                    return redirect("registration:police_dashboard")
                 elif is_customer(user) and id == "customer":
                     return redirect("registration:customer_dashboard")
                 else:

@@ -8,6 +8,7 @@ urlpatterns = [
 
     path("rto", views.rto_dashboard, name="rto_dashboard"),
     path("customer", views.customer_dashboard, name="customer_dashboard"),
+    path("police", views.police_dashboard, name="police_dashboard"),
 
     path("rto/check-register", views.rto_check_register, name="rto_check_register"),
     path("rto/register", views.rto_register, name="rto_register"),
