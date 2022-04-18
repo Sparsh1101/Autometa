@@ -1,3 +1,4 @@
+from dis import dis
 from operator import mod
 from re import L
 from django.http.response import HttpResponse
@@ -399,6 +400,88 @@ def vehicle(request, id=""):
                     "FIRs": FIRs,
                 },
             )
+
+@login_required(login_url="registration:login")
+def police_vehicle(request, id=""):
+    vehicleInfoVars = ["exists2", "uniqueID", "vehicleNo", "modelName", "vehicleColor"]
+    vehicleInfoDict = {}
+    isCustomer = is_customer(request.user)
+    if id == "":
+        if request.method == "GET":
+            return render(request, "get-uniqueID-input-form.html")
+        else:
+            uniqueID = request.POST["uniqueID"]
+            vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
+            vehicleInfo = vehicleInfo["data"]
+            if vehicleInfo[1] == "":
+                return redirect("registration:vehicle_noId")
+            else:
+                for i in range(len(vehicleInfo) - 2):
+                    vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
+                FIRs = vehicleInfo[-1]
+                return render(
+                    request,
+                    "show-police-vehicle-info.html",
+                    {
+                        "vehicleInfoDict": vehicleInfoDict,
+                        "FIRs": FIRs,
+                    },
+                )
+    else:
+        uniqueID = id
+        vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
+        vehicleInfo = vehicleInfo["data"]
+        if vehicleInfo[1] == "":
+            return redirect("registration:vehicle_noId")
+        else:
+            for i in range(len(vehicleInfo) - 2):
+                vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
+            FIRs = vehicleInfo[-1]
+            return render(
+                request,
+                "show-police-vehicle-info.html",
+                {
+                    "vehicleInfoDict": vehicleInfoDict,
+                    "FIRs": FIRs,
+                },
+            )
+@login_required(login_url="registration:login")
+def add_fir(request, id):
+    if request.method == "GET":
+        return render(
+            request,
+            "add-fir-form.html",
+        )
+    else:
+        firNo=request.POST["firNo"]
+        district=request.POST["district"]
+        year=request.POST["year"]
+        reason=request.POST["reason"]
+        storeFirInfo(
+            register_contract,
+            str(id),
+            firNo,
+            district,
+            year,
+            reason
+        )
+
+        return redirect("registration:police_dashboard")
+
+@login_required(login_url="registration:login")
+def all_firs(request,id):
+    firs=getVehicleInfoFromUniqueID(register_contract,str(id))["data"][-1]
+    return render(request, "show-all-firs.html",{
+        "firs": firs
+    })
+
+
+@login_required(login_url="registration:login")
+def fir_details(request,id):
+    fir=getFirInfoFromFirNo(register_contract,str(id))["data"]
+    return render(request, "show-fir-details.html",{
+        "fir": fir
+    })
 
 
 @login_required(login_url="registration:login")

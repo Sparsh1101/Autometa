@@ -32,7 +32,11 @@
                 <div class="collapse navbar-collapse justify-content-between"
                      id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page" href="/rto">Home</a>
+                        {% if isCustomer %}
+                            <a class="nav-link active" aria-current="page" href="/customer">Home</a>
+                        {% else %}
+                            <a class="nav-link active" aria-current="page" href="/rto">Home</a>
+                        {% endif %}
                     </div>
                     <div class="navbar-nav">
                         <a class="nav-link" aria-current="page" href="/logout">Logout</a>
@@ -40,31 +44,26 @@
                 </div>
             </div>
         </nav>
-        <div class="con d-flex flex-column justify-content-evenly">
-            <div class="d-flex justify-content-evenly">
-                <div class="col-sm-4" align="center">
+        <div class="d-flex align-items-center con justify-content-evenly">
+                <div class="col-sm-5" align="center">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">View Vehicle Info</h5>
+                            <h5 class="card-title">Fir Info</h5>
                             <p class="card-text">
-                                ...
+                                <b>FIR Number: </b>{{ fir.0 }}
                             </p>
-                            <a href="/vehicle" class="btn btn-primary">Next</a>
+                            <p class="card-text">
+                                <b>District: </b>{{ fir.1 }}
+                            </p>
+                            <p class="card-text">
+                                <b>Year: </b>{{ fir.2 }}
+                            </p>
+                            <p class="card-text">
+                                <b>Reason: </b>{{ fir.3 }}
+                            </p>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4" align="center">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Add FIR</h5>
-                            <p class="card-text">
-                                ...
-                            </p>
-                            <a href="/police-vehicle" class="btn btn-primary">Next</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </body>
 </html>

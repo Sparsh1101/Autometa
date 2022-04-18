@@ -63,10 +63,8 @@
                         </p>
                         {% if isCustomer %}
                         {% else %}
-                            <a href="{% url 'registration:vehicle_owners' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Show Owners</a>
+                            <a href="{% url 'registration:add_fir' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Add FIR</a>
                         {% endif %}
-                        <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Show FIRs</a>
-
                     </div>
                 </div>
             </div>

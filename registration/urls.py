@@ -24,6 +24,11 @@ urlpatterns = [
     path("owner/vehicles/<str:id>", views.owner_vehicles, name="owner_vehicles"),
     path("vehicle", views.vehicle, name="vehicle_noId"),
     path("vehicle/<str:id>", views.vehicle, name="vehicle"),
+    path("police-vehicle", views.police_vehicle, name="police_vehicle"),
+    path("police-vehicle/<str:id>", views.police_vehicle, name="police_vehicle"),
+    path("addfir/<str:id>", views.add_fir, name="add_fir"),
+    path("all-firs/<str:id>", views.all_firs, name="all_firs"),
+    path("fir-details/<str:id>", views.fir_details, name="fir_details"),
     path("vehicle/owners/<str:id>", views.vehicle_owners, name="vehicle_owners"),
 
     path("customer-profile", views.customer_profile, name="customer_profile"),
