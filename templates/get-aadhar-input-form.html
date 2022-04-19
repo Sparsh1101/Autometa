@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
-        {% load static %} {% load crispy_forms_tags %}
+        {% load static %}
+        {% load crispy_forms_tags %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Car Ledger</title>
@@ -47,9 +48,7 @@
                 {% csrf_token %}
                 <h2 class="mb-4">User Information</h2>
                 <div class="col-md-12">
-                    <div class="row">
-                        {{ form.aadhar|as_crispy_field }}
-                    </div>
+                    <div class="row">{{ form.aadhar|as_crispy_field }}</div>
                 </div>
                 <div class="d-flex justify-content-evenly">
                     <input type="submit" class="btn btn-primary btnmedium" value="Submit">

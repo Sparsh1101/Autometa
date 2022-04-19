@@ -41,23 +41,24 @@
                 </div>
             </div>
         </nav>
-            <h2 class="mt-4">
-                <center>FIRs</center>
-            </h2>
-            <div class="d-flex align-items-center container mt-4 justify-content-evenly">
-                {% for firNo in firs %}
-                    <div class="col-sm-3" align="center">
-                        <div class="card shadow rounded-3">
-                            <div class="card-body">
-                                <h5 class="card-title">FIR NO</h5>
-                                <p class="card-text">
-                                    {{ firNo }}
-                                </p>
-                                <a href="{% url 'registration:fir_details' firNo %}" class="btn btn-primary">View Details</a>
-                            </div>
+        <h2 class="mt-4">
+            <center>FIRs</center>
+        </h2>
+        <div class="d-flex align-items-center container mt-4 justify-content-evenly">
+            {% for firNo in firs %}
+                <div class="col-sm-3" align="center">
+                    <div class="card shadow rounded-3">
+                        <div class="card-body">
+                            <h5 class="card-title">FIR NO</h5>
+                            <p class="card-text">
+                                {{ firNo }}
+                            </p>
+                            <a href="{% url 'registration:fir_details' firNo %}"
+                               class="btn btn-primary">View Details</a>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
+        </div>
     </body>
 </html>

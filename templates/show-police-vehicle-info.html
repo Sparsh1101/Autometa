@@ -47,24 +47,28 @@
                         <h5 class="card-title">Vehicle Info</h5>
                         <p class="card-text">
                             <b>Unique ID: </b>{{ vehicleInfoDict.uniqueID }}
-                        </p>
-                        <p class="card-text">
-                            <b>Vehicle Number: </b>{{ vehicleInfoDict.vehicleNo }}
-                        </p>
-                        <p class="card-text">
-                            <b>Model Name: </b>{{ vehicleInfoDict.modelName }}
-                        </p>
-                        <p class="card-text">
-                            <b>Vehicle Color: </b>{{ vehicleInfoDict.vehicleColor }}
-                        </p>
-                        {% if isCustomer %}
-                        {% else %}
-                            <a href="{% url 'registration:add_fir' vehicleInfoDict.uniqueID %}" class="btn btn-danger">Add FIR</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            {% comment %} {% if firNo != "" %}
+                    </p>
+                    <p class="card-text">
+                        <b>Vehicle Number: </b>{{ vehicleInfoDict.vehicleNo }}
+                </p>
+                <p class="card-text">
+                    <b>Model Name: </b>{{ vehicleInfoDict.modelName }}
+            </p>
+            <p class="card-text">
+                <b>Vehicle Color: </b>{{ vehicleInfoDict.vehicleColor }}
+        </p>
+        <p class="card-text">
+            <b>Number of Previous Owners: </b>{{ prevOwnersNum }}
+    </p>
+    {% if isCustomer %}
+    {% else %}
+        <a href="{% url 'registration:add_fir' vehicleInfoDict.uniqueID %}"
+           class="btn btn-danger">Add FIR</a>
+    {% endif %}
+</div>
+</div>
+</div>
+{% comment %} {% if firNo != "" %}
                 <div class="col-sm-5" align="center">
                     <div class="card shadow rounded-3">
                         <div class="card-body">
@@ -84,7 +88,7 @@
                         </div>
                     </div>
                 </div>
-            {% endif %} {% endcomment %}
-        </div>
-    </body>
+{% endif %} {% endcomment %}
+</div>
+</body>
 </html>

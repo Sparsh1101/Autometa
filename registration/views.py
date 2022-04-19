@@ -427,6 +427,10 @@ def customer_qr(request):
 
 
 def vehicle_qr(request, id):
+    if request.user.is_authenticated:
+        auth = True
+    else:
+        auth = False
     vehicleInfoVars = ["exists2", "uniqueID", "vehicleNo", "modelName", "vehicleColor"]
     vehicleInfoDict = {}
     uniqueID = id
@@ -435,6 +439,8 @@ def vehicle_qr(request, id):
     for i in range(len(vehicleInfo) - 2):
         vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
     FIRs = vehicleInfo[-1]
+    owners = getOwnersFromUniqueID(register_contract, uniqueID)["data"]
+    prevOwnersNum = len(owners) - 1
     url = request.build_absolute_uri()
     factory = qrcode.image.svg.SvgImage
     img = qrcode.make(url, image_factory=factory, box_size=20)
@@ -448,6 +454,8 @@ def vehicle_qr(request, id):
             "vehicleInfoDict": vehicleInfoDict,
             "FIRs": FIRs,
             "svg": svg,
+            "auth": auth,
+            "prevOwnersNum": prevOwnersNum,
         },
     )
 
@@ -472,6 +480,8 @@ def vehicle(request, id=""):
                 for i in range(len(vehicleInfo) - 2):
                     vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
                 FIRs = vehicleInfo[-1]
+                owners = getOwnersFromUniqueID(register_contract, uniqueID)["data"]
+                prevOwnersNum = len(owners) - 1
                 return render(
                     request,
                     "show-vehicle-info.html",
@@ -480,6 +490,7 @@ def vehicle(request, id=""):
                         "FIRs": FIRs,
                         "isCustomer": isCustomer,
                         "isPolice": isPolice,
+                        "prevOwnersNum": prevOwnersNum,
                     },
                 )
             else:
@@ -494,6 +505,8 @@ def vehicle(request, id=""):
             for i in range(len(vehicleInfo) - 2):
                 vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
             FIRs = vehicleInfo[-1]
+            owners = getOwnersFromUniqueID(register_contract, uniqueID)["data"]
+            prevOwnersNum = len(owners) - 1
             return render(
                 request,
                 "show-vehicle-info.html",
@@ -502,6 +515,7 @@ def vehicle(request, id=""):
                     "FIRs": FIRs,
                     "isCustomer": isCustomer,
                     "isPolice": isPolice,
+                    "prevOwnersNum": prevOwnersNum,
                 },
             )
 
@@ -523,11 +537,14 @@ def police_vehicle(request, id=""):
                 vehicleInfo = vehicleInfo["data"]
                 for i in range(len(vehicleInfo) - 2):
                     vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
+                owners = getOwnersFromUniqueID(register_contract, uniqueID)["data"]
+                prevOwnersNum = len(owners) - 1
                 return render(
                     request,
                     "show-police-vehicle-info.html",
                     {
                         "vehicleInfoDict": vehicleInfoDict,
+                        "prevOwnersNum": prevOwnersNum,
                     },
                 )
             else:
@@ -541,11 +558,14 @@ def police_vehicle(request, id=""):
         else:
             for i in range(len(vehicleInfo) - 2):
                 vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
+            owners = getOwnersFromUniqueID(register_contract, uniqueID)["data"]
+            prevOwnersNum = len(owners) - 1
             return render(
                 request,
                 "show-police-vehicle-info.html",
                 {
                     "vehicleInfoDict": vehicleInfoDict,
+                    "prevOwnersNum": prevOwnersNum,
                 },
             )
 

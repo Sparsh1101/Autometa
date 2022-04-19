@@ -11,8 +11,13 @@ def is_rto(user):
 def is_police(user):
     return user.groups.filter(name="police").exists()
 
+
 def is_authorised_user(user):
-    return user.groups.filter(name="police").exists() or user.groups.filter(name="rto").exists()
+    return (
+        user.groups.filter(name="police").exists()
+        or user.groups.filter(name="rto").exists()
+    )
+
 
 def is_customer(user):
     return user.groups.filter(name="customer").exists()
@@ -27,9 +32,11 @@ def valid_text(name):
     name = str(name)
     return re.match("^[a-zA-z ][a-zA-Z' ]*$", name)
 
+
 def valid_alphanumeric(name):
     name = str(name)
     return re.match("^[a-zA-z0-9 ][a-zA-Z0-9' ]*$", name)
+
 
 def valid_year(year):
     year = str(year)
@@ -40,13 +47,17 @@ def valid_aadhar(aadhar):
     aadhar = str(aadhar)
     return re.match("^\d{12}$", aadhar)
 
+
 def valid_uniqueID(uniqueID):
     uniqueID = str(uniqueID)
     return re.match("^[a-zA-z0-9]{17}$", uniqueID)
 
+
 def valid_vehicleNo(vehicleNo):
     vehicleNo = str(vehicleNo)
-    return re.match("^[A-Z|a-z]{2}\s?[0-9]{1,2}\s?[A-Z|a-z]{0,3}\s?[0-9]{4}$", vehicleNo)
+    return re.match(
+        "^[A-Z|a-z]{2}\s?[0-9]{1,2}\s?[A-Z|a-z]{0,3}\s?[0-9]{4}$", vehicleNo
+    )
 
 
 def valid_dob(dob):
@@ -78,6 +89,7 @@ def valid_mobileNo(mobileNo):
     mobileNo = str(mobileNo)
     return re.match("^\d{10}$", mobileNo)
 
+
 def valid_adult(dob):
     today = str(date.today())
     dob_year = int(dob[:4])
@@ -96,4 +108,3 @@ def valid_adult(dob):
     ):
         is_valid = True
     return is_valid
-

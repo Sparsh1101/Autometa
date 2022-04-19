@@ -53,26 +53,31 @@
                         <h5 class="card-title">Vehicle Info</h5>
                         <p class="card-text">
                             <b>Unique ID: </b>{{ vehicleInfoDict.uniqueID }}
-                        </p>
-                        <p class="card-text">
-                            <b>Vehicle Number: </b>{{ vehicleInfoDict.vehicleNo }}
-                        </p>
-                        <p class="card-text">
-                            <b>Model Name: </b>{{ vehicleInfoDict.modelName }}
-                        </p>
-                        <p class="card-text">
-                            <b>Vehicle Color: </b>{{ vehicleInfoDict.vehicleColor }}
-                        </p>
-                        {% if isCustomer %}
-                        {% else %}
-                            <a href="{% url 'registration:vehicle_owners' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Show Owners</a>
-                        {% endif %}
-                        {% if FIRs|length > 0 %}
-                            <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}" class="btn btn-danger">Show FIRs</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
+                    </p>
+                    <p class="card-text">
+                        <b>Vehicle Number: </b>{{ vehicleInfoDict.vehicleNo }}
+                </p>
+                <p class="card-text">
+                    <b>Model Name: </b>{{ vehicleInfoDict.modelName }}
+            </p>
+            <p class="card-text">
+                <b>Vehicle Color: </b>{{ vehicleInfoDict.vehicleColor }}
+        </p>
+        <p class="card-text">
+            <b>Number of Previous Owners: </b>{{ prevOwnersNum }}
+    </p>
+    {% if isCustomer %}
+    {% else %}
+        <a href="{% url 'registration:vehicle_owners' vehicleInfoDict.uniqueID %}"
+           class="btn btn-primary">Show Owners</a>
+    {% endif %}
+    {% if FIRs|length > 0 %}
+        <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}"
+           class="btn btn-danger">Show FIRs</a>
+    {% endif %}
+</div>
+</div>
+</div>
+</div>
+</body>
 </html>

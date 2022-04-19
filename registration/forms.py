@@ -4,6 +4,7 @@ from django.conf import settings
 from .helper_functions import *
 from .deploy import *
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=100,
@@ -88,8 +89,10 @@ class CheckRegisterForm(forms.Form):
             raise forms.ValidationError({"aadhar": "Please Enter a valid value"})
         return cleaned_data
 
+
 class DateInput(forms.DateInput):
-    input_type = 'date'
+    input_type = "date"
+
 
 class RegisterForm(forms.Form):
     GENDER_CHOICES = [
@@ -130,9 +133,8 @@ class RegisterForm(forms.Form):
         max_length=50,
         label="Vehicle Model Name",
     )
-    vehicleColor = forms.CharField( 
-        label="Vehicle Color",
-        widget=forms.Select(choices=COLOR_CHOICES)
+    vehicleColor = forms.CharField(
+        label="Vehicle Color", widget=forms.Select(choices=COLOR_CHOICES)
     )
     fName = forms.CharField(
         max_length=50,
@@ -142,9 +144,7 @@ class RegisterForm(forms.Form):
         max_length=50,
         label="Last Name",
     )
-    email = forms.EmailField(
-        label="Email ID"
-    )
+    email = forms.EmailField(label="Email ID")
     aadhar = forms.CharField(
         max_length=12,
         min_length=12,
@@ -152,7 +152,7 @@ class RegisterForm(forms.Form):
         required=False,
     )
     dob = forms.DateField(
-        widget = DateInput(attrs={'type': 'date'}),
+        widget=DateInput(attrs={"type": "date"}),
         input_formats=settings.DATE_INPUT_FORMATS,
         label="Date Of Birth",
         help_text="User must be an adult",
@@ -161,9 +161,8 @@ class RegisterForm(forms.Form):
         max_length=10,
         label="Mobile Number",
     )
-    gender = forms.CharField( 
-        label="Gender",
-        widget=forms.Select(choices=GENDER_CHOICES)
+    gender = forms.CharField(
+        label="Gender", widget=forms.Select(choices=GENDER_CHOICES)
     )
 
     def clean(self):
@@ -191,6 +190,7 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError({"mobileNo": "Invalid Mobile Number."})
         return cleaned_data
 
+
 class UniqueIDInputForm(forms.Form):
     uniqueID = forms.CharField(
         max_length=17,
@@ -208,6 +208,7 @@ class UniqueIDInputForm(forms.Form):
                 {"uniqueID": "Vehicle with entered VIN does not exist"}
             )
         return cleaned_data
+
 
 class AadharInputForm(forms.Form):
     aadhar = forms.CharField(
@@ -227,8 +228,8 @@ class AadharInputForm(forms.Form):
             )
         return cleaned_data
 
-class VehicleInfoForm(forms.Form):
 
+class VehicleInfoForm(forms.Form):
     COLOR_CHOICES = [
         ("White", "White"),
         ("Black", "Black"),
@@ -261,9 +262,8 @@ class VehicleInfoForm(forms.Form):
         max_length=50,
         label="Vehicle Model Name",
     )
-    vehicleColor = forms.CharField( 
-        label="Vehicle Color",
-        widget=forms.Select(choices=COLOR_CHOICES)
+    vehicleColor = forms.CharField(
+        label="Vehicle Color", widget=forms.Select(choices=COLOR_CHOICES)
     )
 
     def clean(self):
@@ -275,6 +275,7 @@ class VehicleInfoForm(forms.Form):
         if (modelName == None) or (not valid_alphanumeric(modelName)):
             raise forms.ValidationError({"modelName": "Please Enter a valid value"})
         return cleaned_data
+
 
 class OwnerInfoForm(forms.Form):
     GENDER_CHOICES = [
@@ -291,9 +292,7 @@ class OwnerInfoForm(forms.Form):
         max_length=50,
         label="Last Name",
     )
-    email = forms.EmailField(
-        label="Email ID"
-    )
+    email = forms.EmailField(label="Email ID")
     aadhar = forms.CharField(
         max_length=12,
         min_length=12,
@@ -301,7 +300,7 @@ class OwnerInfoForm(forms.Form):
         required=False,
     )
     dob = forms.DateField(
-        widget = DateInput(attrs={'type': 'date'}),
+        widget=DateInput(attrs={"type": "date"}),
         input_formats=settings.DATE_INPUT_FORMATS,
         label="Date Of Birth",
         help_text="User must be an adult",
@@ -310,9 +309,8 @@ class OwnerInfoForm(forms.Form):
         max_length=10,
         label="Mobile Number",
     )
-    gender = forms.CharField( 
-        label="Gender",
-        widget=forms.Select(choices=GENDER_CHOICES)
+    gender = forms.CharField(
+        label="Gender", widget=forms.Select(choices=GENDER_CHOICES)
     )
 
     def clean(self):
