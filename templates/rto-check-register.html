@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
-        {% load static %}
+        {% load static %} {% load crispy_forms_tags %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Car Ledger</title>
@@ -43,6 +43,9 @@
             </div>
         </div>
     </nav>
+    <div id="message">
+        {% if message %}<div class="mb-3 alert alert-danger" role="alert">{{ message }}</div>{% endif %}
+    </div>
     <div>
         <form action="" method="POST">
             {{ form.media }}
@@ -51,15 +54,13 @@
                 <div class="col-md-5">
                     <h2 class="mb-4">Vehicle Information</h2>
                     <div class="col-md-12">
-                        <label for="uniqueID">Unique ID</label>
-                        <input id="uniqueID" class="form-control" name="uniqueID" type="text">
+                        {{form.uniqueID|as_crispy_field}}
                     </div>
                 </div>
                 <div class="col-md-5">
                     <h2 class="mb-4">User Information</h2>
                     <div class="col-md-12">
-                        <label for="aadhar">Aadhar Number</label>
-                        <input id="aadhar" class="form-control" name="aadhar" type="text">
+                        {{form.aadhar|as_crispy_field}}
                     </div>
                 </div>
             </div>

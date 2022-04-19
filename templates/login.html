@@ -50,12 +50,10 @@
                     {% csrf_token %}
                     <h2 class="text-center" style="margin:0 0 22px 0;">{{ id|upper }} LOGIN</h2>
                     <div style="margin-bottom:14px;" class="row">
-                        <label>Username</label>
-                        {{ form.username }}
+                        {{ form.username|as_crispy_field }}
                     </div>
                     <div style="margin-bottom:14px;" class="row">
-                        <label>Password</label>
-                        {{ form.password }}
+                        {{ form.password|as_crispy_field }}
                     </div>
                     <div class="mt-4 d-flex">
                         <div style="padding-right:6px;">

@@ -34,6 +34,8 @@
                     <div class="navbar-nav">
                         {% if isCustomer %}
                             <a class="nav-link active" aria-current="page" href="/customer">Home</a>
+                        {% elif isPolice %}
+                            <a class="nav-link active" aria-current="page" href="/police">Home</a>
                         {% else %}
                             <a class="nav-link active" aria-current="page" href="/rto">Home</a>
                         {% endif %}

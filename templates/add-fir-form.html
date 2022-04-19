@@ -35,7 +35,7 @@
                 <div class="collapse navbar-collapse justify-content-between"
                      id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" aria-current="page" href="/rto">Home</a>
+                        <a class="nav-link" aria-current="page" href="/police">Home</a>
                     </div>
                     <div class="navbar-nav">
                         <a class="nav-link" aria-current="page" href="/logout">Logout</a>
@@ -53,40 +53,20 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="firNo">FIR Number</label>
-                                    <input id="firNo"
-                                           class="form-control"
-                                           name="firNo"
-                                           type="text"  
-                                        />
+                                   {{form.firNo|as_crispy_field}}
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="district">District</label>
-                                    <input id="district"
-                                           class="form-control"
-                                           name="district"
-                                           type="text"
-                                           />
+                                    {{form.district|as_crispy_field}}
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="year">Year</label>
-                                    <input id="year"
-                                           class="form-control"
-                                           name="year"
-                                           type="text"
-                                           />
+                                    {{form.year|as_crispy_field}}
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="reason">Reason</label>
-                                    <input id="reason"
-                                           class="form-control"
-                                           name="reason"
-                                           type="text"
-                                           value="{{ vehicleInfoDict.reason }}"/>
+                                    {{form.reason|as_crispy_field}}
                                 </div>
                             </div>
                         </div>

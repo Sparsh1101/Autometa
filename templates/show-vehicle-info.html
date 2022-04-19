@@ -34,6 +34,8 @@
                     <div class="navbar-nav">
                         {% if isCustomer %}
                             <a class="nav-link active" aria-current="page" href="/customer">Home</a>
+                        {% elif isPolice %}
+                            <a class="nav-link active" aria-current="page" href="/police">Home</a>
                         {% else %}
                             <a class="nav-link active" aria-current="page" href="/rto">Home</a>
                         {% endif %}
@@ -65,32 +67,12 @@
                         {% else %}
                             <a href="{% url 'registration:vehicle_owners' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Show Owners</a>
                         {% endif %}
-                        <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Show FIRs</a>
-
+                        {% if FIRs|length > 0 %}
+                            <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Show FIRs</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-            {% comment %} {% if firNo != "" %}
-                <div class="col-sm-5" align="center">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Fir Info</h5>
-                            <p class="card-text">
-                                <b>FIR Number: </b>{{ vehicleInfoDict.firNo }}
-                            </p>
-                            <p class="card-text">
-                                <b>District: </b>{{ vehicleInfoDict.district }}
-                            </p>
-                            <p class="card-text">
-                                <b>Year: </b>{{ vehicleInfoDict.year }}
-                            </p>
-                            <p class="card-text">
-                                <b>Reason: </b>{{ vehicleInfoDict.reason }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            {% endif %} {% endcomment %}
         </div>
     </body>
 </html>
