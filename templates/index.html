@@ -48,19 +48,17 @@
 			</div>
 		</nav>
 		<div class="landingPage">
-			<div class="row">
-				<div class="col-12 col-lg-6">
-					<h5 class="card-title">RTO LOGIN</h5>
+			<div class="row d-flex align-items-center">
+				<div class="col-12 col-lg-5">
+					<h5 class="h2">One Stop Destination for Buying Used Vehicles</h5>
 					<p class="card-text">
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure quia
 						voluptatibus vitae et architecto harum ducimus officiis delectus
 						perferendis sit, laudantium ad neque optio vero.
 					</p>
-					<a href="{% url 'registration:login' 'rto' %}" class="btn btn-primary"
-						>Login</a
-					>
+					<a href="#loginSection" class="btn btn-primary">Get Started</a>
 				</div>
-				<div class="col-12 col-lg-6">
+				<div class="col-12 col-lg-7">
 					<img
 						src="{% static 'images/undraw_by_my_car_ttge.png' %}"
 						alt=""
@@ -68,29 +66,84 @@
 					/>
 				</div>
 			</div>
-			<div class="col-sm-3">
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title">POLICE LOGIN</h5>
-						<p class="card-text">...</p>
-						<a
-							href="{% url 'registration:login' 'police' %}"
-							class="btn btn-primary"
-							>Login</a
-						>
-					</div>
+			<div class="row d-flex align-items-center">
+				<div class="col-12 col-lg-5 order-lg-2">
+					<h5 class="h2">So who are you?</h5>
+					<div class="abc"></div>
+					<p class="card-text pt-2">
+						Based on your position, we have classified respective login pages to
+						direct you on the path to enable you to explore the ample of
+						features provided by our product line
+					</p>
+				</div>
+				<div class="col-12 col-lg-7">
+					<img
+						src="{% static 'images/undraw_order_a_car_3tww.png' %}"
+						alt=""
+						class="landingPageImg"
+					/>
 				</div>
 			</div>
-			<div class="col-sm-3">
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title">CUSTOMER LOGIN</h5>
-						<p class="card-text">...</p>
-						<a
-							href="{% url 'registration:login' 'customer' %}"
-							class="btn btn-primary"
-							>Login</a
-						>
+
+			<div
+				class="card-section d-flex justify-content-around pb-3"
+				id="loginSection"
+			>
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title d-block">RTO LOGIN</h5>
+							<div class="abc"></div>
+							<p class="card-text pt-1">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint
+								magnam illo consequatur qui, cum, at voluptatibus assumenda
+								laudantium accusamus provident saepe accusantium! Nobis, ea
+								voluptates.
+							</p>
+							<a
+								href="{% url 'registration:login' 'rto' %}"
+								class="btn btn-primary"
+								>Login</a
+							>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">POLICE LOGIN</h5>
+							<div class="abc"></div>
+							<p class="card-text pt-1">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint
+								magnam illo consequatur qui, cum, at voluptatibus assumenda
+								laudantium accusamus provident saepe accusantium! Nobis, ea
+								voluptates.
+							</p>
+							<a
+								href="{% url 'registration:login' 'police' %}"
+								class="btn btn-primary"
+								>Login</a
+							>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">CUSTOMER LOGIN</h5>
+							<div class="abc"></div>
+							<p class="card-text pt-1">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint
+								magnam illo consequatur qui, cum, at voluptatibus assumenda
+								laudantium accusamus provident saepe accusantium! Nobis, ea
+								voluptates.
+							</p>
+							<a
+								href="{% url 'registration:login' 'customer' %}"
+								class="btn btn-primary"
+								>Login</a
+							>
+						</div>
 					</div>
 				</div>
 			</div>
