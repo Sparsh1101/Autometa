@@ -1,0 +1,32 @@
+body {
+	background: #eee;
+}
+
+.loginBox {
+	height: 90vh;
+	padding: 10px;
+}
+
+.loginCard {
+	width: 350px;
+	padding: 20px 15px;
+	height: 40vh;
+	background: white;
+}
+
+.reg-log {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.con {
+	min-height: 89vh;
+}
+
+.line {
+	width: 20%;
+	height: 1px;
+	background: gray;
+	margin-bottom: 10px;
+}
