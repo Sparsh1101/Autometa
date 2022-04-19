@@ -4,7 +4,6 @@ from django.conf import settings
 from .helper_functions import *
 from .deploy import *
 
-
 class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=100,
@@ -90,6 +89,8 @@ class CheckRegisterForm(forms.Form):
             raise forms.ValidationError({"aadhar": "Please Enter a valid value"})
         return cleaned_data
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class RegisterForm(forms.Form):
     GENDER_CHOICES = [
@@ -152,9 +153,10 @@ class RegisterForm(forms.Form):
         required=False,
     )
     dob = forms.DateField(
+        widget = DateInput(attrs={'type': 'date'}),
         input_formats=settings.DATE_INPUT_FORMATS,
-        label="Date of Birth",
-        required=True
+        label="Date Of Birth",
+        help_text="User must be an adult",
     )
     mobileNo = forms.CharField(
         max_length=10,
@@ -185,8 +187,25 @@ class RegisterForm(forms.Form):
         if (email != "") and (not valid_email(email)):
             raise forms.ValidationError({"email": "Invalid Email."})
         if dob != None and not valid_adult(str(dob)):
-            dobError = True
-            raise forms.ValidationError({"dob": "User isn't an adult."})
+            raise forms.ValidationError({"dob": "Invalid Date of Birth."})
         if (mobileNo == None) or (not valid_mobileNo(mobileNo)):
             raise forms.ValidationError({"mobileNo": "Invalid Mobile Number."})
+        return cleaned_data
+
+class UniqueIDInputForm(forms.Form):
+    uniqueID = forms.CharField(
+        max_length=17,
+        min_length=17,
+        label="Vehicle Identification Number (VIN)",
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        uniqueID = cleaned_data.get("uniqueID")
+        if (uniqueID == None) or (not valid_uniqueID(uniqueID)):
+            raise forms.ValidationError({"uniqueID": "Please Enter a valid value"})
+        if getVehicleInfoFromUniqueID(register_contract, uniqueID)["data"][0] == False:
+            raise forms.ValidationError(
+                {"uniqueID": "Vehicle with entered VIN does not exist"}
+            )
         return cleaned_data

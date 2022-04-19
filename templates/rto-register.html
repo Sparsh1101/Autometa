@@ -97,23 +97,17 @@
                             <div class="row">
                                 <div class="col-md-6">{{ form.mobileNo|as_crispy_field }}</div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.dob|as_crispy_field }}
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">{{ form.gender|as_crispy_field }}</div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="id_dob">Date Of Birth</label>
-                                    <input id="id_dob"
-                                           class="form-control"
-                                           name="dob"
-                                           type="date"
-                                           value="{{ form.dob.value }}"/>
-                                </div>
-                            </div>
+                            
                         </div>
                         {% if isOwnerBool %}
                             <p>

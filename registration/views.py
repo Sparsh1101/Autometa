@@ -36,7 +36,11 @@ def rto_check_register(request):
                 vehicleIDs = vehicleIDs["data"]
                 if vehicleIDs[-1] == uniqueID:
                     message = "User already owns this vehicle!"
-                    return render(request, "rto-check-register.html", {"form": form, "message": message})
+                    return render(
+                        request,
+                        "rto-check-register.html",
+                        {"form": form, "message": message},
+                    )
 
             request.session["isOwnerBool"] = isOwnerBool
             request.session["isVehicleBool"] = isVehicleBool
@@ -362,16 +366,15 @@ def vehicle(request, id=""):
     vehicleInfoDict = {}
     isCustomer = is_customer(request.user)
     isPolice = is_police(request.user)
+    form = UniqueIDInputForm()
     if id == "":
         if request.method == "GET":
-            return render(request, "get-uniqueID-input-form.html")
+            return render(request, "get-uniqueID-input-form.html", {"form": form})
         else:
-            uniqueID = request.POST["uniqueID"]
-            vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
-            vehicleInfo = vehicleInfo["data"]
-            if vehicleInfo[1] == "":
-                return redirect("registration:vehicle_noId")
-            else:
+            form = UniqueIDInputForm(request.POST)
+            if form.is_valid():
+                uniqueID = request.POST["uniqueID"]
+                vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)["data"]
                 for i in range(len(vehicleInfo) - 2):
                     vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
                 FIRs = vehicleInfo[-1]
@@ -385,6 +388,8 @@ def vehicle(request, id=""):
                         "isPolice": isPolice,
                     },
                 )
+            else:
+                return render(request, "get-uniqueID-input-form.html", {"form": form})
     else:
         uniqueID = id
         vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
