@@ -14,12 +14,14 @@ body {
 	background: white;
 }
 
-.reg-log {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 .con {
 	min-height: 89vh;
+}
+
+.line {
+	width: 20%;
+	height: 1px;
+	background: gray;
+	margin: auto;
+	/* margin-bottom: 10px; */
 }

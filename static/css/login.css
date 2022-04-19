@@ -14,12 +14,6 @@ body {
 	background: white;
 }
 
-.reg-log {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 .con {
 	min-height: 89vh;
 }
