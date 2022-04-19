@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
 
 app_name = "registration"
@@ -32,6 +32,10 @@ urlpatterns = [
     path("vehicle/owners/<str:id>", views.vehicle_owners, name="vehicle_owners"),
 
     path("customer-profile", views.customer_profile, name="customer_profile"),
+    path("customer-qr", views.customer_qr, name="customer_qr"),
+    path("vehicle-qr/<str:id>", views.vehicle_qr, name="vehicle_qr"),
+
+
     path("login/<str:id>", views.login, name="login"),
     path("logout", views.logoutU, name="logout"),
     

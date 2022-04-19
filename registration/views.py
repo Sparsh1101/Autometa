@@ -10,6 +10,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import *
 from .forms import *
 from .deploy import *
+import qrcode
+import qrcode.image.svg
+from io import BytesIO
 
 
 def index(request):
@@ -289,7 +292,6 @@ def owner_vehicles(request, id):
         },
     )
 
-
 @login_required(login_url="registration:login")
 def owner(request, id=""):
     ownerInfoVars = [
@@ -367,6 +369,58 @@ def customer_profile(request):
     aadhar = aadhar["data"]
     return redirect("registration:owner", aadhar)
 
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_customer, login_url="registration:login")
+def customer_qr(request):
+    user_id = request.user.id
+    aadhar = getAadharfromUserId(register_contract, str(user_id))
+    aadhar = aadhar["data"]
+    isCustomer = is_customer(request.user)
+    vehicles = getVehiclesFromAadhar(register_contract, aadhar)["data"]
+    currentlyOwnedVehicles = []
+    for vehicle in vehicles:
+        if getOwnersFromUniqueID(register_contract, vehicle)["data"][-1] == aadhar:
+            currentlyOwnedVehicles.append(vehicle)
+    currLength = len(currentlyOwnedVehicles)
+    return render(
+        request,
+        "customer-qr.html",
+        {
+            "currentlyOwnedVehicles": currentlyOwnedVehicles,
+            "currLength": currLength,
+            "aadhar": aadhar,
+            "isCustomer": isCustomer,
+        },
+    )
+
+
+
+def vehicle_qr(request, id):
+    vehicleInfoVars = ["exists2", "uniqueID", "vehicleNo", "modelName", "vehicleColor"]
+    vehicleInfoDict = {}
+    uniqueID = id
+    vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
+    vehicleInfo = vehicleInfo["data"]
+    for i in range(len(vehicleInfo) - 2):
+        vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
+    FIRs = vehicleInfo[-1]
+    context = {}
+    url=request.build_absolute_uri()
+    factory = qrcode.image.svg.SvgImage
+    img = qrcode.make(url, image_factory=factory, box_size=20)
+    stream = BytesIO()
+    img.save(stream)
+    context["svg"] = stream.getvalue().decode()
+    return render(
+        request,
+        "vehicle-qr.html",
+        {
+            "vehicleInfoDict": vehicleInfoDict,
+            "FIRs": FIRs,
+            "svg": context['svg'],
+        },
+    )
 
 @login_required(login_url="registration:login")
 def vehicle(request, id=""):
@@ -503,7 +557,6 @@ def add_fir(request, id):
             )
 
 
-@login_required(login_url="registration:login")
 def all_firs(request, id):
     isCustomer = is_customer(request.user)
     isPolice = is_police(request.user)
@@ -511,7 +564,7 @@ def all_firs(request, id):
     return render(request, "show-all-firs.html", {"firs": firs, "isCustomer": isCustomer, "isPolice": isPolice})
 
 
-@login_required(login_url="registration:login")
+
 def fir_details(request, id):
     isCustomer = is_customer(request.user)
     isPolice = is_police(request.user)
