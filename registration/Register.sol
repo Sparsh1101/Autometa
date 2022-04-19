@@ -4,7 +4,6 @@ pragma experimental ABIEncoderV2;
 pragma solidity ^0.6.0;
 
 contract VehicleContract {
-
     struct OwnerInfo {
         bool exists1;
         string fName;
@@ -29,7 +28,7 @@ contract VehicleContract {
         string modelName;
         string vehicleColor;
         string[] owners;
-        FIRInfo firInfo;
+        string[] FIRs;
     }
 
     struct FIRInfo {
@@ -42,7 +41,7 @@ contract VehicleContract {
     mapping(string => OwnerInfo) aadharToOwnerInfo;
     mapping(string => VehicleInfo) uniqueIDToVehicleInfo;
     mapping(string => string) userIDToAadhar;
-
+    mapping(string => FIRInfo) firNoToFirInfo;
 
     function storeInfo(
         string memory _uniqueID,
@@ -79,6 +78,7 @@ contract VehicleContract {
         } else {
             if (aadharToOwnerInfo[_aadhar].exists1 == true) {
                 string[] memory temp;
+                string[] memory tempFir;
                 uniqueIDToVehicleInfo[_uniqueID] = VehicleInfo(
                     true,
                     _uniqueID,
@@ -86,13 +86,14 @@ contract VehicleContract {
                     _modelName,
                     _vehicleColor,
                     temp,
-                    FIRInfo("", "", "", "")
+                    tempFir
                 );
                 uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
                 aadharToOwnerInfo[_aadhar].vehicles.push(_uniqueID);
             } else {
                 string[] memory temp1;
                 string[] memory temp2;
+                string[] memory tempFir;
                 aadharToOwnerInfo[_aadhar] = OwnerInfo(
                     true,
                     _fName,
@@ -112,7 +113,7 @@ contract VehicleContract {
                     _modelName,
                     _vehicleColor,
                     temp2,
-                    FIRInfo("", "", "", "")
+                    tempFir
                 );
                 uniqueIDToVehicleInfo[_uniqueID].owners.push(_aadhar);
             }
@@ -126,12 +127,16 @@ contract VehicleContract {
         string memory _year,
         string memory _reason
     ) public {
-        uniqueIDToVehicleInfo[_uniqueID].firInfo = FIRInfo(
-            _firNo,
-            _district,
-            _year,
-            _reason
-        );
+        uniqueIDToVehicleInfo[_uniqueID].FIRs.push(_firNo);
+        firNoToFirInfo[_firNo] = FIRInfo(_firNo, _district, _year, _reason);
+    }
+    
+    function getFirInfoFromFirNo(string memory _firNo)
+        public
+        view
+        returns (FIRInfo memory firInfo)
+    {
+        return (firNoToFirInfo[_firNo]);
     }
 
     function getOwnerInfoFromAadhar(string memory _aadhar)
@@ -217,5 +222,4 @@ contract VehicleContract {
     {
         return (userIDToAadhar[_userID]);
     }
-
 }

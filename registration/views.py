@@ -1,27 +1,15 @@
+from dis import dis
 from operator import mod
 from re import L
-from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import *
 from .forms import *
 from .deploy import *
-
-
-def is_rto(user):
-    return user.groups.filter(name="rto").exists()
-
-
-def is_police(user):
-    return user.groups.filter(name="police").exists()
-
-
-def is_customer(user):
-    return user.groups.filter(name="customer").exists()
 
 
 def index(request):
@@ -32,27 +20,32 @@ def index(request):
 @user_passes_test(is_rto, login_url="registration:login")
 def rto_check_register(request):
     if request.method == "GET":
-        return render(request, "rto-check-register.html")
+        form = CheckRegisterForm()
+        return render(request, "rto-check-register.html", {"form": form})
     else:
-        uniqueID = request.POST["uniqueID"]
-        aadhar = request.POST["aadhar"]
-        isOwnerBool = isOwner(register_contract, aadhar)
-        isOwnerBool = isOwnerBool["data"]
-        isVehicleBool = isVehicle(register_contract, uniqueID)
-        isVehicleBool = isVehicleBool["data"]
-        if isOwnerBool:
-            ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)
-            ownerInfo = ownerInfo["data"]
-            vehicleIDs = getVehiclesFromAadhar(register_contract, aadhar)
-            vehicleIDs = vehicleIDs["data"]
-            if vehicleIDs[-1] == uniqueID:
-                return render(request, "rto-check-register.html")
+        form = CheckRegisterForm(request.POST)
+        if form.is_valid():
+            uniqueID = request.POST["uniqueID"]
+            aadhar = request.POST["aadhar"]
+            isOwnerBool = isOwner(register_contract, aadhar)["data"]
+            isVehicleBool = isVehicle(register_contract, uniqueID)["data"]
+            if isOwnerBool:
+                ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)
+                ownerInfo = ownerInfo["data"]
+                vehicleIDs = getVehiclesFromAadhar(register_contract, aadhar)
+                vehicleIDs = vehicleIDs["data"]
+                if vehicleIDs[-1] == uniqueID:
+                    message = "User already owns this vehicle!"
+                    return render(request, "rto-check-register.html", {"form": form, "message": message})
 
-        request.session["isOwnerBool"] = isOwnerBool
-        request.session["isVehicleBool"] = isVehicleBool
-        request.session["aadhar"] = aadhar
-        request.session["uniqueID"] = uniqueID
-        return redirect("registration:rto_register")
+            request.session["isOwnerBool"] = isOwnerBool
+            request.session["isVehicleBool"] = isVehicleBool
+            request.session["aadhar"] = aadhar
+            request.session["uniqueID"] = uniqueID
+            return redirect("registration:rto_register")
+
+        else:
+            return render(request, "rto-check-register.html", {"form": form})
 
 
 @login_required(login_url="registration:login")
@@ -108,15 +101,16 @@ def rto_register(request):
         request.session["ownerInfoDict"] = ownerInfoDict
         request.session["vehicleInfoDict"] = vehicleInfoDict
 
+        initial_dict = {**ownerInfoDict, **vehicleInfoDict}
+        form = RegisterForm(request.POST or None, initial=initial_dict)
         return render(
             request,
             "rto-register.html",
             {
                 "user_creation_form": user_creation_form,
+                "form": form,
                 "aadhar": aadhar,
                 "uniqueID": uniqueID,
-                "ownerInfoDict": ownerInfoDict,
-                "vehicleInfoDict": vehicleInfoDict,
             },
         )
     else:
@@ -126,7 +120,8 @@ def rto_register(request):
         newVehicleInfoDict = {}
         if isOwnerBool == False:
             user_creation_form = UserCreationForm(request.POST)
-            if user_creation_form.is_valid():
+            form = RegisterForm(request.POST or None)
+            if user_creation_form.is_valid() and form.is_valid():
                 Ruser = user_creation_form.save(commit=False)
                 Ruser.save()
                 group = Group.objects.get(name="customer")
@@ -137,10 +132,9 @@ def rto_register(request):
                     "rto-register.html",
                     {
                         "user_creation_form": user_creation_form,
+                        "form": form,
                         "aadhar": aadhar,
                         "uniqueID": uniqueID,
-                        "ownerInfoDict": ownerInfoDict,
-                        "vehicleInfoDict": vehicleInfoDict,
                     },
                 )
 
@@ -162,8 +156,6 @@ def rto_register(request):
             else:
                 newVehicleInfoDict[vehicleInfoVars[i]] = uniqueID
             newVehicleInfoDict["exists2"] = vehicleInfoDict["exists2"]
-
-        # Post req validation till gender
 
         storeInfo(
             register_contract,
@@ -227,18 +219,25 @@ def rto_dashboard(request):
 
 
 @login_required(login_url="registration:login")
+@user_passes_test(is_police, login_url="registration:login")
+def police_dashboard(request):
+    return render(request, "police-dashboard.html")
+
+
+@login_required(login_url="registration:login")
 @user_passes_test(is_customer, login_url="registration:login")
 def customer_dashboard(request):
     return render(request, "customer-dashboard.html")
 
 
 @login_required(login_url="registration:login")
-@user_passes_test(is_rto, login_url="registration:login")
+@user_passes_test(is_rto or is_police, login_url="registration:login")
 def vehicle_owners(request, id):
     owners = getOwnersFromUniqueID(register_contract, id)["data"]
     previousOwners = owners[:-1]
     currentOwner = owners[-1]
     prevLength = len(previousOwners)
+    isPolice = is_police(request.user)
     return render(
         request,
         "show-vehicle-owners.html",
@@ -247,6 +246,7 @@ def vehicle_owners(request, id):
             "previousOwners": previousOwners,
             "prevLength": prevLength,
             "uniqueID": id,
+            "isPolice": isPolice,
         },
     )
 
@@ -254,6 +254,7 @@ def vehicle_owners(request, id):
 @login_required(login_url="registration:login")
 def owner_vehicles(request, id):
     isCustomer = is_customer(request.user)
+    isPolice = is_police(request.user)
     vehicles = getVehiclesFromAadhar(register_contract, id)["data"]
     previouslyOwnedVehicles = []
     currentlyOwnedVehicles = []
@@ -274,6 +275,7 @@ def owner_vehicles(request, id):
             "currLength": currLength,
             "aadhar": id,
             "isCustomer": isCustomer,
+            "isPolice": isPolice,
         },
     )
 
@@ -293,6 +295,7 @@ def owner(request, id=""):
     ]
     ownerInfoDict = {}
     isCustomer = is_customer(request.user)
+    isPolice = is_police(request.user)
     if id == "":
         if request.method == "GET":
             return render(request, "get-aadhar-input-form.html")
@@ -316,6 +319,7 @@ def owner(request, id=""):
                     {
                         "ownerInfoDict": ownerInfoDict,
                         "isCustomer": isCustomer,
+                        "isPolice": isPolice,
                     },
                 )
     else:
@@ -338,6 +342,7 @@ def owner(request, id=""):
                 {
                     "ownerInfoDict": ownerInfoDict,
                     "isCustomer": isCustomer,
+                    "isPolice": isPolice,
                 },
             )
 
@@ -356,6 +361,7 @@ def vehicle(request, id=""):
     vehicleInfoVars = ["exists2", "uniqueID", "vehicleNo", "modelName", "vehicleColor"]
     vehicleInfoDict = {}
     isCustomer = is_customer(request.user)
+    isPolice = is_police(request.user)
     if id == "":
         if request.method == "GET":
             return render(request, "get-uniqueID-input-form.html")
@@ -368,17 +374,15 @@ def vehicle(request, id=""):
             else:
                 for i in range(len(vehicleInfo) - 2):
                     vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
-                (firNo, district, year, reason) = vehicleInfo[-1]
+                FIRs = vehicleInfo[-1]
                 return render(
                     request,
                     "show-vehicle-info.html",
                     {
                         "vehicleInfoDict": vehicleInfoDict,
-                        "firNo": firNo,
-                        "district": district,
-                        "year": year,
-                        "reason": reason,
+                        "FIRs": FIRs,
                         "isCustomer": isCustomer,
+                        "isPolice": isPolice,
                     },
                 )
     else:
@@ -390,19 +394,105 @@ def vehicle(request, id=""):
         else:
             for i in range(len(vehicleInfo) - 2):
                 vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
-            (firNo, district, year, reason) = vehicleInfo[-1]
+            FIRs = vehicleInfo[-1]
             return render(
                 request,
                 "show-vehicle-info.html",
                 {
                     "vehicleInfoDict": vehicleInfoDict,
-                    "firNo": firNo,
-                    "district": district,
-                    "year": year,
-                    "reason": reason,
+                    "FIRs": FIRs,
                     "isCustomer": isCustomer,
+                    "isPolice": isPolice,
                 },
             )
+
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_police, login_url="registration:login")
+def police_vehicle(request, id=""):
+    vehicleInfoVars = ["exists2", "uniqueID", "vehicleNo", "modelName", "vehicleColor"]
+    vehicleInfoDict = {}
+    if id == "":
+        if request.method == "GET":
+            return render(request, "get-uniqueID-input-form.html")
+        else:
+            uniqueID = request.POST["uniqueID"]
+            vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
+            vehicleInfo = vehicleInfo["data"]
+            if vehicleInfo[1] == "":
+                return redirect("registration:vehicle_noId")
+            else:
+                for i in range(len(vehicleInfo) - 2):
+                    vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
+                return render(
+                    request,
+                    "show-police-vehicle-info.html",
+                    {
+                        "vehicleInfoDict": vehicleInfoDict,
+                    },
+                )
+    else:
+        uniqueID = id
+        vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
+        vehicleInfo = vehicleInfo["data"]
+        if vehicleInfo[1] == "":
+            return redirect("registration:vehicle_noId")
+        else:
+            for i in range(len(vehicleInfo) - 2):
+                vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
+            return render(
+                request,
+                "show-police-vehicle-info.html",
+                {
+                    "vehicleInfoDict": vehicleInfoDict,
+                },
+            )
+
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_police, login_url="registration:login")
+def add_fir(request, id):
+    if request.method == "GET":
+        form = FirForm()
+        return render(
+            request,
+            "add-fir-form.html",
+            {
+                "form": form,
+            },
+        )
+    else:
+        form = FirForm(request.POST)
+        if form.is_valid():
+            storeFirInfo(
+                register_contract,
+                str(id),
+                request.POST["firNo"],
+                request.POST["district"],
+                request.POST["year"],
+                request.POST["reason"],
+            )
+            return redirect("registration:police_dashboard")
+        else:
+            return render(
+                request,
+                "add-fir-form.html",
+                {
+                    "form": form,
+                },
+            )
+
+
+@login_required(login_url="registration:login")
+def all_firs(request, id):
+    firs = getVehicleInfoFromUniqueID(register_contract, str(id))["data"][-1]
+    return render(request, "show-all-firs.html", {"firs": firs})
+
+
+@login_required(login_url="registration:login")
+def fir_details(request, id):
+    fir = getFirInfoFromFirNo(register_contract, str(id))["data"]
+    return render(request, "show-fir-details.html", {"fir": fir})
 
 
 @login_required(login_url="registration:login")
@@ -549,9 +639,11 @@ def rto_update_owner_info_2(request):
 
 
 def login(request, id):
-    form = LoginForm()
-    message = ""
-    if request.method == "POST":
+    if request.method == "GET":
+        form = LoginForm()
+        return render(request, "login.html", {"form": form, "id": id})
+    else:
+        message = ""
         form = LoginForm(request.POST)
         if form.is_valid():
             user = authenticate(
@@ -564,7 +656,7 @@ def login(request, id):
                 if is_rto(user) and id == "rto":
                     return redirect("registration:rto_dashboard")
                 elif is_police(user) and id == "police":
-                    return HttpResponse("<h1>Police Dashboard</h1>")
+                    return redirect("registration:police_dashboard")
                 elif is_customer(user) and id == "customer":
                     return redirect("registration:customer_dashboard")
                 else:
@@ -572,11 +664,7 @@ def login(request, id):
                     return render(
                         request,
                         "login.html",
-                        context={
-                            "form": form,
-                            "message": message,
-                            "id": id,
-                        },
+                        {"form": form, "message": message, "id": id},
                     )
             else:
                 message = "Username or Password is incorrect!"
@@ -590,16 +678,16 @@ def login(request, id):
                     },
                 )
         else:
-            return redirect("registration:login")
-    return render(
-        request,
-        "login.html",
-        context={
-            "form": form,
-            "message": message,
-            "id": id,
-        },
-    )
+            message = "Invalid Credentials!"
+            return render(
+                request,
+                "login.html",
+                context={
+                    "form": form,
+                    "message": message,
+                    "id": id,
+                },
+            )
 
 
 @login_required(login_url="registration:index")

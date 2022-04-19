@@ -8,6 +8,7 @@ urlpatterns = [
 
     path("rto", views.rto_dashboard, name="rto_dashboard"),
     path("customer", views.customer_dashboard, name="customer_dashboard"),
+    path("police", views.police_dashboard, name="police_dashboard"),
 
     path("rto/check-register", views.rto_check_register, name="rto_check_register"),
     path("rto/register", views.rto_register, name="rto_register"),
@@ -23,6 +24,11 @@ urlpatterns = [
     path("owner/vehicles/<str:id>", views.owner_vehicles, name="owner_vehicles"),
     path("vehicle", views.vehicle, name="vehicle_noId"),
     path("vehicle/<str:id>", views.vehicle, name="vehicle"),
+    path("police-vehicle", views.police_vehicle, name="police_vehicle"),
+    path("police-vehicle/<str:id>", views.police_vehicle, name="police_vehicle"),
+    path("addfir/<str:id>", views.add_fir, name="add_fir"),
+    path("all-firs/<str:id>", views.all_firs, name="all_firs"),
+    path("fir-details/<str:id>", views.fir_details, name="fir_details"),
     path("vehicle/owners/<str:id>", views.vehicle_owners, name="vehicle_owners"),
 
     path("customer-profile", views.customer_profile, name="customer_profile"),

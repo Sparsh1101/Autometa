@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-install_solc('0.6.0')
+install_solc("0.6.0")
 with open("./registration/Register.sol", "r") as file:
     register_file = file.read()
 
@@ -52,6 +52,7 @@ Register = w3.eth.contract(abi=abi, bytecode=bytecode)
 # getting latest transaction which is also nonce
 nonce = w3.eth.getTransactionCount(my_address)
 
+
 def deployContract(Register):
     global nonce
     transaction = Register.constructor().buildTransaction(
@@ -87,11 +88,32 @@ else:
     print("Contract Deployed!")
 
 
-def storeInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, userID, ownerInfo2):
+def storeInfo(
+    register_contract,
+    uniqueID,
+    vehicleNo,
+    modelName,
+    vehicleColor,
+    fName,
+    lName,
+    aadhar,
+    dob,
+    userID,
+    ownerInfo2,
+):
     global nonce
     try:
         store_transaction = register_contract.functions.storeInfo(
-            uniqueID, vehicleNo, modelName, vehicleColor, fName, lName, aadhar, dob, userID, ownerInfo2
+            uniqueID,
+            vehicleNo,
+            modelName,
+            vehicleColor,
+            fName,
+            lName,
+            aadhar,
+            dob,
+            userID,
+            ownerInfo2,
         ).buildTransaction(
             {
                 "chainId": chain_id,
@@ -141,6 +163,15 @@ def storeFirInfo(register_contract, uniqueID, firNo, district, year, reason):
         return {"success": False, "data": err}
 
 
+def getFirInfoFromFirNo(register_contract, firNo):
+    global nonce
+    try:
+        data = register_contract.functions.getFirInfoFromFirNo(firNo).call()
+        return {"success": True, "data": data}
+    except exceptions.SolidityError as err:
+        return {"success": False, "data": err}
+
+
 def getOwnerInfoFromAadhar(register_contract, aadhar):
     global nonce
     try:
@@ -148,6 +179,7 @@ def getOwnerInfoFromAadhar(register_contract, aadhar):
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
+
 
 def getVehicleInfoFromUniqueID(register_contract, uniqueID):
     global nonce
@@ -157,6 +189,7 @@ def getVehicleInfoFromUniqueID(register_contract, uniqueID):
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
+
 def getVehiclesFromAadhar(register_contract, aadhar):
     global nonce
     try:
@@ -164,6 +197,7 @@ def getVehiclesFromAadhar(register_contract, aadhar):
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
+
 
 def getOwnersFromUniqueID(register_contract, uniqueID):
     global nonce
@@ -173,6 +207,7 @@ def getOwnersFromUniqueID(register_contract, uniqueID):
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
+
 def getAadharfromUserId(register_contract, userID):
     global nonce
     try:
@@ -180,6 +215,7 @@ def getAadharfromUserId(register_contract, userID):
         return {"success": True, "data": data}
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
+
 
 def isOwner(register_contract, aadhar):
     global nonce
@@ -189,6 +225,7 @@ def isOwner(register_contract, aadhar):
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
+
 def isVehicle(register_contract, uniqueID):
     global nonce
     try:
@@ -197,7 +234,10 @@ def isVehicle(register_contract, uniqueID):
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
 
-def updateOwnerInfo(register_contract, fName, lName, aadhar, dob, gender, email, mobileNo):
+
+def updateOwnerInfo(
+    register_contract, fName, lName, aadhar, dob, gender, email, mobileNo
+):
     global nonce
     try:
         store_transaction = register_contract.functions.updateOwnerInfo(
@@ -221,6 +261,7 @@ def updateOwnerInfo(register_contract, fName, lName, aadhar, dob, gender, email,
 
     except exceptions.SolidityError as err:
         return {"success": False, "data": err}
+
 
 def updateVehicleInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor):
     global nonce

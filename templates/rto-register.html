@@ -53,42 +53,21 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="uniqueID">Unique ID</label>
+                                    <label class="form-label" for="uniqueID">{{ form.uniqueID.label }}</label>
                                     <input id="uniqueID"
                                            class="form-control"
                                            name="uniqueID"
                                            type="text"
-                                           value="{{ vehicleInfoDict.uniqueID }}"
+                                           value="{{ uniqueID }}"
                                            disabled/>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="vehicleNo">Vehicle Number</label>
-                                    <input id="vehicleNo"
-                                           class="form-control"
-                                           name="vehicleNo"
-                                           type="text"
-                                           value="{{ vehicleInfoDict.vehicleNo }}"/>
-                                </div>
+                                <div class="col-md-6">{{ form.vehicleNo|as_crispy_field }}</div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label for="modelName">Model Name</label>
-                                    <input id="modelName"
-                                           class="form-control"
-                                           name="modelName"
-                                           type="text"
-                                           value="{{ vehicleInfoDict.modelName }}"/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="vehicleColor">Vehicle Color</label>
-                                    <input id="vehicleColor"
-                                           class="form-control"
-                                           name="vehicleColor"
-                                           type="text"
-                                           value="{{ vehicleInfoDict.vehicleColor }}"/>
-                                </div>
+                                <div class="col-md-6">{{ form.modelName|as_crispy_field }}</div>
+                                <div class="col-md-6">{{ form.vehicleColor|as_crispy_field }}</div>
                             </div>
                         </div>
                     </div>
@@ -96,115 +75,43 @@
                         <h2 class="mb-4">User Information</h2>
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label for="fName">First Name</label>
-                                    <input id="fName"
-                                           class="form-control"
-                                           name="fName"
-                                           type="text"
-                                           value="{{ ownerInfoDict.fName }}"/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="lName">Last Name</label>
-                                    <input id="lName"
-                                           class="form-control"
-                                           name="lName"
-                                           type="text"
-                                           value="{{ ownerInfoDict.lName }}"/>
-                                </div>
+                                <div class="col-md-6">{{ form.fName|as_crispy_field }}</div>
+                                <div class="col-md-6">{{ form.lName|as_crispy_field }}</div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
+                                <div class="col-md-6">{{ form.email|as_crispy_field }}</div>
                                 <div class="col-md-6">
-                                    <label for="email">Email</label>
-                                    <input id="email"
-                                           class="form-control"
-                                           name="email"
-                                           type="email"
-                                           value="{{ ownerInfoDict.email }}"/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="aadhar">Aadhar Number</label>
+                                    <label class="form-label" for="aadhar">{{ form.aadhar.label }}</label>
                                     <input id="aadhar"
                                            class="form-control"
                                            name="aadhar"
                                            type="text"
-                                           value="{{ ownerInfoDict.aadhar }}"
+                                           value="{{ aadhar }}"
                                            disabled/>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label for="dob">Date Of Birth</label>
-                                    <input id="dob"
-                                           class="form-control"
-                                           name="dob"
-                                           type="date"
-                                           value="{{ ownerInfoDict.dob }}"/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="mobileNo">Mobile Number</label>
-                                    <input id="mobileNo"
-                                           class="form-control"
-                                           name="mobileNo"
-                                           type="text"
-                                           value="{{ ownerInfoDict.mobileNo }}"/>
-                                </div>
+                                <div class="col-md-6">{{ form.mobileNo|as_crispy_field }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">{{ form.gender|as_crispy_field }}</div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="gender">Gender</label>
-                                    <select class="form-select" id="gender" aria-label="Gender" name="gender">
-                                        {% if ownerInfoDict.gender == "Male" %}
-                                            <option value="Male" selected>
-                                                Male
-                                            </option>
-                                            <option value="Female">
-                                                Female
-                                            </option>
-                                            <option value="Other">
-                                                Other
-                                            </option>
-                                        {% elif ownerInfoDict.gender == "Female" %}
-                                            <option value="Male">
-                                                Male
-                                            </option>
-                                            <option value="Female" selected>
-                                                Female
-                                            </option>
-                                            <option value="Other">
-                                                Other
-                                            </option>
-                                        {% elif ownerInfoDict.gender == "Other" %}
-                                            <option value="Male">
-                                                Male
-                                            </option>
-                                            <option value="Female">
-                                                Female
-                                            </option>
-                                            <option value="Other" selected>
-                                                Other
-                                            </option>
-                                        {% else %}
-                                            <option selected>
-                                                Select Gender
-                                            </option>
-                                            <option value="Male">
-                                                Male
-                                            </option>
-                                            <option value="Female">
-                                                Female
-                                            </option>
-                                            <option value="Other">
-                                                Other
-                                            </option>
-                                        {% endif %}
-                                    </select>
+                                    <label class="form-label" for="id_dob">Date Of Birth</label>
+                                    <input id="id_dob"
+                                           class="form-control"
+                                           name="dob"
+                                           type="date"
+                                           value="{{ form.dob.value }}"/>
                                 </div>
                             </div>
                         </div>
