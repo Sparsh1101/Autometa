@@ -12,7 +12,37 @@ from .forms import *
 from .deploy import *
 import qrcode
 import qrcode.image.svg
+import os
 from io import BytesIO
+from django.conf import settings
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPM
+import mimetypes
+from django.http.response import HttpResponse
+from PIL import Image
+
+
+def download_file(request, id):
+    url1 = request.build_absolute_uri()
+    url2 = url1.split("download_file")
+    url = url2[0] + "vehicle-qr" + url2[1]
+    factory = qrcode.image.svg.SvgImage
+    img = qrcode.make(url, image_factory=factory, box_size=20)
+    stream = BytesIO()
+    img.save(stream)
+    svg = stream.getvalue().decode()
+    img.save(settings.MEDIA_ROOT + "\\" + "download.svg")
+    drawing = svg2rlg(settings.MEDIA_ROOT + "\\" + "download.svg")
+    renderPM.drawToFile(drawing, settings.MEDIA_ROOT + "\\download.png", fmt="PNG")
+    filename = "download"
+    filepath = settings.MEDIA_ROOT + "\\" + filename + ".png"
+    im = Image.open(filepath)
+    response = HttpResponse(content_type="image/png")
+    response["Content-Disposition"] = "attachment; filename=%s.png" % filename
+    im.save(response, "png")
+    os.remove(settings.MEDIA_ROOT + "\\" + "download.svg")
+    os.remove(settings.MEDIA_ROOT + "\\" + "download.png")
+    return response
 
 
 def index(request):
@@ -292,6 +322,7 @@ def owner_vehicles(request, id):
         },
     )
 
+
 @login_required(login_url="registration:login")
 def owner(request, id=""):
     ownerInfoVars = [
@@ -395,7 +426,6 @@ def customer_qr(request):
     )
 
 
-
 def vehicle_qr(request, id):
     vehicleInfoVars = ["exists2", "uniqueID", "vehicleNo", "modelName", "vehicleColor"]
     vehicleInfoDict = {}
@@ -405,22 +435,22 @@ def vehicle_qr(request, id):
     for i in range(len(vehicleInfo) - 2):
         vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
     FIRs = vehicleInfo[-1]
-    context = {}
-    url=request.build_absolute_uri()
+    url = request.build_absolute_uri()
     factory = qrcode.image.svg.SvgImage
     img = qrcode.make(url, image_factory=factory, box_size=20)
     stream = BytesIO()
     img.save(stream)
-    context["svg"] = stream.getvalue().decode()
+    svg = stream.getvalue().decode()
     return render(
         request,
         "vehicle-qr.html",
         {
             "vehicleInfoDict": vehicleInfoDict,
             "FIRs": FIRs,
-            "svg": context['svg'],
+            "svg": svg,
         },
     )
+
 
 @login_required(login_url="registration:login")
 def vehicle(request, id=""):
@@ -561,15 +591,22 @@ def all_firs(request, id):
     isCustomer = is_customer(request.user)
     isPolice = is_police(request.user)
     firs = getVehicleInfoFromUniqueID(register_contract, str(id))["data"][-1]
-    return render(request, "show-all-firs.html", {"firs": firs, "isCustomer": isCustomer, "isPolice": isPolice})
-
+    return render(
+        request,
+        "show-all-firs.html",
+        {"firs": firs, "isCustomer": isCustomer, "isPolice": isPolice},
+    )
 
 
 def fir_details(request, id):
     isCustomer = is_customer(request.user)
     isPolice = is_police(request.user)
     fir = getFirInfoFromFirNo(register_contract, str(id))["data"]
-    return render(request, "show-fir-details.html", {"fir": fir, "isCustomer": isCustomer, "isPolice": isPolice})
+    return render(
+        request,
+        "show-fir-details.html",
+        {"fir": fir, "isCustomer": isCustomer, "isPolice": isPolice},
+    )
 
 
 @login_required(login_url="registration:login")

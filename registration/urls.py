@@ -5,7 +5,7 @@ app_name = "registration"
 
 urlpatterns = [
     path("", views.index, name="index"),
-
+    path("download_file/<str:id>", views.download_file, name="download_file"),
     path("rto", views.rto_dashboard, name="rto_dashboard"),
     path("customer", views.customer_dashboard, name="customer_dashboard"),
     path("police", views.police_dashboard, name="police_dashboard"),
