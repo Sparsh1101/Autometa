@@ -45,9 +45,9 @@
             <h2 class="mt-4">
                 <center>Currently Owned Vehicles</center>
             </h2>
-            <div class="d-flex align-items-center container mt-4 justify-content-evenly">
+            <div class="d-flex align-items-center container mt-4 justify-content-evenly" style="flex-wrap: wrap;">
                 {% for uniqueID in currentlyOwnedVehicles %}
-                    <div class="col-sm-3" align="center">
+                    <div class="col-md-3 col-sm-6 col-12 p-2" align="center">
                         <div class="card shadow rounded-3">
                             <div class="card-body">
                                 <h5 class="card-title">Unique ID</h5>
@@ -66,9 +66,9 @@
             <h2 class="mt-4">
                 <center>Previously Owned Vehicles</center>
             </h2>
-            <div class="d-flex align-items-center container mt-4 justify-content-evenly">
+            <div class="d-flex align-items-center container mt-4 justify-content-evenly" style="flex-wrap: wrap;">
                 {% for uniqueID in previouslyOwnedVehicles %}
-                    <div class="col-sm-3" align="center">
+                    <div class="col-md-3 col-sm-6 col-12 p-2" align="center">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Unique ID</h5>
