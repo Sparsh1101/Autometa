@@ -213,7 +213,13 @@ def rto_register(request):
         del request.session["ownerInfoDict"]
         del request.session["vehicleInfoDict"]
 
-        return redirect("registration:rto_dashboard")
+        message = "New Record created successfully!"
+
+        return render(
+            request,
+            "rto-dashboard.html",
+            {"message": message},
+        )
 
 
 @login_required(login_url="registration:login")
@@ -235,7 +241,7 @@ def customer_dashboard(request):
 
 
 @login_required(login_url="registration:login")
-@user_passes_test(is_rto or is_police, login_url="registration:login")
+@user_passes_test(is_authorised_user, login_url="registration:login")
 def vehicle_owners(request, id):
     owners = getOwnersFromUniqueID(register_contract, id)["data"]
     previousOwners = owners[:-1]
@@ -300,23 +306,23 @@ def owner(request, id=""):
     ownerInfoDict = {}
     isCustomer = is_customer(request.user)
     isPolice = is_police(request.user)
+
     if id == "":
         if request.method == "GET":
-            return render(request, "get-aadhar-input-form.html")
+            form = AadharInputForm()
+            return render(request, "get-aadhar-input-form.html", {"form": form})
         else:
-            aadhar = request.POST["aadhar"]
-            ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)
-            ownerInfo = ownerInfo["data"]
-            if ownerInfo[0] == "":
-                return redirect("registration:owner_noId")
-            else:
+            form = AadharInputForm(request.POST)
+            if form.is_valid():
+                aadhar = request.POST["aadhar"]
+                ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)["data"]
                 for i in range(len(ownerInfo) - 2):
                     ownerInfoDict[ownerInfoVars[i]] = ownerInfo[i]
-                (
-                    ownerInfoDict["mobileNo"],
-                    ownerInfoDict["email"],
-                    ownerInfoDict["gender"],
-                ) = ownerInfo[-1]
+                    (
+                        ownerInfoDict["mobileNo"],
+                        ownerInfoDict["email"],
+                        ownerInfoDict["gender"],
+                    ) = ownerInfo[-1]
                 return render(
                     request,
                     "show-owner-info.html",
@@ -326,6 +332,8 @@ def owner(request, id=""):
                         "isPolice": isPolice,
                     },
                 )
+            else:
+                return render(request, "get-aadhar-input-form.html", {"form": form})
     else:
         aadhar = id
         ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)
@@ -374,7 +382,9 @@ def vehicle(request, id=""):
             form = UniqueIDInputForm(request.POST)
             if form.is_valid():
                 uniqueID = request.POST["uniqueID"]
-                vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)["data"]
+                vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)[
+                    "data"
+                ]
                 for i in range(len(vehicleInfo) - 2):
                     vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
                 FIRs = vehicleInfo[-1]
@@ -419,14 +429,14 @@ def police_vehicle(request, id=""):
     vehicleInfoDict = {}
     if id == "":
         if request.method == "GET":
-            return render(request, "get-uniqueID-input-form.html")
+            form = UniqueIDInputForm()
+            return render(request, "get-uniqueID-input-form.html", {"form": form})
         else:
-            uniqueID = request.POST["uniqueID"]
-            vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
-            vehicleInfo = vehicleInfo["data"]
-            if vehicleInfo[1] == "":
-                return redirect("registration:vehicle_noId")
-            else:
+            form = UniqueIDInputForm(request.POST)
+            if form.is_valid():
+                uniqueID = request.POST["uniqueID"]
+                vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
+                vehicleInfo = vehicleInfo["data"]
                 for i in range(len(vehicleInfo) - 2):
                     vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
                 return render(
@@ -436,6 +446,8 @@ def police_vehicle(request, id=""):
                         "vehicleInfoDict": vehicleInfoDict,
                     },
                 )
+            else:
+                return render(request, "get-uniqueID-input-form.html", {"form": form})
     else:
         uniqueID = id
         vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
@@ -477,27 +489,34 @@ def add_fir(request, id):
                 request.POST["year"],
                 request.POST["reason"],
             )
-            return redirect("registration:police_dashboard")
+            message = "FIR Informtion Added Successfully"
+            return render(
+                request,
+                "police-dashboard.html",
+                {"form": form, "message": message},
+            )
         else:
             return render(
                 request,
                 "add-fir-form.html",
-                {
-                    "form": form,
-                },
+                {"form": form},
             )
 
 
 @login_required(login_url="registration:login")
 def all_firs(request, id):
+    isCustomer = is_customer(request.user)
+    isPolice = is_police(request.user)
     firs = getVehicleInfoFromUniqueID(register_contract, str(id))["data"][-1]
-    return render(request, "show-all-firs.html", {"firs": firs})
+    return render(request, "show-all-firs.html", {"firs": firs, "isCustomer": isCustomer, "isPolice": isPolice})
 
 
 @login_required(login_url="registration:login")
 def fir_details(request, id):
+    isCustomer = is_customer(request.user)
+    isPolice = is_police(request.user)
     fir = getFirInfoFromFirNo(register_contract, str(id))["data"]
-    return render(request, "show-fir-details.html", {"fir": fir})
+    return render(request, "show-fir-details.html", {"fir": fir, "isCustomer": isCustomer, "isPolice": isPolice})
 
 
 @login_required(login_url="registration:login")
@@ -510,27 +529,28 @@ def rto_choose_update(request):
 @user_passes_test(is_rto, login_url="registration:login")
 def rto_update_vehicle_info_1(request):
     if request.method == "GET":
-        return render(request, "get-uniqueID-input-form.html")
+        form = UniqueIDInputForm()
+        return render(request, "get-uniqueID-input-form.html", {"form": form})
     else:
-        uniqueID = request.POST["uniqueID"]
-        vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
-        vehicleInfo = vehicleInfo["data"]
-        vehicleInfoVars = [
-            "exists2",
-            "uniqueID",
-            "vehicleNo",
-            "modelName",
-            "vehicleColor",
-        ]
-        vehicleInfoDict = {}
-        for i in range(1, len(vehicleInfo) - 2):
-            vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
-        if vehicleInfo[1] == "":
-            print("Vehicle doesn't exist")
-            return render(request, "get-uniqueID-input-form.html")
-        else:
+        form = UniqueIDInputForm(request.POST)
+        if form.is_valid():
+            uniqueID = request.POST["uniqueID"]
+            vehicleInfo = getVehicleInfoFromUniqueID(register_contract, uniqueID)
+            vehicleInfo = vehicleInfo["data"]
+            vehicleInfoVars = [
+                "exists2",
+                "uniqueID",
+                "vehicleNo",
+                "modelName",
+                "vehicleColor",
+            ]
+            vehicleInfoDict = {}
+            for i in range(1, len(vehicleInfo) - 2):
+                vehicleInfoDict[vehicleInfoVars[i]] = vehicleInfo[i]
             request.session["vehicleInfoDict"] = vehicleInfoDict
             return redirect("registration:rto_update_vehicle_info_2")
+        else:
+            return render(request, "get-uniqueID-input-form.html", {"form": form})
 
 
 @login_required(login_url="registration:login")
@@ -538,68 +558,81 @@ def rto_update_vehicle_info_1(request):
 def rto_update_vehicle_info_2(request):
     vehicleInfoDict = request.session["vehicleInfoDict"]
     if request.method == "GET":
+        form = VehicleInfoForm(initial=vehicleInfoDict)
         return render(
             request,
             "rto-update-vehicle-info-form.html",
-            {"vehicleInfoDict": vehicleInfoDict},
+            {"vehicleInfoDict": vehicleInfoDict, "form": form},
         )
     else:
-        uniqueID = vehicleInfoDict["uniqueID"]
-        vehicleInfoVars = ["uniqueID", "vehicleNo", "modelName", "vehicleColor"]
-        newVehicleInfoDict = {}
-        for i in range(len(vehicleInfoDict)):
-            if vehicleInfoVars[i] != "uniqueID":
-                newVehicleInfoDict[vehicleInfoVars[i]] = request.POST[
-                    vehicleInfoVars[i]
-                ]
-            else:
-                newVehicleInfoDict[vehicleInfoVars[i]] = uniqueID
-        updateVehicleInfo(
-            register_contract,
-            uniqueID,
-            newVehicleInfoDict["vehicleNo"],
-            newVehicleInfoDict["modelName"],
-            newVehicleInfoDict["vehicleColor"],
-        )
-        del request.session["vehicleInfoDict"]
-        print("Updated Vehicle Info")
-        return redirect("registration:rto_dashboard")
+        form = VehicleInfoForm(request.POST or None)
+        if form.is_valid():
+            uniqueID = vehicleInfoDict["uniqueID"]
+            vehicleInfoVars = ["uniqueID", "vehicleNo", "modelName", "vehicleColor"]
+            newVehicleInfoDict = {}
+            for i in range(len(vehicleInfoDict)):
+                if vehicleInfoVars[i] != "uniqueID":
+                    newVehicleInfoDict[vehicleInfoVars[i]] = request.POST[
+                        vehicleInfoVars[i]
+                    ]
+                else:
+                    newVehicleInfoDict[vehicleInfoVars[i]] = uniqueID
+            updateVehicleInfo(
+                register_contract,
+                uniqueID,
+                newVehicleInfoDict["vehicleNo"],
+                newVehicleInfoDict["modelName"],
+                newVehicleInfoDict["vehicleColor"],
+            )
+            del request.session["vehicleInfoDict"]
+            message = "Updated Vehicle Information Successfully!"
+            return render(
+                request,
+                "rto-dashboard.html",
+                {"message": message},
+            )
+        else:
+            return render(
+                request,
+                "rto-update-vehicle-info-form.html",
+                {"vehicleInfoDict": vehicleInfoDict, "form": form},
+            )
 
 
 @login_required(login_url="registration:login")
 @user_passes_test(is_rto, login_url="registration:login")
 def rto_update_owner_info_1(request):
     if request.method == "GET":
-        return render(request, "get-aadhar-input-form.html")
+        form = AadharInputForm()
+        return render(request, "get-aadhar-input-form.html", {"form": form})
     else:
-        aadhar = request.POST["aadhar"]
-        ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)
-        ownerInfo = ownerInfo["data"]
-        ownerInfoVars = [
-            "exists1",
-            "fName",
-            "lName",
-            "aadhar",
-            "dob",
-            "userID",
-            "email",
-            "mobileNo",
-            "gender",
-        ]
-        ownerInfoDict = {}
-        for i in range(1, len(ownerInfo)):
-            ownerInfoDict[ownerInfoVars[i]] = ownerInfo[i]
+        form = AadharInputForm(request.POST)
+        if form.is_valid():
+            aadhar = request.POST["aadhar"]
+            ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)["data"]
+            ownerInfoVars = [
+                "exists1",
+                "fName",
+                "lName",
+                "aadhar",
+                "dob",
+                "userID",
+                "email",
+                "mobileNo",
+                "gender",
+            ]
+            ownerInfoDict = {}
+            for i in range(1, len(ownerInfo) - 2):
+                ownerInfoDict[ownerInfoVars[i]] = ownerInfo[i]
             (
                 ownerInfoDict["mobileNo"],
                 ownerInfoDict["email"],
                 ownerInfoDict["gender"],
             ) = ownerInfo[-1]
-        if ownerInfo[0] == "":
-            print("User doesn't exist")
-            return render(request, "get-aadhar-input-form.html")
-        else:
             request.session["ownerInfoDict"] = ownerInfoDict
             return redirect("registration:rto_update_owner_info_2")
+        else:
+            return render(request, "get-aadhar-input-form.html", {"form": form})
 
 
 @login_required(login_url="registration:login")
@@ -607,40 +640,54 @@ def rto_update_owner_info_1(request):
 def rto_update_owner_info_2(request):
     ownerInfoDict = request.session["ownerInfoDict"]
     if request.method == "GET":
+        form = OwnerInfoForm(initial=ownerInfoDict)
         return render(
-            request, "rto-update-owner-info-form.html", {"ownerInfoDict": ownerInfoDict}
+            request,
+            "rto-update-owner-info-form.html",
+            {"ownerInfoDict": ownerInfoDict, "form": form},
         )
     else:
-        aadhar = ownerInfoDict["aadhar"]
-        ownerInfoVars = [
-            "fName",
-            "lName",
-            "aadhar",
-            "dob",
-            "userID",
-            "email",
-            "mobileNo",
-            "gender",
-        ]
-        newOwnerInfoDict = {}
-        for i in range(len(ownerInfoDict)):
-            if ownerInfoVars[i] != "aadhar":
-                newOwnerInfoDict[ownerInfoVars[i]] = request.POST[ownerInfoVars[i]]
-            else:
-                newOwnerInfoDict[ownerInfoVars[i]] = aadhar
-        updateOwnerInfo(
-            register_contract,
-            newOwnerInfoDict["fName"],
-            newOwnerInfoDict["lName"],
-            aadhar,
-            newOwnerInfoDict["dob"],
-            newOwnerInfoDict["gender"],
-            newOwnerInfoDict["email"],
-            newOwnerInfoDict["mobileNo"],
-        )
-        del request.session["ownerInfoDict"]
-        print("Updated Owner Info")
-        return redirect("registration:rto_dashboard")
+        form = OwnerInfoForm(request.POST or None)
+        if form.is_valid():
+            aadhar = ownerInfoDict["aadhar"]
+            ownerInfoVars = [
+                "fName",
+                "lName",
+                "aadhar",
+                "dob",
+                "email",
+                "mobileNo",
+                "gender",
+            ]
+            newOwnerInfoDict = {}
+            for i in range(len(ownerInfoVars)):
+                if ownerInfoVars[i] != "aadhar":
+                    newOwnerInfoDict[ownerInfoVars[i]] = request.POST[ownerInfoVars[i]]
+                else:
+                    newOwnerInfoDict[ownerInfoVars[i]] = aadhar
+            updateOwnerInfo(
+                register_contract,
+                newOwnerInfoDict["fName"],
+                newOwnerInfoDict["lName"],
+                aadhar,
+                newOwnerInfoDict["dob"],
+                newOwnerInfoDict["gender"],
+                newOwnerInfoDict["email"],
+                newOwnerInfoDict["mobileNo"],
+            )
+            del request.session["ownerInfoDict"]
+            message = "Owner Information updated successfully!"
+            return render(
+                request,
+                "rto-dashboard.html",
+                {"message": message},
+            )
+        else:
+            return render(
+                request,
+                "rto-update-owner-info-form.html",
+                {"ownerInfoDict": ownerInfoDict, "form": form},
+            )
 
 
 def login(request, id):

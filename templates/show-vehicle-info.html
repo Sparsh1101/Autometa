@@ -48,7 +48,7 @@
         </nav>
         <div class="d-flex align-items-center con justify-content-evenly">
             <div class="col-sm-5" align="center">
-                <div class="card">
+                <div class="card shadow rounded-3">
                     <div class="card-body">
                         <h5 class="card-title">Vehicle Info</h5>
                         <p class="card-text">
@@ -68,7 +68,7 @@
                             <a href="{% url 'registration:vehicle_owners' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Show Owners</a>
                         {% endif %}
                         {% if FIRs|length > 0 %}
-                            <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Show FIRs</a>
+                            <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}" class="btn btn-danger">Show FIRs</a>
                         {% endif %}
                     </div>
                 </div>

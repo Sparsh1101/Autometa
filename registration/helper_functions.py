@@ -1,5 +1,4 @@
-from datetime import datetime, date
-from enum import unique
+from datetime import date
 from os import name
 from .models import *
 import re
@@ -12,6 +11,8 @@ def is_rto(user):
 def is_police(user):
     return user.groups.filter(name="police").exists()
 
+def is_authorised_user(user):
+    return user.groups.filter(name="police").exists() or user.groups.filter(name="rto").exists()
 
 def is_customer(user):
     return user.groups.filter(name="customer").exists()
@@ -19,7 +20,7 @@ def is_customer(user):
 
 def valid_firNo(firNo):
     firNo = str(firNo)
-    return re.match("^\d{4}$", firNo)
+    return re.match("^\d{1, 10}$", firNo)
 
 
 def valid_text(name):
@@ -76,16 +77,6 @@ def valid_email(email):
 def valid_mobileNo(mobileNo):
     mobileNo = str(mobileNo)
     return re.match("^\d{10}$", mobileNo)
-
-def valid_date(date):
-    date_year = int(date[6:])
-    date_month = int(date[3:5])
-    date_date = int(date[:2])
-    try:
-        datetime(date_year, date_month, date_date)
-        return True
-    except:
-        return False
 
 def valid_adult(dob):
     today = str(date.today())

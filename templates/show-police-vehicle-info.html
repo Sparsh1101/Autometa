@@ -42,7 +42,7 @@
         </nav>
         <div class="d-flex align-items-center con justify-content-evenly">
             <div class="col-sm-5" align="center">
-                <div class="card">
+                <div class="card shadow rounded-3">
                     <div class="card-body">
                         <h5 class="card-title">Vehicle Info</h5>
                         <p class="card-text">
@@ -59,14 +59,14 @@
                         </p>
                         {% if isCustomer %}
                         {% else %}
-                            <a href="{% url 'registration:add_fir' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Add FIR</a>
+                            <a href="{% url 'registration:add_fir' vehicleInfoDict.uniqueID %}" class="btn btn-danger">Add FIR</a>
                         {% endif %}
                     </div>
                 </div>
             </div>
             {% comment %} {% if firNo != "" %}
                 <div class="col-sm-5" align="center">
-                    <div class="card">
+                    <div class="card shadow rounded-3">
                         <div class="card-body">
                             <h5 class="card-title">Fir Info</h5>
                             <p class="card-text">

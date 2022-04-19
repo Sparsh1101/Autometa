@@ -2,6 +2,7 @@
 <html lang="en-US">
     <head>
         {% load static %}
+        {% load crispy_forms_tags %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Car Ledger</title>
@@ -52,25 +53,21 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="uniqueID">Unique ID</label>
-                                    <input id="uniqueID" class="form-control" name="uniqueID" type="text" value={{ vehicleInfoDict.uniqueID }} disabled>
+                                    <label class="form-label" for="uniqueID">{{ form.uniqueID.label }}</label>
+                                    <input id="uniqueID"
+                                           class="form-control"
+                                           name="uniqueID"
+                                           type="text"
+                                           value="{{ vehicleInfoDict.uniqueID }}"
+                                           disabled/>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="vehicleNo">Vehicle Number</label>
-                                    <input id="vehicleNo" class="form-control" name="vehicleNo" type="text" value={{ vehicleInfoDict.vehicleNo }}>
-                                </div>
+                                <div class="col-md-6">{{ form.vehicleNo|as_crispy_field }}</div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label for="modelName">Model Name</label>
-                                    <input id="modelName" class="form-control" name="modelName" type="text" value={{ vehicleInfoDict.modelName }}>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="vehicleColor">Vehicle Color</label>
-                                    <input id="vehicleColor" class="form-control" name="vehicleColor" type="text" value={{ vehicleInfoDict.vehicleColor }}>
-                                </div>
+                                <div class="col-md-6">{{ form.modelName|as_crispy_field }}</div>
+                                <div class="col-md-6">{{ form.vehicleColor|as_crispy_field }}</div>
                             </div>
                         </div>
                     </div>
