@@ -10,7 +10,7 @@ body {
 .loginCard {
 	width: 350px;
 	padding: 20px 15px;
-	height: 40vh;
+	/* height: 40vh; */
 	background: white;
 }
 

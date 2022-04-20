@@ -10,7 +10,7 @@ body {
 .loginCard {
 	width: 350px;
 	padding: 20px 15px;
-	height: 40vh;
+	height: 45vh;
 	background: white;
 }
 
@@ -22,6 +22,12 @@ body {
 	width: 20%;
 	height: 1px;
 	background: gray;
-	margin: auto;
-	/* margin-bottom: 10px; */
+	margin-bottom: 10px;
+}
+
+.registerFormCard {
+	width: 400px;
+	padding: 20px 15px;
+	height: 45vh;
+	background: red;
 }
