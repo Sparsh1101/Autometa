@@ -52,3 +52,8 @@ body {
 .updateBoxAligner {
 	width: 250px;
 }
+
+.qrCode {
+	padding: 5px;
+	border: 1px solid gray;
+}
