@@ -1,94 +1,104 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Car Ledger</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-              rel="stylesheet"
-              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-              crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <style>
-      .con {
-        min-height: 89vh;
-      }
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Car Ledger</a>
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavAltMarkup"
-                        aria-controls="navbarNavAltMarkup"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-between"
-                     id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page" href="/police">Home</a>
-                    </div>
-                    <div class="navbar-nav">
-                        <a class="nav-link" aria-current="page" href="/logout">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <div class="d-flex align-items-center con justify-content-evenly">
-            <div class="col-sm-5" align="center">
-                <div class="card shadow rounded-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Vehicle Info</h5>
-                        <p class="card-text">
-                            <b>Unique ID: </b>{{ vehicleInfoDict.uniqueID }}
-                    </p>
-                    <p class="card-text">
-                        <b>Vehicle Number: </b>{{ vehicleInfoDict.vehicleNo }}
-                </p>
-                <p class="card-text">
-                    <b>Model Name: </b>{{ vehicleInfoDict.modelName }}
-            </p>
-            <p class="card-text">
-                <b>Vehicle Color: </b>{{ vehicleInfoDict.vehicleColor }}
-        </p>
-        <p class="card-text">
-            <b>Number of Previous Owners: </b>{{ prevOwnersNum }}
-    </p>
-    {% if isCustomer %}
-    {% else %}
-        <a href="{% url 'registration:add_fir' vehicleInfoDict.uniqueID %}"
-           class="btn btn-danger">Add FIR</a>
-    {% endif %}
-</div>
-</div>
-</div>
-{% comment %} {% if firNo != "" %}
-                <div class="col-sm-5" align="center">
-                    <div class="card shadow rounded-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Fir Info</h5>
-                            <p class="card-text">
-                                <b>FIR Number: </b>{{ vehicleInfoDict.firNo }}
-                            </p>
-                            <p class="card-text">
-                                <b>District: </b>{{ vehicleInfoDict.district }}
-                            </p>
-                            <p class="card-text">
-                                <b>Year: </b>{{ vehicleInfoDict.year }}
-                            </p>
-                            <p class="card-text">
-                                <b>Reason: </b>{{ vehicleInfoDict.reason }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-{% endif %} {% endcomment %}
-</div>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Car Ledger</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+			crossorigin="anonymous"
+		></script>
+		<style>
+			.con {
+				min-height: 89vh;
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="/">Car Ledger</a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarNavAltMarkup"
+					aria-controls="navbarNavAltMarkup"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div
+					class="collapse navbar-collapse justify-content-between"
+					id="navbarNavAltMarkup"
+				>
+					<div class="navbar-nav">
+						<a class="nav-link active" aria-current="page" href="/police"
+							>Home</a
+						>
+					</div>
+					<div class="navbar-nav">
+						<a class="nav-link" aria-current="page" href="/logout">Logout</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<div class="d-flex align-items-center con justify-content-evenly">
+			<div class="col-sm-5" align="center">
+				<div class="card shadow rounded-3">
+					<div class="card-body">
+						<h5 class="card-title">Vehicle Info</h5>
+						<p class="card-text">
+							<b>Unique ID: </b>{{ vehicleInfoDict.uniqueID }}
+						</p>
+						<p class="card-text">
+							<b>Vehicle Number: </b>{{ vehicleInfoDict.vehicleNo }}
+						</p>
+						<p class="card-text">
+							<b>Model Name: </b>{{ vehicleInfoDict.modelName }}
+						</p>
+						<p class="card-text">
+							<b>Vehicle Color: </b>{{ vehicleInfoDict.vehicleColor }}
+						</p>
+						<p class="card-text">
+							<b>Number of Previous Owners: </b>{{ prevOwnersNum }}
+						</p>
+						{% if isCustomer %} {% else %}
+						<a
+							href="{% url 'registration:add_fir' vehicleInfoDict.uniqueID %}"
+							class="btn btn-danger"
+							>Add FIR</a
+						>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			{% comment %} {% if firNo != "" %}
+			<div class="col-sm-5" align="center">
+				<div class="card shadow rounded-3">
+					<div class="card-body">
+						<h5 class="card-title">Fir Info</h5>
+						<p class="card-text">
+							<b>FIR Number: </b>{{ vehicleInfoDict.firNo }}
+						</p>
+						<p class="card-text">
+							<b>District: </b>{{ vehicleInfoDict.district }}
+						</p>
+						<p class="card-text"><b>Year: </b>{{ vehicleInfoDict.year }}</p>
+						<p class="card-text"><b>Reason: </b>{{ vehicleInfoDict.reason }}</p>
+					</div>
+				</div>
+			</div>
+			{% endif %} {% endcomment %}
+		</div>
+	</body>
 </html>
