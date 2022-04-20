@@ -21,18 +21,11 @@
 			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 			crossorigin="anonymous"
 		></script>
-		<style>
-			.reg-log {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-			}
-		</style>
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="#">Car Ledger</a>
+				<a class="navbar-brand" href="/">Car Ledger</a>
 				<button
 					class="navbar-toggler"
 					type="button"
@@ -84,16 +77,13 @@
 								<div class="row mt-4">{{ form.vehicleNo|as_crispy_field }}</div>
 								<div class="row mt-2">{{ form.modelName|as_crispy_field }}</div>
 								<div class="row mt-2">{{ form.vehicleColor|as_crispy_field }}</div>
-								<!-- <div class="mt-3 d-flex">
-									<input type="submit" value="Submit" class="btn btn-primary" />
-								</div> -->
 								<a href="#userInfo" class="mt-3 btn btn-primary">
 									Next
 								</a>
 						</div>
 					</div>
 					<div class="loginContainer">
-						<div class="loginCard mt-5" id="userInfo">
+						<div class="loginCard shadow mt-5" id="userInfo">
 							<h3 class="text-center">User Information</h3>
 							<div class="row mt-4">
 								<div class="col-md-6">{{ form.fName|as_crispy_field }}</div>
@@ -130,7 +120,7 @@
 						</div>
 					</div>
 					<div class="loginContainer" id="userLoginInfo">
-						<div class="loginCard mt-5">
+						<div class="loginCard shadow mt-5">
 							<h2 class="text-center">Account Information</h2>
 							{% if isOwnerBool %}
 							<p>User Already exists</p>
