@@ -19,6 +19,12 @@ body {
 	background: white;
 }
 
+.loginContainer {
+	display: flex;
+	height: 90vh;
+	align-items: center;
+}
+
 .con {
 	min-height: 89vh;
 }
