@@ -52,15 +52,14 @@
 			</div>
 		</nav>
 		{% if currLength > 0 %}
-		<h2 class="mt-4">
-			<center>Currently Owned Vehicles</center>
-		</h2>
+		<h2 class="mt-4 text-center">Currently Owned Vehicles</h2>
 		<div
 			class="d-flex align-items-center container mt-4 justify-content-evenly"
+			style="flex-wrap: wrap"
 		>
 			{% for uniqueID in currentlyOwnedVehicles %}
-			<div class="col-sm-3" align="center">
-				<div class="card">
+			<div class="col-md-3 col-sm-6 col-12 p-2" style="width: 210px">
+				<div class="card shadow rounded-3">
 					<div class="card-body">
 						<h5 class="card-title">Unique ID</h5>
 						<p class="card-text">{{ uniqueID }}</p>
