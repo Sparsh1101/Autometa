@@ -7,11 +7,22 @@ body {
 	padding: 10px;
 }
 
+.loginBox2 {
+	/* height: 90vh; */
+	padding: 10px;
+}
+
 .loginCard {
 	width: 350px;
 	padding: 20px 15px;
 	/* height: 40vh; */
 	background: white;
+}
+
+.loginContainer {
+	display: flex;
+	height: 90vh;
+	align-items: center;
 }
 
 .con {

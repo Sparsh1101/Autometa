@@ -21,7 +21,8 @@ class LoginForm(forms.Form):
         username = cleaned_data.get("username")
         password = cleaned_data.get("password")
         if username == None:
-            raise forms.ValidationError({"district": "Please Enter a username"})
+            raise forms.ValidationError(
+                {"district": "Please Enter a username"})
         if password == None:
             raise forms.ValidationError({"year": "Please Enter a Password"})
         return cleaned_data
@@ -53,17 +54,20 @@ class FirForm(forms.Form):
         year = cleaned_data.get("year")
         reason = cleaned_data.get("reason")
         if (firNo == None) or (not valid_firNo(firNo)):
-            raise forms.ValidationError({"firNo": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"firNo": "Please Enter a valid value"})
         if getFirInfoFromFirNo(register_contract, firNo)["data"][0] != "":
             raise forms.ValidationError(
                 {"firNo": "FIR with this FIR Number already exists"}
             )
         if (district == None) or (not valid_text(district)):
-            raise forms.ValidationError({"district": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"district": "Please Enter a valid value"})
         if (year == None) or (not valid_year(year)):
             raise forms.ValidationError({"year": "Please Enter a valid value"})
         if reason == None:
-            raise forms.ValidationError({"reason": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"reason": "Please Enter a valid value"})
         return cleaned_data
 
 
@@ -84,9 +88,11 @@ class CheckRegisterForm(forms.Form):
         uniqueID = cleaned_data.get("uniqueID")
         aadhar = cleaned_data.get("aadhar")
         if (uniqueID == None) or (not valid_uniqueID(uniqueID)):
-            raise forms.ValidationError({"uniqueID": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"uniqueID": "Please Enter a valid value"})
         if (aadhar == None) or (not valid_aadhar(aadhar)):
-            raise forms.ValidationError({"aadhar": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"aadhar": "Please Enter a valid value"})
         return cleaned_data
 
 
@@ -128,6 +134,7 @@ class RegisterForm(forms.Form):
         max_length=11,
         label="Vehicle Registration Number (VRN)",
         help_text="This is the number on your vehicle's number plate",
+        widget=forms.TextInput(attrs={'autofocus': True})
     )
     modelName = forms.CharField(
         max_length=50,
@@ -175,9 +182,11 @@ class RegisterForm(forms.Form):
         dob = cleaned_data.get("dob")
         mobileNo = cleaned_data.get("mobileNo")
         if (vehicleNo == None) or (not valid_vehicleNo(vehicleNo)):
-            raise forms.ValidationError({"vehicleNo": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"vehicleNo": "Please Enter a valid value"})
         if (modelName == None) or (not valid_alphanumeric(modelName)):
-            raise forms.ValidationError({"modelName": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"modelName": "Please Enter a valid value"})
         if (fName == None) or (not valid_text(fName)):
             raise forms.ValidationError({"fName": "Invalid First Name."})
         if (lName == None) or (not valid_text(lName)):
@@ -202,7 +211,8 @@ class UniqueIDInputForm(forms.Form):
         cleaned_data = super().clean()
         uniqueID = cleaned_data.get("uniqueID")
         if (uniqueID == None) or (not valid_uniqueID(uniqueID)):
-            raise forms.ValidationError({"uniqueID": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"uniqueID": "Please Enter a valid value"})
         if getVehicleInfoFromUniqueID(register_contract, uniqueID)["data"][0] == False:
             raise forms.ValidationError(
                 {"uniqueID": "Vehicle with entered VIN does not exist"}
@@ -221,7 +231,8 @@ class AadharInputForm(forms.Form):
         cleaned_data = super().clean()
         aadhar = cleaned_data.get("aadhar")
         if (aadhar == None) or (not valid_aadhar(aadhar)):
-            raise forms.ValidationError({"aadhar": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"aadhar": "Please Enter a valid value"})
         if getOwnerInfoFromAadhar(register_contract, aadhar)["data"][0] == False:
             raise forms.ValidationError(
                 {"aadhar": "Owner with entered Aadhar Number does not exist"}
@@ -271,9 +282,11 @@ class VehicleInfoForm(forms.Form):
         vehicleNo = cleaned_data.get("vehicleNo")
         modelName = cleaned_data.get("modelName")
         if (vehicleNo == None) or (not valid_vehicleNo(vehicleNo)):
-            raise forms.ValidationError({"vehicleNo": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"vehicleNo": "Please Enter a valid value"})
         if (modelName == None) or (not valid_alphanumeric(modelName)):
-            raise forms.ValidationError({"modelName": "Please Enter a valid value"})
+            raise forms.ValidationError(
+                {"modelName": "Please Enter a valid value"})
         return cleaned_data
 
 

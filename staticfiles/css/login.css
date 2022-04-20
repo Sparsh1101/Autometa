@@ -7,10 +7,15 @@ body {
 	padding: 10px;
 }
 
+.loginBox2 {
+	/* height: 90vh; */
+	padding: 10px;
+}
+
 .loginCard {
 	width: 350px;
 	padding: 20px 15px;
-	height: 45vh;
+	/* height: 40vh; */
 	background: white;
 }
 
@@ -23,11 +28,4 @@ body {
 	height: 1px;
 	background: gray;
 	margin-bottom: 10px;
-}
-
-.registerFormCard {
-	width: 400px;
-	padding: 20px 15px;
-	height: 45vh;
-	background: red;
 }
