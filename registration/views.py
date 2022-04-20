@@ -31,17 +31,17 @@ def download_file(request, id):
     stream = BytesIO()
     img.save(stream)
     svg = stream.getvalue().decode()
-    img.save(settings.MEDIA_ROOT + "\\" + "download.svg")
-    drawing = svg2rlg(settings.MEDIA_ROOT + "\\" + "download.svg")
-    renderPM.drawToFile(drawing, settings.MEDIA_ROOT + "\\download.png", fmt="PNG")
-    filename = "download"
+    img.save(settings.MEDIA_ROOT + "\\" + url2[1] + ".svg")
+    drawing = svg2rlg(settings.MEDIA_ROOT + "\\" +  url2[1] + ".svg")
+    renderPM.drawToFile(drawing, settings.MEDIA_ROOT + "\\" +  url2[1] + ".png", fmt="PNG")
+    filename = url2[1]
     filepath = settings.MEDIA_ROOT + "\\" + filename + ".png"
     im = Image.open(filepath)
     response = HttpResponse(content_type="image/png")
     response["Content-Disposition"] = "attachment; filename=%s.png" % filename
     im.save(response, "png")
-    os.remove(settings.MEDIA_ROOT + "\\" + "download.svg")
-    os.remove(settings.MEDIA_ROOT + "\\" + "download.png")
+    os.remove(settings.MEDIA_ROOT + "\\" +  url2[1] + ".svg")
+    os.remove(settings.MEDIA_ROOT + "\\" +  url2[1] + ".png")
     return response
 
 
