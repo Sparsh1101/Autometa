@@ -15,7 +15,12 @@ body {
 .loginCard {
 	width: 350px;
 	padding: 20px 15px;
-	/* height: 40vh; */
+	background: white;
+}
+
+.showVehicleInfoCard {
+	width: 350px;
+	padding: 20px 15px;
 	background: white;
 }
 
@@ -34,4 +39,16 @@ body {
 	height: 1px;
 	background: gray;
 	margin-bottom: 10px;
+}
+.line30 {
+	width: 30%;
+	height: 1px;
+	background: gray;
+	margin-bottom: 10px;
+}
+.updateBox {
+	height: 90vh;
+}
+.updateBoxAligner {
+	width: 250px;
 }

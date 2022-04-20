@@ -15,7 +15,12 @@ body {
 .loginCard {
 	width: 350px;
 	padding: 20px 15px;
-	/* height: 40vh; */
+	background: white;
+}
+
+.showVehicleInfoCard {
+	width: 350px;
+	padding: 20px 15px;
 	background: white;
 }
 
