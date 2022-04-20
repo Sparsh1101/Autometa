@@ -1,71 +1,88 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Car Ledger</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-              rel="stylesheet"
-              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-              crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <style>
-      .con {
-        min-height: 89vh;
-      }
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Car Ledger</a>
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavAltMarkup"
-                        aria-controls="navbarNavAltMarkup"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-between"
-                     id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        {% if isCustomer %}
-                            <a class="nav-link active" aria-current="page" href="/customer">Home</a>
-                        {% elif isPolice %}
-                            <a class="nav-link active" aria-current="page" href="/police">Home</a>
-                        {% else %}
-                            <a class="nav-link active" aria-current="page" href="/rto">Home</a>
-                        {% endif %}
-                    </div>
-                    <div class="navbar-nav">
-                        <a class="nav-link" aria-current="page" href="/logout">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <div class="d-flex align-items-center con justify-content-evenly">
-            <div class="col-sm-5" align="center">
-                <div class="card shadow rounded-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Fir Info</h5>
-                        <p class="card-text">
-                            <b>FIR Number: </b>{{ fir.0 }}
-                    </p>
-                    <p class="card-text">
-                        <b>District: </b>{{ fir.1 }}
-                </p>
-                <p class="card-text">
-                    <b>Year: </b>{{ fir.2 }}
-            </p>
-            <p class="card-text">
-                <b>Reason: </b>{{ fir.3 }}
-        </p>
-    </div>
-</div>
-</div>
-</div>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Car Ledger</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static 'css/login.css' %}"
+		/>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+			crossorigin="anonymous"
+		></script>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">Car Ledger</a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarNavAltMarkup"
+					aria-controls="navbarNavAltMarkup"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div
+					class="collapse navbar-collapse justify-content-between"
+					id="navbarNavAltMarkup"
+				>
+					<div class="navbar-nav">
+						{% if isCustomer %}
+						<a class="nav-link active" aria-current="page" href="/customer"
+							>Home</a
+						>
+						{% elif isPolice %}
+						<a class="nav-link active" aria-current="page" href="/police"
+							>Home</a
+						>
+						{% else %}
+						<a class="nav-link active" aria-current="page" href="/rto">Home</a>
+						{% endif %}
+					</div>
+					<div class="navbar-nav">
+						<a class="nav-link" aria-current="page" href="/logout">Logout</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<div class="d-flex align-items-center justify-content-center loginBox">
+			<div class="firCard shadow rounded-3">
+				<div class="card-body">
+					<h3 class="text-center m-0">Fir Info</h3>
+					<div class="row mb-1 mt-3">
+						<div class="col-lg-6 fw-bold">FIR Number</div>
+						<div class="col-lg-6">{{ fir.0 }}</div>
+					</div>
+					<div class="row mb-1">
+						<div class="col-lg-6 fw-bold">District</div>
+						<div class="col-lg-6">{{ fir.1 }}</div>
+					</div>
+					<div class="row mb-1">
+						<div class="col-lg-6 fw-bold">Year</div>
+						<div class="col-lg-6">{{ fir.2 }}</div>
+					</div>
+					<div class="row mb-1">
+						<div class="col-lg-6 fw-bold">Reason</div>
+						<div class="col-lg-6">{{ fir.3 }}</div>
+					</div>
+					<a href="/rto" class="btn btn-secondary mt-2">Go Back</a>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
