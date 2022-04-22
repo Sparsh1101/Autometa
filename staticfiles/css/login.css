@@ -1,5 +1,6 @@
 body {
 	background: #eee;
+	overflow: hidden;
 }
 
 .loginBox {
@@ -56,4 +57,16 @@ body {
 .qrCode {
 	padding: 5px;
 	border: 1px solid gray;
+}
+
+.showInfoCard {
+	width: 400px;
+	padding: 20px 15px;
+	background: white;
+}
+
+.firCard {
+	width: 300px;
+	padding: 20px 15px;
+	background: white;
 }

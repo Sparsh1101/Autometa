@@ -22,10 +22,10 @@
 			crossorigin="anonymous"
 		></script>
 	</head>
-	<body>
+	<body style="overflow: hidden">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="#">Car Ledger</a>
+				<a class="navbar-brand" href="/">Car Ledger</a>
 				<button
 					class="navbar-toggler"
 					type="button"
@@ -55,47 +55,64 @@
 			</div>
 		</nav>
 		<div class="loginBox">
-			<div class="d-flex align-items-center justify-content-center">
-				<div class="col-sm-5">
-					<div class="loginCard">
+			<div class="row p-0">
+				<div
+					class="col-sm-6 d-flex align-items-center justify-content-center p-0"
+					style="height: 90vh"
+				>
+					<div class="showInfoCard shadow rounded-3">
 						<div class="card-body">
-							<h5 class="card-title">Vehicle Info</h5>
-							<div class="line30"></div>
-							<p class="card-text">
-								<b>Unique ID: </b>{{ vehicleInfoDict.uniqueID }}
-							</p>
-							<p class="card-text">
-								<b>Vehicle Number: </b>{{ vehicleInfoDict.vehicleNo }}
-							</p>
-							<p class="card-text">
-								<b>Model Name: </b>{{ vehicleInfoDict.modelName }}
-							</p>
-							<p class="card-text">
-								<b>Vehicle Color: </b>{{ vehicleInfoDict.vehicleColor }}
-							</p>
-							<p class="card-text">
-								<b>Number of Previous Owners: </b>{{ prevOwnersNum }}
-							</p>
-							{% if FIRs|length > 0 %}
-							<a
-								href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}"
-								class="btn btn-primary"
-								>Show FIRs</a
-							>
-							{% endif %}
+							<h3 class="text-center m-0">Vehicle Info</h3>
+							<div class="row mb-1 mt-3">
+								<div class="col-lg-6 fw-bold">Unique ID</div>
+								<div class="col-lg-6">{{ vehicleInfoDict.uniqueID }}</div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-lg-6 fw-bold">Vehicle Number</div>
+								<div class="col-lg-6">{{ vehicleInfoDict.vehicleNo }}</div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-lg-6 fw-bold">Model Name</div>
+								<div class="col-lg-6">{{ vehicleInfoDict.modelName }}</div>
+							</div>
+							<div class="row mb-1">
+								<div class="col-lg-6 fw-bold">Vehicle Color</div>
+								<div class="col-lg-6">{{ vehicleInfoDict.vehicleColor }}</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-lg-6 fw-bold">Number of Previous Owners</div>
+								<div class="col-lg-6">{{ prevOwnersNum }}</div>
+							</div>
+							<div class="row">
+								{% if FIRs|length > 0 %}
+
+								<div class="col-lg-6">
+									<a
+										href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}"
+										class="btn btn-primary"
+										>Show FIRs</a
+									>
+								</div>
+								{% endif %} {% if auth %}
+								<div class="col-lg-6">
+									<a
+										href="{% url 'registration:download_file' vehicleInfoDict.uniqueID %}"
+										class="btn btn-success"
+										>Download QR</a
+									>
+								</div>
+								{% endif %}
+							</div>
 						</div>
 					</div>
 				</div>
 				{% if auth %}
-				<div class="col-sm-5">
-					<div class="loginCard">
-						<h5 class="card-title pl-2">QR Code</h5>
+				<div
+					class="col-sm-6 d-flex align-items-center justify-content-center p-0"
+					style="height: 90vh"
+				>
+					<div class="loginCard shadow rounded-3">
 						<div class="mb-2 qrCode">{{ svg|safe }}</div>
-						<a
-							href="{% url 'registration:download_file' vehicleInfoDict.uniqueID %}"
-							class="btn btn-primary"
-							>Download QR</a
-						>
 					</div>
 				</div>
 				{% endif %}
