@@ -205,7 +205,7 @@ def rto_register(request):
             newOwnerInfoDict["lName"],
             aadhar,
             newOwnerInfoDict["dob"],
-            str(Ruser.id),
+            str(request.user.id),
             (
                 newOwnerInfoDict["mobileNo"],
                 newOwnerInfoDict["email"],
