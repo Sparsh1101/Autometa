@@ -181,7 +181,7 @@ def rto_register(request):
             elif ownerInfoVars[i] == "exists1":
                 newOwnerInfoDict["exists1"] = ownerInfoDict["exists1"]
             elif ownerInfoVars[i] == "userID":
-                newOwnerInfoDict[ownerInfoVars[i]] = Ruser.id
+                newOwnerInfoDict[ownerInfoVars[i]] = request.user.id
             else:
                 newOwnerInfoDict[ownerInfoVars[i]
                                  ] = request.POST[ownerInfoVars[i]]
