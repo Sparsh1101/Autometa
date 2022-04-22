@@ -3,12 +3,12 @@ body {
 }
 
 .loginBox {
-	height: 90vh;
+	height: 89vh;
 	padding: 10px;
 }
 
 .loginBox2 {
-	/* height: 90vh; */
+	/* height: 89vh; */
 	padding: 10px;
 }
 
@@ -26,7 +26,7 @@ body {
 
 .loginContainer {
 	display: flex;
-	height: 90vh;
+	height: 89vh;
 	align-items: center;
 }
 

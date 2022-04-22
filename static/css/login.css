@@ -3,12 +3,11 @@ body {
 }
 
 .loginBox {
-	height: 90vh;
+	height: 89vh;
 	padding: 10px;
 }
 
 .loginBox2 {
-	/* height: 90vh; */
 	padding: 10px;
 }
 
@@ -18,15 +17,9 @@ body {
 	background: white;
 }
 
-.showVehicleInfoCard {
-	width: 350px;
-	padding: 20px 15px;
-	background: white;
-}
-
 .loginContainer {
 	display: flex;
-	height: 90vh;
+	height: 89vh;
 	align-items: center;
 }
 
@@ -47,7 +40,7 @@ body {
 	margin-bottom: 10px;
 }
 .updateBox {
-	height: 90vh;
+	height: 89vh;
 }
 .updateBoxAligner {
 	width: 250px;
