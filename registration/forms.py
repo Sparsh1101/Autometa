@@ -344,3 +344,15 @@ class OwnerInfoForm(forms.Form):
         if (mobileNo == None) or (not valid_mobileNo(mobileNo)):
             raise forms.ValidationError({"mobileNo": "Invalid Mobile Number."})
         return cleaned_data
+
+class change_password_form(forms.ModelForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(), label="Old Password")
+    password = forms.CharField(
+        widget=forms.PasswordInput(),
+        label="New Password",
+        help_text="<ul><li>Your password can’t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can’t be a commonly used password.</li><li>Your password can’t be entirely numeric.</li></ul>",
+    )
+
+    class Meta:
+        model = User
+        fields = ["password"]

@@ -48,4 +48,6 @@ urlpatterns = [
     path("vehicle-qr/<str:id>", views.vehicle_qr, name="vehicle_qr"),
     path("login/<str:id>", views.login, name="login"),
     path("logout", views.logoutU, name="logout"),
+    path("change_password", views.change_password, name="change_password"),
+    path("password_changed", views.password_changed, name="password_changed"),
 ]

@@ -4,9 +4,10 @@ from re import L
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from .models import *
 from .forms import *
 from .deploy import *
@@ -17,7 +18,6 @@ from io import BytesIO
 from django.conf import settings
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPM
-import mimetypes
 from django.http.response import HttpResponse
 from PIL import Image
 
@@ -31,18 +31,18 @@ def download_file(request, id):
     stream = BytesIO()
     img.save(stream)
     svg = stream.getvalue().decode()
-    img.save(settings.MEDIA_ROOT + "\\" + url2[1] + ".svg")
-    drawing = svg2rlg(settings.MEDIA_ROOT + "\\" + url2[1] + ".svg")
+    img.save(settings.MEDIA_ROOT + "/" + url2[1] + ".svg")
+    drawing = svg2rlg(settings.MEDIA_ROOT + "/" + url2[1] + ".svg")
     renderPM.drawToFile(drawing, settings.MEDIA_ROOT +
-                        "\\" + url2[1] + ".png", fmt="PNG")
+                        "/" + url2[1] + ".png", fmt="PNG")
     filename = url2[1]
-    filepath = settings.MEDIA_ROOT + "\\" + filename + ".png"
+    filepath = settings.MEDIA_ROOT + "/" + filename + ".png"
     im = Image.open(filepath)
     response = HttpResponse(content_type="image/png")
     response["Content-Disposition"] = "attachment; filename=%s.png" % filename
     im.save(response, "png")
-    os.remove(settings.MEDIA_ROOT + "\\" + url2[1] + ".svg")
-    os.remove(settings.MEDIA_ROOT + "\\" + url2[1] + ".png")
+    os.remove(settings.MEDIA_ROOT + "/" + url2[1] + ".svg")
+    os.remove(settings.MEDIA_ROOT + "/" + url2[1] + ".png")
     return response
 
 
@@ -114,10 +114,8 @@ def rto_register(request):
         if isOwnerBool:
             ownerInfo = getOwnerInfoFromAadhar(register_contract, aadhar)
             ownerInfo = ownerInfo["data"]
-            user_creation_form = ""
         else:
             ownerInfo = ["", "", "", aadhar, "", "", "", ("", "", "")]
-            user_creation_form = UserCreationForm()
 
         for i in range(len(ownerInfo) - 2):
             ownerInfoDict[ownerInfoVars[i]] = ownerInfo[i]
@@ -147,7 +145,6 @@ def rto_register(request):
             request,
             "rto-register.html",
             {
-                "user_creation_form": user_creation_form,
                 "form": form,
                 "aadhar": aadhar,
                 "uniqueID": uniqueID,
@@ -159,10 +156,11 @@ def rto_register(request):
         newOwnerInfoDict = {}
         newVehicleInfoDict = {}
         if isOwnerBool == False:
-            user_creation_form = UserCreationForm(request.POST)
             form = RegisterForm(request.POST or None)
-            if user_creation_form.is_valid() and form.is_valid():
-                Ruser = user_creation_form.save(commit=False)
+            if form.is_valid():
+                Ruser = User.objects.create_user(username=aadhar, password=aadhar)
+                our_user = Customer(user=Ruser, first_password=aadhar, password_changed=False)
+                our_user.save()
                 Ruser.save()
                 group = Group.objects.get(name="customer")
                 group.user_set.add(Ruser)
@@ -171,7 +169,6 @@ def rto_register(request):
                     request,
                     "rto-register.html",
                     {
-                        "user_creation_form": user_creation_form,
                         "form": form,
                         "aadhar": aadhar,
                         "uniqueID": uniqueID,
@@ -273,6 +270,7 @@ def police_dashboard(request):
 
 @login_required(login_url="registration:login")
 @user_passes_test(is_customer, login_url="registration:login")
+@password_change_required
 def customer_dashboard(request):
     return render(request, "customer-dashboard.html")
 
@@ -871,3 +869,41 @@ def login(request, id):
 def logoutU(request):
     logout(request)
     return redirect("registration:index")
+
+@login_required(login_url="registration:login")
+@user_passes_test(is_customer, login_url="registration:login")
+def change_password(request):
+    if request.method == "GET":
+        form = change_password_form()
+        return render(request, "change_password.html", {"form": form})
+    else:
+        form = change_password_form(request.POST)
+        if form.is_valid():
+            old_password = form.cleaned_data["old_password"]
+            new_password = form.cleaned_data["password"]
+            user = request.user
+            if user.check_password(old_password):
+                try:
+                    validate_password(new_password)
+                    if user.check_password(new_password):
+                        form.add_error(
+                            "password", "Password entered is same as the previous one!"
+                        )
+                    else:
+                        user.set_password(new_password)
+                        our_user = Customer.objects.get(user_id=request.user.id)
+                        our_user.password_changed = True
+                        our_user.first_password = ""
+                        our_user.save()
+                        user.save()
+                        logout(request)
+                        return redirect("registration:password_changed")
+                except ValidationError as e:
+                    form.add_error("password", e)
+            else:
+                form.add_error("old_password", "Incorrect Password")
+        return render(request, "change_password.html", {"form": form})
+
+
+def password_changed(request):
+    return render(request, "password_changed.html", {})

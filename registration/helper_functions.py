@@ -2,7 +2,7 @@ from datetime import date
 from os import name
 from .models import *
 import re
-
+from django.shortcuts import render, redirect
 
 def is_rto(user):
     return user.groups.filter(name="rto").exists()
@@ -108,3 +108,13 @@ def valid_adult(dob):
     ):
         is_valid = True
     return is_valid
+
+def password_change_required(func):
+    def logic(request, *args, **kwargs):
+        user = request.user
+        if is_customer(user):
+            coord = Customer.objects.get(user=user)
+            if not coord.password_changed:
+                return redirect("registration:change_password")
+        return func(request, *args, **kwargs)
+    return logic
