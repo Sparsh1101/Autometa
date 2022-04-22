@@ -131,6 +131,7 @@ def storeInfo(
         send_store_txn = w3.eth.send_raw_transaction(signed_store_txn.rawTransaction)
         tx_store_receipt = w3.eth.wait_for_transaction_receipt(send_store_txn)
         print("Data Entered Successfully!")
+        print(nonce)
         return {"success": True, "data": "Data Entered Successfully!"}
 
     except exceptions.SolidityError as err:
@@ -139,6 +140,7 @@ def storeInfo(
 
 def storeFirInfo(register_contract, uniqueID, firNo, district, year, reason):
     global nonce
+    print(nonce)
     try:
         store_transaction = register_contract.functions.storeFirInfo(
             uniqueID, firNo, district, year, reason
@@ -158,6 +160,7 @@ def storeFirInfo(register_contract, uniqueID, firNo, district, year, reason):
         send_store_txn = w3.eth.send_raw_transaction(signed_store_txn.rawTransaction)
         tx_store_receipt = w3.eth.wait_for_transaction_receipt(send_store_txn)
         print("FIR Data Entered Successfully!")
+        print(nonce)
         return {"success": True, "data": "FIR Data Entered Successfully!"}
 
     except exceptions.SolidityError as err:
@@ -258,6 +261,8 @@ def updateOwnerInfo(
             store_transaction, private_key=private_key
         )
         send_store_txn = w3.eth.send_raw_transaction(signed_store_txn.rawTransaction)
+        print("Data Updated Successfully")
+        print(nonce)
         tx_store_receipt = w3.eth.wait_for_transaction_receipt(send_store_txn)
         return {"success": True, "data": "Data Updated Successfully!"}
 
@@ -286,6 +291,8 @@ def updateVehicleInfo(register_contract, uniqueID, vehicleNo, modelName, vehicle
         )
         send_store_txn = w3.eth.send_raw_transaction(signed_store_txn.rawTransaction)
         tx_store_receipt = w3.eth.wait_for_transaction_receipt(send_store_txn)
+        print("Data Updated Successfully")
+        print(nonce)
         return {"success": True, "data": "Data Updated Successfully!"}
 
     except exceptions.SolidityError as err:
