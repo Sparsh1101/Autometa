@@ -51,7 +51,7 @@ Register = w3.eth.contract(abi=abi, bytecode=bytecode)
 
 # getting latest transaction which is also nonce
 nonce = w3.eth.getTransactionCount(my_address)
-
+print(nonce)
 
 def deployContract(Register):
     global nonce
@@ -102,6 +102,7 @@ def storeInfo(
     ownerInfo2,
 ):
     global nonce
+    print(nonce)
     try:
         store_transaction = register_contract.functions.storeInfo(
             uniqueID,
@@ -239,6 +240,7 @@ def updateOwnerInfo(
     register_contract, fName, lName, aadhar, dob, gender, email, mobileNo
 ):
     global nonce
+    print(nonce)
     try:
         store_transaction = register_contract.functions.updateOwnerInfo(
             fName, lName, aadhar, dob, gender, email, mobileNo
@@ -265,6 +267,7 @@ def updateOwnerInfo(
 
 def updateVehicleInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor):
     global nonce
+    print(nonce)
     try:
         store_transaction = register_contract.functions.updateVehicleInfo(
             uniqueID, vehicleNo, modelName, vehicleColor
