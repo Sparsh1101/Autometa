@@ -2,6 +2,8 @@ from solcx import compile_standard, install_solc
 import json
 from web3 import Web3, exceptions
 import os
+import time
+# time.sleep(1)
 
 from dotenv import load_dotenv
 
@@ -55,6 +57,7 @@ print(nonce)
 
 def deployContract(Register):
     global nonce
+    nonce = w3.eth.getTransactionCount(my_address)
     transaction = Register.constructor().buildTransaction(
         {
             "chainId": chain_id,
@@ -102,6 +105,7 @@ def storeInfo(
     ownerInfo2,
 ):
     global nonce
+    nonce = w3.eth.getTransactionCount(my_address)
     print(nonce)
     try:
         store_transaction = register_contract.functions.storeInfo(
@@ -140,6 +144,7 @@ def storeInfo(
 
 def storeFirInfo(register_contract, uniqueID, firNo, district, year, reason):
     global nonce
+    nonce = w3.eth.getTransactionCount(my_address)
     print(nonce)
     try:
         store_transaction = register_contract.functions.storeFirInfo(
@@ -243,6 +248,7 @@ def updateOwnerInfo(
     register_contract, fName, lName, aadhar, dob, gender, email, mobileNo
 ):
     global nonce
+    nonce = w3.eth.getTransactionCount(my_address)
     print(nonce)
     try:
         store_transaction = register_contract.functions.updateOwnerInfo(
@@ -272,6 +278,7 @@ def updateOwnerInfo(
 
 def updateVehicleInfo(register_contract, uniqueID, vehicleNo, modelName, vehicleColor):
     global nonce
+    nonce = w3.eth.getTransactionCount(my_address)
     print(nonce)
     try:
         store_transaction = register_contract.functions.updateVehicleInfo(
