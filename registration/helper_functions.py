@@ -25,7 +25,7 @@ def is_customer(user):
 
 def valid_firNo(firNo):
     firNo = str(firNo)
-    return re.match("^\d{1, 10}$", firNo)
+    return re.match("^\d{1,10}$", firNo)
 
 
 def valid_text(name):
