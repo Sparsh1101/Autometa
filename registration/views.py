@@ -174,6 +174,8 @@ def rto_register(request):
                         "uniqueID": uniqueID,
                     },
                 )
+        else:
+            Ruser = User.objects.get(username=aadhar)
 
         for i in range(1, len(ownerInfoDict)):
             if ownerInfoVars[i] == "aadhar":
@@ -181,7 +183,7 @@ def rto_register(request):
             elif ownerInfoVars[i] == "exists1":
                 newOwnerInfoDict["exists1"] = ownerInfoDict["exists1"]
             elif ownerInfoVars[i] == "userID":
-                newOwnerInfoDict[ownerInfoVars[i]] = request.user.id
+                newOwnerInfoDict[ownerInfoVars[i]] = Ruser.id
             else:
                 newOwnerInfoDict[ownerInfoVars[i]
                                  ] = request.POST[ownerInfoVars[i]]
@@ -205,7 +207,7 @@ def rto_register(request):
             newOwnerInfoDict["lName"],
             aadhar,
             newOwnerInfoDict["dob"],
-            str(request.user.id),
+            str(Ruser.id),
             (
                 newOwnerInfoDict["mobileNo"],
                 newOwnerInfoDict["email"],
@@ -399,8 +401,8 @@ def owner(request, id=""):
 @user_passes_test(is_customer, login_url="registration:login")
 def customer_profile(request):
     user_id = request.user.id
-    aadhar = getAadharfromUserId(register_contract, str(user_id))
-    aadhar = aadhar["data"]
+    aadhar = getAadharfromUserId(register_contract, str(user_id))["data"]
+    print("aadhar:", aadhar)
     return redirect("registration:owner", aadhar)
 
 
