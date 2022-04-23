@@ -61,7 +61,7 @@
 			</div>
 		</nav>
 		<div class="d-flex align-items-center justify-content-center loginBox">
-			<div class="loginCard shadow rounded-3">
+			<div class="showInfoCard shadow rounded-3">
 				<div class="card-body">
 					<h3 class="card-title text-center m-0">User Info</h3>
 					<div class="row mb-1 mt-3">
@@ -86,7 +86,14 @@
 					</div>
 					<div class="row mb-1">
 						<div class="col-lg-6 fw-bold">Email</div>
+						{% if ownerInfoDict.splittedEmail %}
+						<div class="col-lg-6">
+							<div>{{ ownerInfoDict.email_1 }}</div>
+							<div>{{ ownerInfoDict.email_2 }}</div>
+						</div>
+						{% else %}
 						<div class="col-lg-6">{{ ownerInfoDict.email }}</div>
+						{% endif %}
 					</div>
 					<div class="row mb-3">
 						<div class="col-lg-6 fw-bold">Mobile Number</div>

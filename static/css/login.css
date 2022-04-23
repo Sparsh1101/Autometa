@@ -13,7 +13,7 @@ body {
 }
 
 .loginCard {
-	width: 350px;
+	min-width: 350px;
 	padding: 20px 15px;
 	background: white;
 }
