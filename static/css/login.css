@@ -13,14 +13,14 @@ body {
 }
 
 .loginCard {
-	min-width: 350px;
+	width: 350px;
 	padding: 20px 15px;
 	background: white;
 }
 
 .loginContainer {
 	display: flex;
-	height: 89vh;
+	/* height: 89vh; */
 	align-items: center;
 }
 
