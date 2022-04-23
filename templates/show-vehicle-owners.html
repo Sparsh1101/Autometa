@@ -54,10 +54,11 @@
 		<h2 class="mt-4 text-center">Current Owner</h2>
 		<div
 			class="d-flex align-items-center container mt-4 justify-content-evenly"
+			style="flex-wrap: wrap"
 		>
-			<div class="col-md-3 col-sm-6 col-12 p-2" style="width: 200px">
+			<div class="col-md-3 col-sm-6 col-12 p-2" style="width: 230px">
 				<div class="card shadow rounded-3">
-					<div class="card-body">
+					<div class="card-body d-flex flex-column">
 						<h5 class="card-title">Aadhar Number</h5>
 						<p class="card-text">{{ currentOwner }}</p>
 						<a
@@ -70,17 +71,15 @@
 			</div>
 		</div>
 		{% if prevLength > 0 %}
-		<h2 class="mt-4">
-			<center>Previous Owners</center>
-		</h2>
+		<h2 class="mt-4 text-center">Previous Owners</h2>
 		<div
 			class="d-flex align-items-center container mt-4 justify-content-evenly"
 			style="flex-wrap: wrap"
 		>
 			{% for aadhar in previousOwners %}
-			<div class="col-md-3 col-sm-6 col-12 p-2" align="center">
+			<div class="col-md-3 col-sm-6 col-12 p-2" style="width: 230px">
 				<div class="card shadow rounded-3">
-					<div class="card-body">
+					<div class="card-body d-flex flex-column">
 						<h5 class="card-title">Aadhar Number</h5>
 						<p class="card-text">{{ aadhar }}</p>
 						<a
