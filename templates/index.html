@@ -1,123 +1,112 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Car Ledger</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-              rel="stylesheet"
-              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-              crossorigin="anonymous"/>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Car Ledger</a>
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavAltMarkup"
-                        aria-controls="navbarNavAltMarkup"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-between"
-                     id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicle Ledger</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Vehicle Ledger</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="landingPage">
+        <div class="row d-flex align-items-center">
+            <div class="col-12 col-lg-5">
+                <h5 class="h2">One Stop Destination for Verification of Vehicles</h5>
+                <p class="card-text">
+                    If you are buying a used vehicle and you are unsure if the vehicle you are looking at is worth your
+                    money, you have come to the right spot. You can verify the genuineness of used vehicles just by
+                    scanning a QR.
+                </p>
+                <a href="#loginSection" class="btn btn-primary">Get Started</a>
+            </div>
+            <div class="col-12 col-lg-7">
+                <img src="{% static 'images/undraw_by_my_car_ttge.png' %}" alt="" class="landingPageImg" />
+            </div>
+        </div>
+        <div class="row d-flex align-items-center">
+            <div class="col-12 col-lg-5 order-lg-2">
+                <h5 class="h2">So who are you?</h5>
+                <div class="abc"></div>
+                <p class="card-text pt-2">
+                    Based on your position, we have classified respective login pages to
+                    direct you on the path to enable you to explore the ample of
+                    features provided by our product line
+                </p>
+            </div>
+            <div class="col-12 col-lg-7">
+                <img src="{% static 'images/undraw_order_a_car_3tww.png' %}" alt="" class="landingPageImg" />
+            </div>
+        </div>
+        <div class="d-flex pb-3 justify-content-evenly" id="loginSection" style="flex-wrap: wrap;">
+            <div class="card shadow rounded-3 col-sm-3 col-11 mb-2">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title d-block">RTO LOGIN</h5>
+                        <div class="abc"></div>
+                        <p class="card-text pt-1">
+                            RTO personnel can login here to create new vehicle records for used and new vehicles, change
+                            existing vehicle and owner information or just view information on a vehicle.
+                        </p>
+                    </div>
+                    <div class="pt-3">
+                        <a href="{% url 'registration:login' 'rto' %}" class="btn btn-primary">Login</a>
                     </div>
                 </div>
             </div>
-        </nav>
-        <div class="landingPage">
-            <div class="row d-flex align-items-center">
-                <div class="col-12 col-lg-5">
-                    <h5 class="h2">One Stop Destination for Buying Used Vehicles</h5>
-                    <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure quia
-                        voluptatibus vitae et architecto harum ducimus officiis delectus
-                        perferendis sit, laudantium ad neque optio vero.
-                    </p>
-                    <a href="#loginSection" class="btn btn-primary">Get Started</a>
-                </div>
-                <div class="col-12 col-lg-7">
-                    <img src="{% static 'images/undraw_by_my_car_ttge.png' %}"
-                         alt=""
-                         class="landingPageImg"/>
-                </div>
-            </div>
-            <div class="row d-flex align-items-center">
-                <div class="col-12 col-lg-5 order-lg-2">
-                    <h5 class="h2">So who are you?</h5>
-                    <div class="abc"></div>
-                    <p class="card-text pt-2">
-                        Based on your position, we have classified respective login pages to
-                        direct you on the path to enable you to explore the ample of
-                        features provided by our product line
-                    </p>
-                </div>
-                <div class="col-12 col-lg-7">
-                    <img src="{% static 'images/undraw_order_a_car_3tww.png' %}"
-                         alt=""
-                         class="landingPageImg"/>
-                </div>
-            </div>
-            <div class="card-section d-flex justify-content-evenly pb-3" id="loginSection" style="flex-wrap: wrap;">
-                <div class="col-sm-3 pb-2">
-                    <div class="card shadow rounded-3">
-                        <div class="card-body">
-                            <h5 class="card-title d-block">RTO LOGIN</h5>
-                            <div class="abc"></div>
-                            <p class="card-text pt-1">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint
-                                magnam illo consequatur qui, cum, at voluptatibus assumenda
-                                laudantium accusamus provident saepe accusantium! Nobis, ea
-                                voluptates.
-                            </p>
-                        <a href="{% url 'registration:login' 'rto' %}" class="btn btn-primary">Login</a
-                        >
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3 pb-2">
-                <div class="card shadow rounded-3">
-                    <div class="card-body">
+            <div class="card shadow rounded-3 col-sm-3 col-11 mb-2">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
                         <h5 class="card-title">POLICE LOGIN</h5>
                         <div class="abc"></div>
                         <p class="card-text pt-1">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint
-                            magnam illo consequatur qui, cum, at voluptatibus assumenda
-                            laudantium accusamus provident saepe accusantium! Nobis, ea
-                            voluptates.
+                            Police personnel can login here to add FIRs to vehicles to flag them of an accident, theft
+                            etc; or they can just view information on a vehicle.
                         </p>
-                    <a href="{% url 'registration:login' 'police' %}"
-                       class="btn btn-primary">Login</a
-                    >
+                    </div>
+                    <div class="pt-3">
+                        <a href="{% url 'registration:login' 'police' %}" class="btn btn-primary">Login</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow rounded-3 col-sm-3 col-11 mb-2">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title">CUSTOMER LOGIN</h5>
+                        <div class="abc"></div>
+                        <p class="card-text pt-1">
+                            Customers can login here using their credentials to view their owned vehicles along with all
+                            their information and they can also send their QR codes to other users if they want to sell
+                            their cars and let the buyer verify the vehicle information.
+                        </p>
+                    </div>
+                    <div class="pt-3">
+                        <a href="{% url 'registration:login' 'customer' %}" class="btn btn-primary">Login</a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 pb-2">
-            <div class="card shadow rounded-3">
-                <div class="card-body">
-                    <h5 class="card-title">CUSTOMER LOGIN</h5>
-                    <div class="abc"></div>
-                    <p class="card-text pt-1">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint
-                        magnam illo consequatur qui, cum, at voluptatibus assumenda
-                        laudantium accusamus provident saepe accusantium! Nobis, ea
-                        voluptates.
-                    </p>
-                <a href="{% url 'registration:login' 'customer' %}"
-                   class="btn btn-primary">Login</a
-                >
-            </div>
-        </div>
     </div>
-</div>
-</div>
 </body>
+
 </html>

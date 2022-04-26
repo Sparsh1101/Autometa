@@ -1,6 +1,5 @@
 body {
 	background: #eee;
-	overflow: hidden;
 }
 
 .loginBox {
@@ -34,15 +33,18 @@ body {
 	background: gray;
 	margin-bottom: 10px;
 }
+
 .line30 {
 	width: 30%;
 	height: 1px;
 	background: gray;
 	margin-bottom: 10px;
 }
+
 .updateBox {
 	height: 89vh;
 }
+
 .updateBoxAligner {
 	width: 250px;
 }
@@ -53,7 +55,6 @@ body {
 }
 
 .showInfoCard {
-	width: 400px;
 	padding: 20px 15px;
 	background: white;
 }

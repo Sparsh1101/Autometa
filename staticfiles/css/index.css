@@ -8,6 +8,12 @@
 	width: 100%;
 }
 
+.abc {
+	background: gray;
+	width: 30%;
+	height: 1px;
+}
+
 .alignment {
 	text-align: justify;
 }

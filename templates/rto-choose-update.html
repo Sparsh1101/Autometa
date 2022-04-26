@@ -1,82 +1,67 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en-US">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Car Ledger</title>
-		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-			rel="stylesheet"
-			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-			crossorigin="anonymous"
-		/>
-		<link
-			rel="stylesheet"
-			type="text/css"
-			href="{% static 'css/login.css' %}"
-		/>
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-			crossorigin="anonymous"
-		></script>
-	</head>
-	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="/">Car Ledger</a>
-				<button
-					class="navbar-toggler"
-					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#navbarNavAltMarkup"
-					aria-controls="navbarNavAltMarkup"
-					aria-expanded="false"
-					aria-label="Toggle navigation"
-				>
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div
-					class="collapse navbar-collapse justify-content-between"
-					id="navbarNavAltMarkup"
-				>
-					<div class="navbar-nav">
-						<a class="nav-link active" aria-current="page" href="/rto">Home</a>
-					</div>
-					<div class="navbar-nav">
-						<a class="nav-link" aria-current="page" href="/logout">Logout</a>
-					</div>
-				</div>
-			</div>
-		</nav>
-		<div class="d-flex justify-content-center align-items-center updateBox">
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="card shadow rounded-3 m-auto updateBoxAligner">
-						<div class="card-body">
-							<h5 class="card-title">Update Vehicle Info</h5>
-							<div class="line30 mt-1"></div>
-							<p class="card-text">By entering Unique ID</p>
-							<a href="/rto/update-vehicle-info-1" class="btn btn-primary"
-								>Next</a
-							>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="card shadow rounded-3 m-auto updateBoxAligner">
-						<div class="card-body">
-							<h5 class="card-title">Update Owner Info</h5>
-							<div class="line30 mt-1"></div>
-							<p class="card-text">By entering Aadhar Number</p>
-							<a href="/rto/update-owner-info-1" class="btn btn-primary"
-								>Next</a
-							>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</body>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicle Ledger</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Car Ledger</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/rto">Home</a>
+                </div>
+                <div class="navbar-nav">
+                    <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="d-flex justify-content-evenly align-items-center flex-wrap con">
+        <div class="card shadow rounded-3 col-sm-3 col-11 mb-2">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title d-block">Update Vehicle Information</h5>
+                    <div class="abc"></div>
+                    <p class="card-text pt-1">
+                        You can update exisiting vehicle information using VIN Number.
+                    </p>
+                </div>
+                <div class="pt-3">
+                    <a href="/rto/update-vehicle-info-1" class="btn btn-primary">Next</a>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow rounded-3 col-sm-3 col-11 mb-2">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title d-block">Update Owner Information</h5>
+                    <div class="abc"></div>
+                    <p class="card-text pt-1">
+                        You can update existing owner's personal information by entering Aadhar Number.
+                    </p>
+                </div>
+                <div class="pt-3">
+                    <a href="/rto/update-owner-info-1" class="btn btn-primary">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>

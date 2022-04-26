@@ -1,132 +1,102 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en-US">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Car Ledger</title>
-		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-			rel="stylesheet"
-			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-			crossorigin="anonymous"
-		/>
-		<link
-			rel="stylesheet"
-			type="text/css"
-			href="{% static 'css/login.css' %}"
-		/>
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-			crossorigin="anonymous"
-		></script>
-		<style>
-			body {
-				overflow: hidden;
-			}
-			@media only screen and (max-width: 600px) {
-				body {
-					overflow: auto;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="/">Car Ledger</a>
-				<button
-					class="navbar-toggler"
-					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#navbarNavAltMarkup"
-					aria-controls="navbarNavAltMarkup"
-					aria-expanded="false"
-					aria-label="Toggle navigation"
-				>
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div
-					class="collapse navbar-collapse justify-content-between"
-					id="navbarNavAltMarkup"
-				>
-					{% if auth %}
-					<div class="navbar-nav">
-						<a class="nav-link active" aria-current="page" href="/customer"
-							>Home</a
-						>
-					</div>
-					<div class="navbar-nav">
-						<a class="nav-link" aria-current="page" href="/logout">Logout</a>
-					</div>
-					{% endif %}
-				</div>
-			</div>
-		</nav>
-		<div class="loginBox">
-			<div class="row p-0">
-				<div
-					class="col-sm-6 d-flex align-items-center justify-content-center p-0"
-					style="height: 90vh"
-				>
-					<div class="showInfoCard shadow rounded-3">
-						<div class="card-body">
-							<h3 class="text-center m-0">Vehicle Info</h3>
-							<div class="row mb-1 mt-3">
-								<div class="col-lg-6 fw-bold">Unique ID</div>
-								<div class="col-lg-6">{{ vehicleInfoDict.uniqueID }}</div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-lg-6 fw-bold">Vehicle Number</div>
-								<div class="col-lg-6">{{ vehicleInfoDict.vehicleNo }}</div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-lg-6 fw-bold">Model Name</div>
-								<div class="col-lg-6">{{ vehicleInfoDict.modelName }}</div>
-							</div>
-							<div class="row mb-1">
-								<div class="col-lg-6 fw-bold">Vehicle Color</div>
-								<div class="col-lg-6">{{ vehicleInfoDict.vehicleColor }}</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-lg-6 fw-bold">Number of Previous Owners</div>
-								<div class="col-lg-6">{{ prevOwnersNum }}</div>
-							</div>
-							<div class="row">
-								{% if FIRs|length > 0 %}
 
-								<div class="col-lg-6">
-									<a
-										href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}"
-										class="btn btn-primary"
-										>Show FIRs</a
-									>
-								</div>
-								{% endif %} {% if auth %}
-								<div class="col-lg-6">
-									<a
-										href="{% url 'registration:download_file' vehicleInfoDict.uniqueID %}"
-										class="btn btn-success"
-										>Download QR</a
-									>
-								</div>
-								{% endif %}
-							</div>
-						</div>
-					</div>
-				</div>
-				{% if auth %}
-				<div
-					class="col-sm-6 d-flex align-items-center justify-content-center p-0"
-					style="height: 90vh"
-				>
-					<div class="loginCard shadow rounded-3">
-						<div class="mb-2 qrCode">{{ svg|safe }}</div>
-					</div>
-				</div>
-				{% endif %}
-			</div>
-		</div>
-	</body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicle Ledger</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        @media only screen and (max-width: 600px) {
+            body {
+                overflow: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Vehicle Ledger</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                {% if auth %}
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/customer">Home</a>
+                </div>
+                <div class="navbar-nav">
+                    <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="loginBox">
+        <div class="row p-0">
+            <div class="col-sm-6 d-flex align-items-center justify-content-center p-0" style="height: 90vh">
+                <div class="showInfoCard shadow rounded-3">
+                    <div class="card-body">
+                        <h3 class="text-center m-0">Vehicle Info</h3>
+                        <div class="row mb-1 mt-3">
+                            <div class="col-lg-6 fw-bold">Unique ID</div>
+                            <div class="col-lg-6">{{ vehicleInfoDict.uniqueID }}</div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-lg-6 fw-bold">Vehicle Number</div>
+                            <div class="col-lg-6">{{ vehicleInfoDict.vehicleNo }}</div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-lg-6 fw-bold">Model Name</div>
+                            <div class="col-lg-6">{{ vehicleInfoDict.modelName }}</div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-lg-6 fw-bold">Vehicle Color</div>
+                            <div class="col-lg-6">{{ vehicleInfoDict.vehicleColor }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6 fw-bold">Number of Previous Owners</div>
+                            <div class="col-lg-6">{{ prevOwnersNum }}</div>
+                        </div>
+                        <div class="row">
+                            {% if FIRs|length > 0 %}
+                            <div class="col-lg-6">
+                                <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}"
+                                    class="btn btn-primary">Show FIRs</a>
+                            </div>
+                            {% endif %}
+                            {% if auth %}
+                            <div class="col-lg-6">
+                                <a href="{% url 'registration:download_file' vehicleInfoDict.uniqueID %}"
+                                    class="btn btn-success">Download QR</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if auth %}
+            <div class="col-sm-6 d-flex align-items-center justify-content-center p-0" style="height: 90vh">
+                <div class="loginCard shadow rounded-3">
+                    <div class="mb-2 qrCode">{{ svg|safe }}</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
 </html>
