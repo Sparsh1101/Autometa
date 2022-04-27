@@ -3,7 +3,7 @@ body {
 }
 
 .loginBox {
-	height: 89vh;
+	min-height: 89vh;
 	padding: 10px;
 }
 
@@ -19,7 +19,6 @@ body {
 
 .loginContainer {
 	display: flex;
-	/* height: 89vh; */
 	align-items: center;
 }
 
@@ -42,7 +41,7 @@ body {
 }
 
 .updateBox {
-	height: 89vh;
+	min-height: 89vh;
 }
 
 .updateBoxAligner {
@@ -50,7 +49,7 @@ body {
 }
 
 .qrCode {
-	padding: 5px;
+	padding: 1px;
 	border: 1px solid gray;
 }
 

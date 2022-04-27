@@ -38,106 +38,39 @@
         </div>
     </nav>
     <div class="d-flex align-items-center justify-content-center loginBox">
-        <div class="showInfoCard shadow rounded-3">
+        <div class="showInfoCard shadow rounded-3 col-sm-4 col-11">
             <div class="card-body">
-                <h3 class="text-center m-0">Vehicle Info</h3>
+                <h3 class="text-center m-0">Vehicle Information</h3>
                 <div class="row mb-1 mt-3">
-                    <div class="col-lg-6 fw-bold">Unique ID</div>
-                    <div class="col-lg-6">{{ vehicleInfoDict.uniqueID }}</div>
+                    <div class="col-lg-5 fw-bold">Unique ID</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.uniqueID }}</div>
                 </div>
                 <div class="row mb-1">
-                    <div class="col-lg-6 fw-bold">Vehicle Number</div>
-                    <div class="col-lg-6">{{ vehicleInfoDict.vehicleNo }}</div>
+                    <div class="col-lg-5 fw-bold">Vehicle Number</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.vehicleNo }}</div>
                 </div>
                 <div class="row mb-1">
-                    <div class="col-lg-6 fw-bold">Model Name</div>
-                    <div class="col-lg-6">{{ vehicleInfoDict.modelName }}</div>
+                    <div class="col-lg-5 fw-bold">Model Name</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.modelName }}</div>
                 </div>
                 <div class="row mb-1">
-                    <div class="col-lg-6 fw-bold">Vehicle Color</div>
-                    <div class="col-lg-6">{{ vehicleInfoDict.vehicleColor }}</div>
+                    <div class="col-lg-5 fw-bold">Vehicle Color</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.vehicleColor }}</div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-lg-6 fw-bold">Number of Previous Owners</div>
-                    <div class="col-lg-6">{{ prevOwnersNum }}</div>
+                    <div class="col-lg-5 fw-bold">Number of Previous Owners</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ prevOwnersNum }}</div>
                 </div>
                 {% if isCustomer %}
                 {% else %}
-                <a href="{% url 'registration:add_fir' vehicleInfoDict.uniqueID %}" class="btn btn-danger">Add FIR</a>
+                <div class="d-flex justify-content-evenly">
+                    <a href="{% url 'registration:add_fir' vehicleInfoDict.uniqueID %}" class="btn btn-danger">Add
+                        FIR</a>
+                </div>
                 {% endif %}
             </div>
         </div>
-        {% comment %} {% if firNo != "" %}
-        <div class="col-sm-5">
-            <div class="card shadow rounded-3">
-                <div class="card-body">
-                    <h3 class="text-center m-0">Fir Info</h3>
-                    <div class="row mb-1 mt-3">
-                        <div class="col-lg-6 fw-bold">FIR Number</div>
-                        <div class="col-lg-6">{{ vehicleInfoDict.firNo }}</div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-6 fw-bold">District</div>
-                        <div class="col-lg-6">{{ vehicleInfoDict.district }}</div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-6 fw-bold">Year</div>
-                        <div class="col-lg-6">{{ vehicleInfoDict.year }}</div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-6 fw-bold">Reason</div>
-                        <div class="col-lg-6">{{ vehicleInfoDict.reason }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %} {% endcomment %}
     </div>
-    <!-- <div class="d-flex align-items-center con justify-content-evenly">
-			<div class="col-sm-5" align="center">
-				<div class="card shadow rounded-3">
-					<div class="card-body">
-						<h5 class="card-title">Vehicle Info</h5>
-						<p class="card-text">
-							<b>Unique ID: </b>{{ vehicleInfoDict.uniqueID }}
-						</p>
-						<p class="card-text">
-							<b>Vehicle Number: </b>{{ vehicleInfoDict.vehicleNo }}
-						</p>
-						<p class="card-text">
-							<b>Model Name: </b>{{ vehicleInfoDict.modelName }}
-						</p>
-						<p class="card-text">
-							<b>Vehicle Color: </b>{{ vehicleInfoDict.vehicleColor }}
-						</p>
-						<p class="card-text">
-							<b>Number of Previous Owners: </b>{{ prevOwnersNum }}
-						</p>
-						{% if isCustomer %} {% else %}
-						<a href="{% url 'registration:add_fir' vehicleInfoDict.uniqueID %}" class="btn btn-danger">Add FIR</a
-						>
-						{% endif %}
-					</div>
-				</div>
-			</div>
-			{% comment %} {% if firNo != "" %}
-			<div class="col-sm-5" align="center">
-				<div class="card shadow rounded-3">
-					<div class="card-body">
-						<h5 class="card-title">Fir Info</h5>
-						<p class="card-text">
-							<b>FIR Number: </b>{{ vehicleInfoDict.firNo }}
-						</p>
-						<p class="card-text">
-							<b>District: </b>{{ vehicleInfoDict.district }}
-						</p>
-						<p class="card-text"><b>Year: </b>{{ vehicleInfoDict.year }}</p>
-						<p class="card-text"><b>Reason: </b>{{ vehicleInfoDict.reason }}</p>
-					</div>
-				</div>
-			</div>
-			{% endif %} {% endcomment %}
-		</div> -->
 </body>
 
 </html>

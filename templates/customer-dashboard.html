@@ -33,58 +33,39 @@
             </div>
         </div>
     </nav>
-    <div class="d-flex justify-content-center align-items-center updateBox">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="card shadow rounded-3 m-auto updateBoxAligner">
-                    <div class="card-body">
-                        <h5 class="card-title">View Profile</h5>
-                        <div class="line30 mt-1"></div>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-                            voluptas sint cumque in animi quod?
-                        </p>
-                        <a href="{% url 'registration:customer_profile' %}" class="btn btn-primary">Next</a>
-                    </div>
+
+    <div class="d-flex justify-content-evenly align-items-center flex-wrap con">
+        <div class="card shadow rounded-3 col-sm-3 col-11 mb-2">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title">View Profile</h5>
+                    <div class="line30 mt-1"></div>
+                    <p class="card-text">
+                        You can view all your personal information and information on your previously and currently
+                        owned vehicles.
+                    </p>
+                </div>
+                <div class="pt-3">
+                    <a href="{% url 'registration:customer_profile' %}" class="btn btn-primary">Next</a>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="card shadow rounded-3 m-auto updateBoxAligner">
-                    <div class="card-body">
-                        <h5 class="card-title">Send Code</h5>
-                        <div class="line30 mt-1"></div>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-                            voluptas sint cumque in animi quod?
-                        </p>
-                        <a href="{% url 'registration:customer_qr' %}" class="btn btn-primary">Next</a>
-                    </div>
+        </div>
+        <div class="card shadow rounded-3 col-sm-3 col-11 mb-2">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title">Send Code</h5>
+                    <div class="line30 mt-1"></div>
+                    <p class="card-text">
+                        If you are planning to sell your vehicle, you can send the QR code that we have generated for
+                        you to the buyer to have your vehicle verified.
+                    </p>
+                </div>
+                <div class="pt-3">
+                    <a href="{% url 'registration:customer_qr' %}" class="btn btn-primary">Next</a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div class="con d-flex justify-content-evenly align-items-center">
-			<div class="col-sm-4" align="center">
-				<div class="card shadow rounded-3" style="margin: auto">
-					<div class="card-body">
-						<h5 class="card-title">View Profile</h5>
-						<p class="card-text">...</p>
-						<a href="{% url 'registration:customer_profile' %}" class="btn btn-primary">Next</a
-						>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-4" align="center">
-				<div class="card shadow rounded-3">
-					<div class="card-body">
-						<h5 class="card-title">Send Code</h5>
-						<p class="card-text">...</p>
-						<a href="{% url 'registration:customer_qr' %}" class="btn btn-primary">Next</a
-						>
-					</div>
-				</div>
-			</div>
-</div> -->
 </body>
 
 </html>

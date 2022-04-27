@@ -45,57 +45,54 @@
             </div>
         </div>
     </nav>
-    <div class="loginBox">
-        <div class="row p-0">
-            <div class="col-sm-6 d-flex align-items-center justify-content-center p-0" style="height: 90vh">
-                <div class="showInfoCard shadow rounded-3">
-                    <div class="card-body">
-                        <h3 class="text-center m-0">Vehicle Info</h3>
-                        <div class="row mb-1 mt-3">
-                            <div class="col-lg-6 fw-bold">Unique ID</div>
-                            <div class="col-lg-6">{{ vehicleInfoDict.uniqueID }}</div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-lg-6 fw-bold">Vehicle Number</div>
-                            <div class="col-lg-6">{{ vehicleInfoDict.vehicleNo }}</div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-lg-6 fw-bold">Model Name</div>
-                            <div class="col-lg-6">{{ vehicleInfoDict.modelName }}</div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-lg-6 fw-bold">Vehicle Color</div>
-                            <div class="col-lg-6">{{ vehicleInfoDict.vehicleColor }}</div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-lg-6 fw-bold">Number of Previous Owners</div>
-                            <div class="col-lg-6">{{ prevOwnersNum }}</div>
-                        </div>
-                        <div class="row">
-                            {% if FIRs|length > 0 %}
-                            <div class="col-lg-6">
-                                <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}"
-                                    class="btn btn-primary">Show FIRs</a>
-                            </div>
-                            {% endif %}
-                            {% if auth %}
-                            <div class="col-lg-6">
-                                <a href="{% url 'registration:download_file' vehicleInfoDict.uniqueID %}"
-                                    class="btn btn-success">Download QR</a>
-                            </div>
-                            {% endif %}
-                        </div>
+    <div class="loginBox d-flex align-items-center justify-content-evenly flex-wrap">
+        <div class="showInfoCard shadow rounded-3 col-sm-4 col-12 p-1 mb-3">
+            <div class="card-body">
+                <h3 class="text-center m-0">Vehicle Information</h3>
+                <div class="row mb-1 mt-3">
+                    <div class="col-lg-5 fw-bold">Unique ID</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.uniqueID }}
                     </div>
                 </div>
-            </div>
-            {% if auth %}
-            <div class="col-sm-6 d-flex align-items-center justify-content-center p-0" style="height: 90vh">
-                <div class="loginCard shadow rounded-3">
-                    <div class="mb-2 qrCode">{{ svg|safe }}</div>
+                <div class="row mb-1">
+                    <div class="col-lg-5 fw-bold">Vehicle Number</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.vehicleNo }}
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-lg-5 fw-bold">Model Name</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.modelName }}
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-lg-5 fw-bold">Vehicle Color</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.vehicleColor }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-5 fw-bold">Number of Previous Owners</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ prevOwnersNum }}</div>
+                </div>
+                <div class="d-flex justify-content-evenly">
+                    {% if FIRs|length > 0 %}
+                    <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}" class="btn btn-primary">Show
+                        FIRs</a>
+                    {% endif %}
+                    {% if auth %}
+                    <a href="{% url 'registration:download_file' vehicleInfoDict.uniqueID %}"
+                        class="btn btn-success">Download QR</a>
+                    {% endif %}
                 </div>
             </div>
-            {% endif %}
+
         </div>
+        {% if auth %}
+        <div class="showInfoCard shadow rounded-3 col-sm-4 col-12 mb-3 p-1">
+            <div class="card-body d-flex justify-content-center align-items-center">
+                <div class="mb-2 qrCode">{{ svg|safe }}</div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </body>
 

@@ -39,9 +39,9 @@
         </div>
     </nav>
     <div class="d-flex align-items-center justify-content-center loginBox">
-        <div class="showInfoCard shadow rounded-3 col-sm-4">
+        <div class="showInfoCard shadow rounded-3 col-sm-4 col-11">
             <div class="card-body">
-                <h3 class="card-title text-center m-0">User Info</h3>
+                <h3 class="card-title text-center m-0">User Information</h3>
                 <div class="row mb-1 mt-3">
                     <div class="col-lg-5 fw-bold">First Name</div>
                     <div class="col-lg-7" style="overflow-wrap: break-word;">{{ ownerInfoDict.fName }}</div>
@@ -70,8 +70,10 @@
                     <div class="col-lg-5 fw-bold">Mobile Number</div>
                     <div class="col-lg-7" style="overflow-wrap: break-word;">{{ ownerInfoDict.mobileNo }}</div>
                 </div>
-                <a href="{% url 'registration:owner_vehicles' ownerInfoDict.aadhar %}" class="btn btn-primary">Show
-                    Vehicles</a>
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'registration:owner_vehicles' ownerInfoDict.aadhar %}" class="btn btn-primary">Show
+                        Vehicles</a>
+                </div>
             </div>
         </div>
     </div>

@@ -39,42 +39,38 @@
         </div>
     </nav>
     <div class="d-flex align-items-center justify-content-center loginBox">
-        <div class="showInfoCard shadow rounded-3">
+        <div class="showInfoCard shadow rounded-3 col-sm-4 col-11">
             <div class="card-body">
-                <h3 class="text-center m-0">Vehicle Info</h3>
+                <h3 class="text-center m-0">Vehicle Information</h3>
                 <div class="row mb-1 mt-3">
-                    <div class="col-lg-6 fw-bold">Unique ID</div>
-                    <div class="col-lg-6">{{ vehicleInfoDict.uniqueID }}</div>
+                    <div class="col-lg-5 fw-bold">Unique ID</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.uniqueID }}</div>
                 </div>
                 <div class="row mb-1">
-                    <div class="col-lg-6 fw-bold">Vehicle Number</div>
-                    <div class="col-lg-6">{{ vehicleInfoDict.vehicleNo }}</div>
+                    <div class="col-lg-5 fw-bold">Vehicle Number</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.vehicleNo }}</div>
                 </div>
                 <div class="row mb-1">
-                    <div class="col-lg-6 fw-bold">Model Name</div>
-                    <div class="col-lg-6">{{ vehicleInfoDict.modelName }}</div>
+                    <div class="col-lg-5 fw-bold">Model Name</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.modelName }}</div>
                 </div>
                 <div class="row mb-1">
-                    <div class="col-lg-6 fw-bold">Vehicle Color</div>
-                    <div class="col-lg-6">{{ vehicleInfoDict.vehicleColor }}</div>
+                    <div class="col-lg-5 fw-bold">Vehicle Color</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ vehicleInfoDict.vehicleColor }}</div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-lg-6 fw-bold">Number of Previous Owners</div>
-                    <div class="col-lg-6">{{ prevOwnersNum }}</div>
+                    <div class="col-lg-5 fw-bold">Number of Previous Owners</div>
+                    <div class="col-lg-7" style="overflow-wrap: break-word;">{{ prevOwnersNum }}</div>
                 </div>
-                <div class="row">
+                <div class="d-flex justify-content-evenly">
                     {% if isCustomer %}
                     {% else %}
-                    <div class="col-lg-6">
-                        <a href="{% url 'registration:vehicle_owners' vehicleInfoDict.uniqueID %}"
-                            class="btn btn-primary">Show Owners</a>
-                    </div>
+                    <a href="{% url 'registration:vehicle_owners' vehicleInfoDict.uniqueID %}"
+                        class="btn btn-primary">Show Owners</a>
                     {% endif %}
                     {% if FIRs|length > 0 %}
-                    <div class="col-lg-6">
-                        <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}" class="btn btn-danger">Show
-                            FIRs</a>
-                    </div>
+                    <a href="{% url 'registration:all_firs' vehicleInfoDict.uniqueID %}" class="btn btn-danger">Show
+                        FIRs</a>
                     {% endif %}
                 </div>
             </div>
@@ -84,7 +80,7 @@
 			<div class="col-md-5 col-sm-8 col-12 p-2" align="center">
 				<div class="card shadow rounded-3">
 					<div class="card-body">
-						<h5 class="card-title">Vehicle Info</h5>
+						<h5 class="card-title">Vehicle Information</h5>
 						<p class="card-text">
 							<b>Unique ID: </b>{{ vehicleInfoDict.uniqueID }}
 						</p>
