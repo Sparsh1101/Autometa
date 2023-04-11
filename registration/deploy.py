@@ -43,7 +43,7 @@ contract_id, contract_interface = compiled_sol.popitem()
 
 # Web3 to connect to infura
 w3 = Web3(Web3.HTTPProvider(os.getenv("HTTP_PROVIDER")))
-chain_id = 4
+chain_id = 11155111
 my_address = os.getenv("MY_ADDRESS")
 private_key = os.getenv("PRIVATE_KEY")
 
