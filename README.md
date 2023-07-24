@@ -39,7 +39,7 @@ Macos & Linux- source bin/activate )
 ```
 
 5. Clone the repository
-6. Create the env file using the env-sample file (Leave contract address empty, for MY_ADDRESS add blockchain wallet address, for PRIVATE_KEY add infura private key, for SECRET_KEY generate django secret key from https://djecrety.ir/)
+6. Create the env file using the env-sample file (Leave contract address empty, for MY_ADDRESS add blockchain wallet address, for PRIVATE_KEY add blockchain wallet private key, for SECRET_KEY generate django secret key from https://djecrety.ir/)
 7. Run the following command from the root of the project
 
 ```bash
