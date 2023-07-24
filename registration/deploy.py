@@ -3,12 +3,14 @@ import json
 from web3 import Web3, exceptions
 import os
 import time
-# time.sleep(1)
+from dotenv import set_key
+from pathlib import Path
 
 from dotenv import load_dotenv
 
 load_dotenv()
 install_solc("0.6.0")
+# with open("Register.sol", "r") as file:
 with open("./registration/Register.sol", "r") as file:
     register_file = file.read()
 
@@ -85,6 +87,8 @@ if contract_address == "":
     txnReceipt = deployContract(Register)
     print(txnReceipt.contractAddress)
     register_contract = w3.eth.contract(address=txnReceipt.contractAddress, abi=abi)
+    env_file_path = Path("../.env")
+    set_key(dotenv_path=env_file_path, key_to_set="CONTRACT_ADDRESS", value_to_set=txnReceipt.contractAddress)
     print("Contract Deployed!")
 else:
     register_contract = w3.eth.contract(address=contract_address, abi=abi)
