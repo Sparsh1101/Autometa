@@ -24,7 +24,7 @@ pip install virtualenv
 
 2. Run the command to create a virtual environment in a folder
 ```bash
-python3 -m venv {your virtual env name}
+python -m venv {your virtual env name}
 ```
 
 3. A folder named {your virtual env name} will be created, enter the folder. ( The folder should contain some files and folders created for the virtual environment )
