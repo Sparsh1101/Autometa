@@ -75,10 +75,16 @@ py manage.py runserver
 
 ## Images
 
-![Login Page](screenshots/ss3.png)
----
-
 ![Home Page](screenshots/ss1.png)
 ---
 
-![Results Page](screenshots/ss2.png)
+![RTO Login](screenshots/ss2.png)
+---
+
+![Add Vehicle Page](screenshots/ss3.png)
+---
+
+![View Vehicle Information Page](screenshots/ss4.png)
+---
+
+![Send QR Code Page](screenshots/ss5.png)
